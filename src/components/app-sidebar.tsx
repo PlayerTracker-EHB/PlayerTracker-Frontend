@@ -1,11 +1,13 @@
 import {
-  Calendar,
-  Home, // Icône représentant l'accueil
+  Home,
   Upload,
   Users,
   BarChart,
   Settings,
   LogIn,
+  Info, // Icône pour About
+  CreditCard, // Icône pour Subscriptions
+  Mail, // Icône pour Contact
 } from "lucide-react";
 
 import {
@@ -19,42 +21,58 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-// Menu items.
+// Menu items
 const items = [
   {
     title: "Home",
-    url: "/", // Redirige vers la route "/"
-    icon: Home, // Correctement importé depuis "lucide-react"
+    url: "/",
+    icon: Home,
   },
   {
     title: "Uploader",
     url: "/uploader",
-    icon: Upload, // Icône appropriée pour uploader
+    icon: Upload,
   },
   {
     title: "Team",
     url: "/team",
-    icon: Users, // Icône représentant un groupe de personnes
+    icon: Users,
   },
   {
     title: "Statistics",
     url: "/statistics",
-    icon: BarChart, // Icône pour des statistiques ou graphiques
+    icon: BarChart,
   },
   {
     title: "Accounts",
     url: "/accounts",
-    icon: Users, // Icône représentant les comptes
+    icon: Users,
   },
   {
     title: "Login",
     url: "/login",
-    icon: LogIn, // Icône pour se connecter
+    icon: LogIn,
   },
   {
     title: "Admin",
     url: "/admin",
-    icon: Settings, // Icône appropriée
+    icon: Settings,
+  },
+  // Ajout des nouvelles options
+  {
+    title: "About",
+    url: "#", // Lien temporaire
+    icon: Info,
+  },
+  {
+    title: "Subscriptions",
+    url: "#", // Lien temporaire
+    icon: CreditCard,
+  },
+  {
+    title: "Contact",
+    url: "#", // Lien temporaire
+    icon: Mail,
   },
 ];
 
