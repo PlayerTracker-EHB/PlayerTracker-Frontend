@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Empêche le débordement horizontal */
+  box-sizing: border-box; /* Assure que tout est inclus dans les dimensions */
+}
+
+* {
+  box-sizing: inherit; /* Hérite de la configuration de box-sizing */
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -36,7 +48,7 @@
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
@@ -71,7 +83,7 @@
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 

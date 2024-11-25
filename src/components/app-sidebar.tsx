@@ -1,4 +1,12 @@
-import { Calendar, Home, Upload, Users, BarChart, Settings, LogIn } from "lucide-react";
+import {
+  Calendar,
+  Home, // Icône représentant l'accueil
+  Upload,
+  Users,
+  BarChart,
+  Settings,
+  LogIn,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -9,45 +17,46 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-
+} from "@/components/ui/sidebar";
 
 // Menu items.
-
 const items = [
   {
+    title: "Home",
+    url: "/", // Redirige vers la route "/"
+    icon: Home, // Correctement importé depuis "lucide-react"
+  },
+  {
     title: "Uploader",
-    url: "#",
+    url: "/uploader",
     icon: Upload, // Icône appropriée pour uploader
   },
   {
     title: "Team",
-    url: "#",
+    url: "/team",
     icon: Users, // Icône représentant un groupe de personnes
   },
   {
     title: "Statistics",
-    url: "#",
+    url: "/statistics",
     icon: BarChart, // Icône pour des statistiques ou graphiques
   },
   {
     title: "Accounts",
-    url: "#",
-    icon: Home, // Icône représentant l'accueil pour les comptes, ou autre icône si souhaitée
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings, // Icône pour les paramètres
+    url: "/accounts",
+    icon: Users, // Icône représentant les comptes
   },
   {
     title: "Login",
-    url: "#",
+    url: "/login",
     icon: LogIn, // Icône pour se connecter
   },
+  {
+    title: "Admin",
+    url: "/admin",
+    icon: Settings, // Icône appropriée
+  },
 ];
-
-
 
 export function AppSidebar() {
   return (
@@ -61,7 +70,7 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url} className="flex items-center space-x-2">
-                      <item.icon />
+                      <item.icon className="w-5 h-5" />
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>
