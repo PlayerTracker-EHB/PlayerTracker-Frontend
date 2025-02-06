@@ -7,18 +7,38 @@ export default function About() {
         About Our Application
       </h2>
       <p className="text-xl text-center text-gray-700 mb-12">
-        <em>Discover the power of innovation and excellence.</em>
+        <em>Empowering success through innovation and technology.</em>
       </p>
       <div className="max-w-4xl mx-auto text-lg leading-relaxed space-y-6">
         <p>
-          Our application is designed to enhance productivity and streamline processes. Built with the latest technology, it empowers users to track every action and make informed decisions with ease. Our goal is to create a seamless and intuitive experience that helps you achieve your objectives faster and more efficiently.
+          Our application is designed to optimize performance and drive
+          efficiency. By leveraging cutting-edge technology, it enables users to
+          monitor every action and make smarter decisions in real-time. We aim
+          to create an intuitive and seamless experience that empowers you to
+          reach your goals faster and more effectively.
         </p>
         <p>
-          We believe in quality, innovation, and delivering value. From small teams to large organizations, our solution is tailored to adapt to your needs, providing the flexibility and scalability that modern businesses require. Join a community of professionals who trust us to enhance their performance and stay ahead of the competition.
+          We are passionate about quality, continuous innovation, and delivering
+          measurable results. Whether you're part of a small team or a large
+          enterprise, our solution is flexible and scalable, offering the tools
+          needed to meet the unique demands of today's fast-paced world. Join a
+          growing network of professionals who trust our platform to stay ahead
+          of the curve.
         </p>
         <p>
-          With our application, you're not just investing in software; you're investing in your success. Let's work together to reach new heights and make every action count.
+          With our application, you're not just getting a tool — you're
+          investing in your future success. Together, let's elevate your
+          performance, make every action count, and unlock your full potential.
         </p>
+      </div>
+
+      <div className="text-center mt-8">
+        <a
+          href="/about"
+          className="inline-block px-6 py-3 bg-black text-white font-semibold rounded hover:bg-gray-800"
+        >
+          See More
+        </a>
       </div>
     </div>
   );

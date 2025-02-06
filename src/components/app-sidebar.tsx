@@ -29,6 +29,26 @@ const items = [
     icon: Home,
   },
   {
+    title: "About",
+    url: "/about",
+    icon: Info,
+  },
+  {
+    title: "Subscriptions",
+    url: "/subscriptions",
+    icon: CreditCard,
+  },
+  {
+    title: "Contact",
+    url: "/register",
+    icon: Mail,
+  },
+  {
+    title: "Login",
+    url: "/login",
+    icon: LogIn,
+  },
+  {
     title: "Uploader",
     url: "/uploader",
     icon: Upload,
@@ -49,30 +69,9 @@ const items = [
     icon: Users,
   },
   {
-    title: "Login",
-    url: "/login",
-    icon: LogIn,
-  },
-  {
     title: "Admin",
     url: "/admin",
     icon: Settings,
-  },
-  // Ajout des nouvelles options
-  {
-    title: "About",
-    url: "#", // Lien temporaire
-    icon: Info,
-  },
-  {
-    title: "Subscriptions",
-    url: "#", // Lien temporaire
-    icon: CreditCard,
-  },
-  {
-    title: "Contact",
-    url: "#", // Lien temporaire
-    icon: Mail,
   },
 ];
 

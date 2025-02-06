@@ -50,7 +50,7 @@ export default function Accounts() {
       </p>
       {/* Formulaire d'ajout d'utilisateur */}
       <div className="w-full max-w-4xl mb-8 bg-white shadow-lg p-6 rounded">
-        <h2 className="text-xl font-semibold mb-4">Add New User</h2>
+        <h2 className="text-xl font-semibold mb-4">Open an account</h2>
         <div className="flex flex-col gap-4">
           <input
             type="text"

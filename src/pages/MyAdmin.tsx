@@ -1,28 +1,36 @@
 import React, { useState } from "react";
 
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  clubname: string;
+  active: boolean;
+}
+
 export default function MyAdmin() {
   // États pour gérer les utilisateurs
-  const [users, setUsers] = useState([
+  const [users, setUsers] = useState<User[]>([
     {
       id: 1,
       name: "John Doe",
       email: "john.doe@example.com",
-      clubname: "EHB Club", // Champ clubname
+      clubname: "EHB Club",
       active: true,
     },
     {
       id: 2,
       name: "Jane Smith",
       email: "jane.smith@example.com",
-      clubname: "XYZ Club", // Champ clubname
+      clubname: "XYZ Club",
       active: false,
     },
   ]);
 
-  const [newUser, setNewUser] = useState({
+  const [newUser, setNewUser] = useState<Omit<User, "id">>({
     name: "",
     email: "",
-    clubname: "", // Ajout du champ clubname
+    clubname: "",
     active: true,
   });
 
@@ -35,14 +43,14 @@ export default function MyAdmin() {
           id: Date.now(),
           name: newUser.name,
           email: newUser.email,
-          clubname: newUser.clubname, // Ajouter le clubname
+          clubname: newUser.clubname,
           active: newUser.active,
         },
       ]);
       setNewUser({ name: "", email: "", clubname: "", active: true });
-      alert("User added successfully!");
+      alert("Utilisateur ajouté avec succès !");
     } else {
-      alert("Please fill in all fields.");
+      alert("Veuillez remplir tous les champs.");
     }
   };
 
@@ -57,15 +65,13 @@ export default function MyAdmin() {
 
   // Rendu principal du composant
   return (
-    <div className="w-screen flex flex-col min-h-screen bg-gradient-to-r from-blue-50 via-blue-100 to-blue-50 text-sidebar-foreground">
+    <div className="w-screen flex flex-col min-h-screen bg-gray-900 text-sidebar-foreground">
       {/* Barre de navigation */}
-      <nav className="bg-blue-800 text-white py-4 px-6 shadow-md">
+      <nav className="bg-black text-white py-4 px-6 shadow-md">
         <div className="flex justify-between items-center max-w-7xl mx-auto">
-          <h1 className="text-3xl font-extrabold tracking-wide">
-            MyAdmin Dashboard
-          </h1>
-          <button className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded shadow">
-            Logout
+          <h1 className="text-3xl font-bold tracking-wide">MyAdmin</h1>
+          <button className="px-4 py-2 bg-gray-900 hover:bg-red-600 text-white font-semibold rounded shadow">
+            Déconnexion
           </button>
         </div>
       </nav>
@@ -73,14 +79,14 @@ export default function MyAdmin() {
       {/* Contenu principal */}
       <main className="flex-grow max-w-7xl mx-auto px-6 py-8">
         {/* Formulaire d'ajout d'utilisateur */}
-        <section className="bg-white shadow-lg rounded-lg p-6 mb-8">
-          <h2 className="text-2xl font-bold text-gray-700 mb-6">
-            Add New User
+        <section className="bg-gray-800 shadow-lg rounded-lg p-6 mb-8">
+          <h2 className="text-2xl font-bold text-white mb-6">
+            Ajouter un nouvel utilisateur
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
               type="text"
-              placeholder="Name"
+              placeholder="Nom"
               value={newUser.name}
               onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
               className="w-full px-4 py-2 border border-gray-300 rounded"
@@ -96,7 +102,7 @@ export default function MyAdmin() {
             />
             <input
               type="text"
-              placeholder="Club Name"
+              placeholder="Nom du club"
               value={newUser.clubname}
               onChange={(e) =>
                 setNewUser({ ...newUser, clubname: e.target.value })
@@ -104,7 +110,7 @@ export default function MyAdmin() {
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
             <div className="flex items-center gap-2">
-              <label className="text-sm font-medium">Active</label>
+              <label className="text-sm font-medium">Actif</label>
               <input
                 type="checkbox"
                 checked={newUser.active}
@@ -116,32 +122,34 @@ export default function MyAdmin() {
             </div>
             <button
               onClick={handleAddUser}
-              className="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600"
+              className="px-4 py-2 bg-gray-700 text-white font-semibold rounded hover:bg-gray-600"
             >
-              Add User
+              Ajouter un utilisateur
             </button>
           </div>
         </section>
 
         {/* Liste des utilisateurs */}
-        <section className="bg-white shadow-lg rounded-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-700 mb-6">User List</h2>
+        <section className="bg-gray-800 shadow-lg rounded-lg p-6">
+          <h2 className="text-2xl font-bold text-white mb-6">
+            Liste des utilisateurs
+          </h2>
           <table className="w-full border-collapse">
-            <thead className="bg-gray-200">
+            <thead className="bg-gray-700">
               <tr>
-                <th className="p-4 text-left">Name</th>
-                <th className="p-4 text-left">Email</th>
-                <th className="p-4 text-left">Club</th>
-                <th className="p-4 text-center">Status</th>
-                <th className="p-4 text-center">Actions</th>
+                <th className="p-4 text-left text-white">Nom</th>
+                <th className="p-4 text-left text-white">Email</th>
+                <th className="p-4 text-left text-white">Club</th>
+                <th className="p-4 text-center text-white">Statut</th>
+                <th className="p-4 text-center text-white">Actions</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user) => (
                 <tr key={user.id}>
-                  <td className="p-4 border-t">{user.name}</td>
-                  <td className="p-4 border-t">{user.email}</td>
-                  <td className="p-4 border-t">{user.clubname}</td>
+                  <td className="p-4 border-t text-white">{user.name}</td>
+                  <td className="p-4 border-t text-white">{user.email}</td>
+                  <td className="p-4 border-t text-white">{user.clubname}</td>
                   <td className="p-4 border-t text-center">
                     <span
                       className={`px-3 py-1 rounded ${
@@ -150,19 +158,19 @@ export default function MyAdmin() {
                           : "bg-red-100 text-red-600"
                       }`}
                     >
-                      {user.active ? "Active" : "Inactive"}
+                      {user.active ? "Actif" : "Inactif"}
                     </span>
                   </td>
                   <td className="p-4 border-t text-center">
                     <button
-                      onClick={() => toggleUserStatus(user.id)}
+                      onClick={() => toggleUserStatus(user.id)} // Appelle la fonction pour changer le statut
                       className={`px-4 py-2 font-semibold rounded ${
                         user.active
-                          ? "bg-red-500 text-white hover:bg-red-600"
-                          : "bg-green-500 text-white hover:bg-green-600"
+                          ? "bg-red-500 text-white hover:bg-red-600" // Styles pour l'utilisateur actif
+                          : "bg-green-500 text-white hover:bg-green-600" // Styles pour l'utilisateur inactif
                       }`}
                     >
-                      {user.active ? "Deactivate" : "Activate"}
+                      {user.active ? "Désactiver" : "Activer"}
                     </button>
                   </td>
                 </tr>

@@ -9,6 +9,9 @@ import Statistics from "@/pages/Statistics";
 import Accounts from "@/pages/Accounts";
 import Login from "@/pages/Login";
 import MyAdmin from "@/pages/MyAdmin";
+import Register from "@/pages/Register";
+import { AboutPage } from "@/pages/About";
+import Subscriptions from "@/pages/Subscriptions";
 
 export default function App() {
   return (
@@ -23,6 +26,13 @@ export default function App() {
               element={
                 <div>
                   <CoverSection />
+                  {/* Fixed button for Register */}
+                  <a
+                    href="/register"
+                    className="fixed top-4 right-4 bg-black text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-gray-800"
+                  >
+                    Register
+                  </a>
                   <hr className="w-full border-t-2 border-gray-300" />
                   <div className="bg-white flex items-center justify-center overflow-hidden">
                     <Carousel2 />
@@ -39,6 +49,9 @@ export default function App() {
             <Route path="/accounts" element={<Accounts />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<MyAdmin />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/subscriptions" element={<Subscriptions />} />
           </Routes>
         </div>
 

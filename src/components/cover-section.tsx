@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import "./CoverSection.css"; // Importation du fichier CSS
 
 export default function CoverSection() {
   return (
@@ -14,18 +15,30 @@ export default function CoverSection() {
         alt="Logo"
         className="absolute top-4 left-4 w-20 h-auto"
       />
-      <h1 className="text-4xl font-semibold mb-2 text-black">
+      <p className="text-sm text-gray-400 mb-2 font-bold">
         Track every action, enhance every performance.
+      </p>
+      <h1 className="text-5xl font-bold leading-tight mb-8 text-black">
+        Your club deserves modern software
       </h1>
-      <p className="text-lg mb-6 text-black">
+      <p className="text-xl mb-8 text-black">
         Quality innovation, proudly invented in Belgium.
       </p>
 
-      <Link to="/uploader">
-        <Button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
-          Uploader
+      {/* Bouton Start for free */}
+      <Link to="/subscriptions">
+        <Button className="px-6 py-3 bg-teal-500 text-white rounded-full text-lg font-bold hover:bg-teal-600">
+          Choose a plan
         </Button>
       </Link>
+
+      {/* Ballon animé */}
+      <img
+        src="/ball.gif" // Assurez-vous que le fichier s'appelle bien ball.gif
+        alt="Balloon Animation"
+        className="ball animate-moveBall"
+        width="22%"
+      />
     </div>
   );
 }
