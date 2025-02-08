@@ -1,12 +1,21 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 export const AboutPage = () => {
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
       {/* Deuxième section avec un GIF en couverture */}
-      <div className="w-screen h-screen bg-black flex flex-col justify-center items-center px-4 py-8 relative">
+      <motion.div
+        className="w-screen h-screen bg-black flex flex-col justify-center items-center px-4 py-8 relative"
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
         <div className="absolute inset-0">
-          è
           <img
             src="output_video-VEED.gif" // Remplace avec le lien de ton GIF
             alt="Background GIF"
@@ -23,14 +32,23 @@ export const AboutPage = () => {
             performance in real-time, with instant data analysis.
           </p>
 
-          <button className="bg-teal-500 text-white py-3 px-8 rounded-full text-lg font-bold mb-6 hover:bg-teal-600">
+          <motion.button
+            className="bg-teal-500 text-white py-3 px-8 rounded-full text-lg font-bold mb-6 hover:bg-teal-600"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
             Start Tracking
-          </button>
+          </motion.button>
         </div>
-      </div>
+      </motion.div>
 
       {/* Première section */}
-      <div className="w-screen h-screen bg-black flex flex-col justify-center items-center px-4 py-8">
+      <motion.div
+        className="w-screen h-screen bg-black flex flex-col justify-center items-center px-4 py-8"
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.7 }}
+      >
         <div className="max-w-4xl text-center text-white">
           <p className="text-sm text-gray-400 mb-2 font-bold">PlayerTracker</p>
           <h1 className="text-5xl font-bold leading-tight mb-10">
@@ -42,12 +60,14 @@ export const AboutPage = () => {
             way data is captured and analyzed.
           </p>
 
-          <button
+          <motion.button
             className="bg-teal-500 text-white py-3 px-8 rounded-full text-lg font-bold mb-6 hover:bg-teal-600"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={() => (window.location.href = "/subscriptions")}
           >
             Start a plan
-          </button>
+          </motion.button>
 
           <div className="text-xl flex justify-center items-center gap-2 mb-6">
             <span>G2 </span>
@@ -55,10 +75,15 @@ export const AboutPage = () => {
             <span> *+ reviews</span>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Troisième section avec arrière-plan beige clair pour l'histoire */}
-      <div className="w-screen py-16 px-8 bg-[#f7f6f3] flex flex-col justify-center items-center">
+      <motion.div
+        className="w-screen py-16 px-8 bg-[#f7f6f3] flex flex-col justify-center items-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.9 }}
+      >
         <div className="max-w-4xl text-center text-[#1f2937]">
           <h2 className="text-3xl font-bold mb-6">Our Story</h2>
           <p className="text-lg mb-6">
@@ -93,10 +118,15 @@ export const AboutPage = () => {
             improve outcomes both on and off the court.
           </p>
         </div>
-      </div>
+      </motion.div>
 
       {/* Section avec logos des clubs */}
-      <div className="w-screen py-16 px-8 bg-white flex flex-col justify-center items-center">
+      <motion.div
+        className="w-screen py-16 px-8 bg-white flex flex-col justify-center items-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.1 }}
+      >
         <div className="max-w-4xl text-center text-[#1f2937]">
           <h2 className="text-3xl font-bold mb-6">Clubs that trust us</h2>
           <p className="text-lg mb-6">
@@ -111,15 +141,18 @@ export const AboutPage = () => {
             <img src="rscanderlecht.webp" alt="Logo 4" className="h-16" />
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Fixed button for Register */}
-      <a
+      <motion.a
         href="/register"
         className="fixed top-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-gray-800"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.3 }}
       >
         Register
-      </a>
-    </div>
+      </motion.a>
+    </motion.div>
   );
 };

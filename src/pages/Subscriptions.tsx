@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Subscriptions() {
   const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
@@ -12,35 +13,56 @@ export default function Subscriptions() {
   };
 
   return (
-    <div className="w-screen h-screen bg-gray-100 py-16 px-8 md:px-20 lg:px-40 text-gray-800">
+    <motion.div
+      className="w-screen h-screen bg-gray-100 py-16 px-8 md:px-20 lg:px-40 text-gray-800"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
       {/* Fixed button for Register */}
-      <a
+      <motion.a
         href="/register"
         className="fixed top-4 right-4 bg-black text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-gray-800"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
       >
         Register
-      </a>
+      </motion.a>
 
-      <h2 className="text-4xl font-bold text-center text-gray-900 mb-4">
+      <motion.h2
+        className="text-4xl font-bold text-center text-gray-900 mb-4"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.7 }}
+      >
         Choose Your Plan
-      </h2>
+      </motion.h2>
 
       {/* Description under the title */}
-      <p className="text-lg text-center text-gray-500 mb-12">
+      <motion.p
+        className="text-lg text-center text-gray-500 mb-12"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.9 }}
+      >
         We offer flexible pricing plans to meet the needs of different users.
         Choose the plan that suits you best, whether you're just starting or
         looking for advanced features.
-      </p>
+      </motion.p>
 
       {/* Container for both plans */}
       <div className="flex flex-col md:flex-row gap-8">
         {/* First Plan Container */}
-        <div
+        <motion.div
           className={`bg-white p-8 rounded-lg shadow-md flex-1 max-w-full transition-transform duration-500 ease-in-out ${
             hoveredPlan === "basic" ? "scale-110" : ""
           }`}
           onMouseOver={() => handleMouseOver("basic")}
           onMouseOut={handleMouseOut}
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 1.1 }}
         >
           <h3 className="text-3xl font-bold mb-4">Basic Plan</h3>
           <p className="text-sm text-gray-500 mb-4">Starting at</p>
@@ -51,7 +73,7 @@ export default function Subscriptions() {
           <ul className="mb-6">
             <li className="mb-4 flex items-center">
               <img
-                src="verifie.png" // L'icône de vérification
+                src="verifie.png"
                 alt="Check icon"
                 className="w-4 h-4 mr-2"
               />
@@ -80,15 +102,18 @@ export default function Subscriptions() {
           >
             Browse Experts
           </a>
-        </div>
+        </motion.div>
 
         {/* Second Plan Container with image */}
-        <div
+        <motion.div
           className={`bg-white p-8 rounded-lg shadow-md flex-1 flex flex-col md:flex-row max-w-full transition-transform duration-500 ease-in-out ${
             hoveredPlan === "pro" ? "scale-110" : ""
           }`}
           onMouseOver={() => handleMouseOver("pro")}
           onMouseOut={handleMouseOut}
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 1.3 }}
         >
           <div className="w-full md:w-2/3">
             <h3 className="text-3xl font-bold mb-4">Pro Plan</h3>
@@ -142,8 +167,8 @@ export default function Subscriptions() {
               className="w-full max-w-sm rounded-lg shadow-lg"
             />
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
