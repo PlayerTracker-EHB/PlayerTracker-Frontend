@@ -14,8 +14,10 @@ import MyAdmin from "@/pages/MyAdmin";
 import Register from "@/pages/Register";
 import { AboutPage } from "@/pages/About";
 import Subscriptions from "@/pages/Subscriptions";
+import { useAuthStore } from "@/store/authStore";
 
 export default function App() {
+  const { user } = useAuthStore();
   const [splashFinished, setSplashFinished] = useState(false);
 
   return (
@@ -36,12 +38,14 @@ export default function App() {
                   <div>
                     <CoverSection />
                     {/* Fixed button for Register */}
-                    <a
-                      href="/register"
-                      className="fixed top-4 right-4 bg-black text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-gray-800"
-                    >
-                      Register
-                    </a>
+                    {!user && (
+                      <a
+                        href="/register"
+                        className="fixed top-4 right-4 bg-black text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-gray-800"
+                      >
+                        Register
+                      </a>
+                    )}
                     <hr className="w-full border-t-2 border-gray-300" />
                     <div className="bg-white flex items-center justify-center overflow-hidden">
                       <Carousel2 />
