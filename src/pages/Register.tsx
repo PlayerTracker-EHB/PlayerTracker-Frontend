@@ -8,6 +8,7 @@ export default function Register() {
   const { register } = useAuthStore()
 
   const [formData, setFormData] = useState({
+    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -22,7 +23,7 @@ export default function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!formData.email || !formData.password || !formData.confirmPassword) {
+    if (!formData.email || !formData.password || !formData.confirmPassword || !formData.fullName) {
       setErrorMessage("All fields are required.")
       return
     }
@@ -33,7 +34,7 @@ export default function Register() {
     }
 
     try {
-      await register(formData.email, formData.password)
+      await register(formData.email, formData.password, formData.fullName)
       navigate("/") // Redirect to home on success
     } catch (error) {
       setErrorMessage("Registration failed. Try again.")
@@ -63,6 +64,21 @@ export default function Register() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* FullName Field */}
+          <motion.div>
+            <label htmlFor="fullName" className="block text-sm font-semibold mb-2">Full Name*</label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              placeholder="Enter your full name"
+              className="w-full px-4 py-2 border border-gray-300 rounded"
+              value={formData.fullName}
+              onChange={handleChange}
+              required
+            />
+          </motion.div>
+
           {/* Email Field */}
           <motion.div>
             <label htmlFor="email" className="block text-sm font-semibold mb-2">Email*</label>

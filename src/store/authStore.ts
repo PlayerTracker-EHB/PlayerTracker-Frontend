@@ -8,7 +8,7 @@ interface User {
 interface AuthState {
   user: User | null
   login: (email: string, password: string) => Promise<void>
-  register: (email: string, password: string) => Promise<void>
+  register: (email: string, password: string, fullName: string) => Promise<void>
   logout: () => Promise<void>
   fetchUser: () => Promise<void>
 }
@@ -29,12 +29,12 @@ export const useAuthStore = create<AuthState>((set) => ({
     else alert(data.message)
   },
 
-  register: async (email, password) => {
+  register: async (email, password, fullName) => {
     const response = await fetch('http://localhost:3333/register', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, fullName }),
     })
 
     const data = await response.json()
