@@ -1,72 +1,44 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { motion } from "framer-motion"
+import { useAuthStore } from "../store/authStore"
 
 export default function Register() {
+  const navigate = useNavigate()
+  const { register } = useAuthStore()
+
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
-    phone: "",
-    whoAreYou: "",
-    role: "",
-    help: "",
-    plan: "",
-  });
-  const [errorMessage, setErrorMessage] = useState("");
+    password: "",
+    confirmPassword: "",
+  })
+  const [errorMessage, setErrorMessage] = useState("")
 
-  const location = useLocation();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
 
-  useEffect(() => {
-    if (
-      location.pathname === "/register" &&
-      location.search.includes("contact")
-    ) {
-      setFormData((prevData) => ({
-        ...prevData,
-        plan: "Contact",
-      }));
-    }
-  }, [location.pathname, location.search]);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (
-      !formData.firstName ||
-      !formData.lastName ||
-      !formData.email ||
-      !formData.phone ||
-      !formData.whoAreYou ||
-      !formData.role ||
-      !formData.help ||
-      !formData.plan
-    ) {
-      setErrorMessage("All fields are required.");
-      return;
+    if (!formData.email || !formData.password || !formData.confirmPassword) {
+      setErrorMessage("All fields are required.")
+      return
     }
 
-    console.log("Form submitted:", formData);
-    alert("Registration successful!");
-    setErrorMessage("");
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      whoAreYou: "",
-      role: "",
-      help: "",
-      plan: "",
-    });
-  };
+    if (formData.password !== formData.confirmPassword) {
+      setErrorMessage("Passwords do not match.")
+      return
+    }
+
+    try {
+      await register(formData.email, formData.password)
+      navigate("/") // Redirect to home on success
+    } catch (error) {
+      setErrorMessage("Registration failed. Try again.")
+    }
+  }
 
   return (
     <motion.div
@@ -77,183 +49,80 @@ export default function Register() {
     >
       {/* Form Section */}
       <motion.div
-        className="w-full max-w-4xl px-8 py-12 bg-transparent"
+        className="w-full max-w-md px-8 py-12 bg-white shadow-lg rounded-lg"
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.3 }}
       >
-        <motion.h1
-          className="text-3xl font-bold text-center mb-8"
-          initial={{ scale: 0.9 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          Book a call with a PlayerTracker expert
+        <motion.h1 className="text-2xl font-bold text-center mb-6">
+          Create an Account
         </motion.h1>
 
-        <motion.p
-          className="text-lg text-center mb-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-        >
-          Thanks for showing interest in our product. We are happy to help you
-          with your questions and inquiries about our products. Fill out the
-          form and a PlayerTracker expert will call you at your desired time. We
-          speak several different languages.
-        </motion.p>
-
         {errorMessage && (
-          <motion.div
-            className="mb-4 text-sm text-red-500"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            {errorMessage}
-          </motion.div>
+          <motion.div className="mb-4 text-sm text-red-500">{errorMessage}</motion.div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Champs du formulaire avec animation */}
-          {[
-            {
-              id: "firstName",
-              label: "First Name*",
-              type: "text",
-              placeholder: "Enter your first name",
-            },
-            {
-              id: "lastName",
-              label: "Last Name*",
-              type: "text",
-              placeholder: "Enter your last name",
-            },
-            {
-              id: "email",
-              label: "Email*",
-              type: "email",
-              placeholder: "Enter your email",
-            },
-            {
-              id: "phone",
-              label: "Phone*",
-              type: "text",
-              placeholder: "Enter your phone number",
-            },
-            {
-              id: "role",
-              label: "Role*",
-              type: "text",
-              placeholder: "What is your role?",
-            },
-            {
-              id: "help",
-              label: "What can we help you with today?*",
-              type: "text",
-              placeholder: "Tell us what we can help you with",
-            },
-          ].map((field, index) => (
-            <motion.div
-              key={field.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 * index, duration: 0.4 }}
-            >
-              <label
-                htmlFor={field.id}
-                className="block text-sm font-semibold mb-2"
-              >
-                {field.label}
-              </label>
-              <input
-                type={field.type}
-                id={field.id}
-                name={field.id}
-                placeholder={field.placeholder}
-                className="w-full px-4 py-2 border border-gray-300 rounded"
-                value={formData[field.id as keyof typeof formData]}
-                onChange={handleChange}
-              />
-            </motion.div>
-          ))}
-
-          {/* Select pour Who Are You */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.4 }}
-          >
-            <label
-              htmlFor="whoAreYou"
-              className="block text-sm font-semibold mb-2"
-            >
-              Who are you?*
-            </label>
-            <select
-              id="whoAreYou"
-              name="whoAreYou"
+          {/* Email Field */}
+          <motion.div>
+            <label htmlFor="email" className="block text-sm font-semibold mb-2">Email*</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
               className="w-full px-4 py-2 border border-gray-300 rounded"
-              value={formData.whoAreYou}
+              value={formData.email}
               onChange={handleChange}
-            >
-              <option value="">Select your role</option>
-              <option value="Coach">Coach</option>
-              <option value="Data-analyst">Data-analyst</option>
-              <option value="Individual">Individual</option>
-              <option value="Company">Company</option>
-              <option value="Other">Other</option>
-            </select>
+              required
+            />
           </motion.div>
 
-          {/* Plan selection */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.4 }}
-          >
-            <label htmlFor="plan" className="block text-sm font-semibold mb-2">
-              Which plan are you interested in?*
-            </label>
-            <select
-              id="plan"
-              name="plan"
+          {/* Password Field */}
+          <motion.div>
+            <label htmlFor="password" className="block text-sm font-semibold mb-2">Password*</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
               className="w-full px-4 py-2 border border-gray-300 rounded"
-              value={formData.plan}
+              value={formData.password}
               onChange={handleChange}
-            >
-              <option value="">Select a plan</option>
-              <option value="Basic Plan">Basic Plan</option>
-              <option value="Pro Plan">Pro Plan</option>
-              <option value="Contact">Contact</option>
-            </select>
+              required
+            />
           </motion.div>
 
-          {/* Bouton animé */}
+          {/* Confirm Password Field */}
+          <motion.div>
+            <label htmlFor="confirmPassword" className="block text-sm font-semibold mb-2">Confirm Password*</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="Confirm your password"
+              className="w-full px-4 py-2 border border-gray-300 rounded"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+            />
+          </motion.div>
+
+          {/* Submit Button */}
           <motion.button
             type="submit"
-            className="w-full py-2 bg-black text-white font-bold rounded hover:bg-gray-800 mt-6"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.3 }}
+            className="w-full py-2 bg-black text-white font-bold rounded hover:bg-gray-800 mt-4"
           >
             Register
           </motion.button>
         </form>
 
-        {/* Lien avec plus d'espace en bas */}
-        <motion.p
-          className="text-sm text-gray-600 mt-6 mb-20 text-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 0.5 }}
-        >
-          Already have an account?{" "}
-          <a href="/login" className="text-gray-500 hover:underline">
-            Login here
-          </a>
+        {/* Login Link */}
+        <motion.p className="text-sm text-gray-600 mt-6 text-center">
+          Already have an account? <a href="/login" className="text-gray-500 hover:underline">Login here</a>
         </motion.p>
       </motion.div>
     </motion.div>
-  );
+  )
 }
+
