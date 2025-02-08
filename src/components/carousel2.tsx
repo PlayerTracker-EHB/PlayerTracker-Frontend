@@ -1,5 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { motion } from "framer-motion";
 
 export default function Carousel2() {
   const [isHovered, setIsHovered] = useState(false);
@@ -55,14 +60,29 @@ export default function Carousel2() {
   }, [isHovered]);
 
   return (
-    <div className="relative w-3/4 mx-auto overflow-hidden pt-20 pb-20">
+    <motion.div
+      className="relative w-3/4 mx-auto overflow-hidden pt-20 pb-20"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
       {/* Titre au-dessus du carousel */}
-      <h2 className="text-4xl font-bold text-center text-gray-900 mb-6">
+      <motion.h2
+        className="text-4xl font-bold text-center text-gray-900 mb-6"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
         Everything you need
-      </h2>
-      <p className="text-xl text-center text-gray-700 mb-12">
+      </motion.h2>
+      <motion.p
+        className="text-xl text-center text-gray-700 mb-12"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.7 }}
+      >
         <em>Discover the power of innovation and excellence.</em>
-      </p>
+      </motion.p>
       <Carousel
         opts={{
           align: "start",
@@ -124,6 +144,6 @@ export default function Carousel2() {
           </CarouselItem>
         </div>
       </Carousel>
-    </div>
+    </motion.div>
   );
 }
