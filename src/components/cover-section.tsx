@@ -34,7 +34,6 @@ export default function CoverSection() {
       ) : (
         <p>Welcome to Player Tracker!</p>
       )}
-      <p className="text-sm text-gray-400 mb-2 font-bold">
 
       <motion.p
         className="text-sm text-gray-400 mb-2 font-bold"
