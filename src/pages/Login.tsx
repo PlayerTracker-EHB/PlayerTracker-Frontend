@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -22,15 +23,28 @@ export default function Login() {
   };
 
   return (
-    <div className="w-screen h-screen flex">
+    <motion.div
+      className="w-screen h-screen flex"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
       {/* Image de fond à gauche */}
-      <div
+      <motion.div
         className="w-1/2 bg-cover bg-center"
         style={{ backgroundImage: "url('/coverlogin.webp')" }}
-      ></div>
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      ></motion.div>
 
       {/* Formulaire à droite */}
-      <div className="w-1/2 bg-white p-8 rounded-lg shadow-lg flex flex-col justify-center">
+      <motion.div
+        className="w-1/2 bg-white p-8 rounded-lg shadow-lg flex flex-col justify-center"
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
         <h1 className="text-3xl font-bold text-center mb-6">
           Log in to Player Tracker
         </h1>
@@ -39,7 +53,13 @@ export default function Login() {
         </p>
 
         {errorMessage && (
-          <div className="mb-4 text-sm text-red-500">{errorMessage}</div>
+          <motion.div
+            className="mb-4 text-sm text-red-500"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            {errorMessage}
+          </motion.div>
         )}
 
         <form
@@ -91,15 +111,18 @@ export default function Login() {
             Register here
           </a>
         </p>
-      </div>
+      </motion.div>
 
       {/* Fixed button for Register */}
-      <a
+      <motion.a
         href="/register"
         className="fixed top-4 right-4 bg-black text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-gray-800"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1 }}
       >
         Register
-      </a>
-    </div>
+      </motion.a>
+    </motion.div>
   );
 }
