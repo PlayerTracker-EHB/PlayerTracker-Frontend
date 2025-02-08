@@ -4,10 +4,11 @@ import {
   Users,
   BarChart,
   Settings,
+  LogOut,
   LogIn,
-  Info, // Icône pour About
-  CreditCard, // Icône pour Subscriptions
-  Mail, // Icône pour Contact
+  Info, // About icon
+  CreditCard, // Subscriptions icon
+  Mail, // Contact icon
 } from "lucide-react";
 
 import {
@@ -21,61 +22,34 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-// Menu items
-const items = [
-  {
-    title: "Home",
-    url: "/",
-    icon: Home,
-  },
-  {
-    title: "About",
-    url: "/about",
-    icon: Info,
-  },
-  {
-    title: "Subscriptions",
-    url: "/subscriptions",
-    icon: CreditCard,
-  },
-  {
-    title: "Contact",
-    url: "/register",
-    icon: Mail,
-  },
-  {
-    title: "Login",
-    url: "/login",
-    icon: LogIn,
-  },
-  {
-    title: "Uploader",
-    url: "/uploader",
-    icon: Upload,
-  },
-  {
-    title: "Team",
-    url: "/team",
-    icon: Users,
-  },
-  {
-    title: "Statistics",
-    url: "/statistics",
-    icon: BarChart,
-  },
-  {
-    title: "Accounts",
-    url: "/accounts",
-    icon: Users,
-  },
-  {
-    title: "Admin",
-    url: "/admin",
-    icon: Settings,
-  },
-];
+import { useAuthStore } from "@/store/authStore";
 
 export function AppSidebar() {
+  const { user, logout } = useAuthStore();
+
+  // Menu items
+  const items = [
+    { title: "Home", url: "/", icon: Home },
+    { title: "About", url: "/about", icon: Info },
+    { title: "Subscriptions", url: "/subscriptions", icon: CreditCard },
+    { title: "Contact", url: "/register", icon: Mail },
+    { title: "Uploader", url: "/uploader", icon: Upload },
+    { title: "Team", url: "/team", icon: Users },
+    { title: "Statistics", url: "/statistics", icon: BarChart },
+    { title: "Accounts", url: "/accounts", icon: Users },
+    { title: "Admin", url: "/admin", icon: Settings },
+  ];
+
+  // Remove Login button if the user is logged in
+  if (!user) {
+    items.push({ title: "Login", url: "/login", icon: LogIn });
+  }
+
+  // Handle Logout
+  const handleLogout = async () => {
+    await logout();
+  };
+
   return (
     <Sidebar className="fixed top-0 left-0 h-full">
       <SidebarContent className="flex flex-col h-full">
@@ -93,6 +67,16 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+
+              {/* Show Logout only when user is logged in */}
+              {user && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton onClick={handleLogout} className="flex items-center space-x-2 text-red-500">
+                    <LogOut className="w-5 h-5" />
+                    <span>Logout</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -100,3 +84,4 @@ export function AppSidebar() {
     </Sidebar>
   );
 }
+

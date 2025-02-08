@@ -12,8 +12,10 @@ import MyAdmin from "@/pages/MyAdmin";
 import Register from "@/pages/Register";
 import { AboutPage } from "@/pages/About";
 import Subscriptions from "@/pages/Subscriptions";
+import { useAuthStore } from "@/store/authStore";
 
 export default function App() {
+  const { user } = useAuthStore()
   return (
     <BrowserRouter>
       <div className="flex flex-col min-h-screen">
