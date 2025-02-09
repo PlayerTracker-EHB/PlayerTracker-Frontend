@@ -6,11 +6,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 
 createRoot(document.getElementById("root")!).render(
-  <SidebarProvider defaultOpen={false}>
-    <AppSidebar />
-    <SidebarTrigger className="top-6 left-4 z-50 bg-transparent p-[4px] rounded-full shadow-lg" />
-    <StrictMode>
-      <App />
-    </StrictMode>
-  </SidebarProvider>
+  <StrictMode>
+    <App />
+  </StrictMode>
 );

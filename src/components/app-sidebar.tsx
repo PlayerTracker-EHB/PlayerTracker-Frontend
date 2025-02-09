@@ -29,10 +29,6 @@ export function AppSidebar() {
 
   // Menu items
   const items = [
-    { title: "Home", url: "/", icon: Home },
-    { title: "About", url: "/about", icon: Info },
-    { title: "Subscriptions", url: "/subscriptions", icon: CreditCard },
-    { title: "Contact", url: "/register", icon: Mail },
     { title: "Uploader", url: "/uploader", icon: Upload },
     { title: "Team", url: "/team", icon: Users },
     { title: "Statistics", url: "/statistics", icon: BarChart },
@@ -71,7 +67,10 @@ export function AppSidebar() {
               {/* Show Logout only when user is logged in */}
               {user && (
                 <SidebarMenuItem>
-                  <SidebarMenuButton onClick={handleLogout} className="flex items-center space-x-2 text-red-500">
+                  <SidebarMenuButton
+                    onClick={handleLogout}
+                    className="flex items-center space-x-2 text-red-500"
+                  >
                     <LogOut className="w-5 h-5" />
                     <span>Logout</span>
                   </SidebarMenuButton>
@@ -84,4 +83,3 @@ export function AppSidebar() {
     </Sidebar>
   );
 }
-

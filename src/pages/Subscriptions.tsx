@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import Navbar from "@/components/navbar";
 
 export default function Subscriptions() {
   const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
@@ -14,21 +15,12 @@ export default function Subscriptions() {
 
   return (
     <motion.div
-      className="w-screen h-screen bg-gray-100 py-16 px-8 md:px-20 lg:px-40 text-gray-800"
+      className="w-screen h-screen bg-gray-100 py-16 px-8 md:px-20 lg:px-40 text-gray-800 mt-20"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      {/* Fixed button for Register */}
-      <motion.a
-        href="/register"
-        className="fixed top-4 right-4 bg-black text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-gray-800"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-      >
-        Register
-      </motion.a>
+      <Navbar />
 
       <motion.h2
         className="text-4xl font-bold text-center text-gray-900 mb-4"

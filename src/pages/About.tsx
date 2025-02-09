@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import Navbar from "@/components/navbar";
 
 export const AboutPage = () => {
   return (
@@ -8,6 +9,8 @@ export const AboutPage = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
+      <Navbar />
+
       {/* Deuxième section avec un GIF en couverture */}
       <motion.div
         className="w-screen h-screen bg-black flex flex-col justify-center items-center px-4 py-8 relative"
@@ -17,7 +20,7 @@ export const AboutPage = () => {
       >
         <div className="absolute inset-0">
           <img
-            src="output_video-VEED.gif" // Remplace avec le lien de ton GIF
+            src="output_video-VEED.gif"
             alt="Background GIF"
             className="object-cover w-full h-full opacity-50"
           />
@@ -134,7 +137,6 @@ export const AboutPage = () => {
             player performance, making data-driven decisions to stay ahead.
           </p>
           <div className="flex gap-8 justify-center flex-wrap">
-            {/* Replace with actual logos */}
             <img src="accs.jpeg" alt="Logo 1" className="h-16" />
             <img src="dinakenitra.png" alt="Logo 2" className="h-16" />
             <img src="tigersroermond.png" alt="Logo 3" className="h-16" />
@@ -142,17 +144,6 @@ export const AboutPage = () => {
           </div>
         </div>
       </motion.div>
-
-      {/* Fixed button for Register */}
-      <motion.a
-        href="/register"
-        className="fixed top-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-gray-800"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.3 }}
-      >
-        Register
-      </motion.a>
     </motion.div>
   );
 };

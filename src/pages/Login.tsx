@@ -1,8 +1,6 @@
 import { useState } from "react";
-
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore"; // Zustand store
-
 import { motion } from "framer-motion";
 
 export default function Login() {
@@ -23,14 +21,13 @@ export default function Login() {
 
     try {
       await login(email, password); // Zustand function
-      navigate("/"); // Redirect to home on success
+      navigate("/statistics"); // Redirect to statistics on success
     } catch (error) {
       setErrorMessage("Invalid email or password.");
     }
   };
 
   return (
-
     <motion.div
       className="w-screen h-screen flex"
       initial={{ opacity: 0 }}
@@ -39,7 +36,6 @@ export default function Login() {
     >
       {/* Image de fond à gauche */}
       <motion.div
-
         className="w-1/2 bg-cover bg-center"
         style={{ backgroundImage: "url('/coverlogin.webp')" }}
         initial={{ x: -100, opacity: 0 }}
@@ -141,4 +137,3 @@ export default function Login() {
     </motion.div>
   );
 }
-

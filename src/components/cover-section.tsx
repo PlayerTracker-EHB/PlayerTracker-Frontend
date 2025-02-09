@@ -11,11 +11,12 @@ export default function CoverSection() {
   // Fetch user on first load to check login status
   useEffect(() => {
     fetchUser();
-  }, []); console.log(user)
+  }, []);
+  console.log(user);
 
   return (
     <motion.div
-      className="relative w-full h-[400px] bg-cover bg-center flex flex-col items-center justify-center text-center p-8"
+      className="relative w-full h-[400px] bg-cover bg-center flex flex-col items-center justify-center text-center p-8 mt-20"
       style={{
         backgroundImage: "url(/cover.jpg)", // Remplace par le chemin de ton image
       }}
@@ -23,12 +24,6 @@ export default function CoverSection() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}
     >
-      <img
-        src="/logo.png" // Remplace par le chemin de ton logo
-        alt="Logo"
-        className="absolute top-4 left-4 w-20 h-auto"
-      />
-
       {user ? (
         <p>Welcome back, {user.email}!</p>
       ) : (
@@ -41,7 +36,6 @@ export default function CoverSection() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-
         Track every action, enhance every performance.
       </motion.p>
       <motion.h1

@@ -21,7 +21,7 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ opacity: { duration: 1 } }}
         >
           <motion.img
             src="/logo.png" // Remplace par le chemin de ton logo
@@ -29,6 +29,7 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
             className="w-48 h-48 mb-4"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
             transition={{ duration: 1 }}
           />
           <motion.h1
@@ -36,6 +37,7 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
             style={{ fontFamily: "'Jockey One', sans-serif" }}
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
           >
             Player Tracker
