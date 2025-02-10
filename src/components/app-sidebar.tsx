@@ -1,14 +1,10 @@
 import {
-  Home,
   Upload,
   Users,
   BarChart,
   Settings,
   LogOut,
   LogIn,
-  Info, // About icon
-  CreditCard, // Subscriptions icon
-  Mail, // Contact icon
 } from "lucide-react";
 
 import {
@@ -22,7 +18,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/auth/authStore";
 
 export function AppSidebar() {
   const { user, logout } = useAuthStore();
