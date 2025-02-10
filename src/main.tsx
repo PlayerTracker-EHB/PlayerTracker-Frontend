@@ -1,12 +1,41 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import App from "./App.tsx";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import { StrictMode } from 'react'
+import ReactDOM from 'react-dom/client'
+import { RouterProvider, createRouter } from '@tanstack/react-router'
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+//import css
+import "./index.css";
+
+// Import the generated route tree
+import { routeTree } from './routeTree.gen'
+import { useAuthStore } from './auth/authStore';
+const router = createRouter({
+  routeTree,
+  context: {
+    auth: undefined!,
+  }
+})
+
+// Register the router instance for type safety
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router
+  }
+}
+
+function App() {
+  const auth = useAuthStore()
+  return (
+    <StrictMode>
+      <RouterProvider router={router} context={{ auth }} />
+    </StrictMode>
+  )
+}
+
+// Render the app
+const rootElement = document.getElementById('root')!
+if (!rootElement.innerHTML) {
+  const root = ReactDOM.createRoot(rootElement)
+  root.render(
     <App />
-  </StrictMode>
-);
+  )
+}

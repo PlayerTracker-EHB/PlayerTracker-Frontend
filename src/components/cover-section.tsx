@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import "./CoverSection.css"; // Importation du fichier CSS
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/auth/authStore";
 import { useEffect } from "react";
 
 export default function CoverSection() {
@@ -24,11 +24,6 @@ export default function CoverSection() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}
     >
-      {user ? (
-        <p>Welcome back, {user.email}!</p>
-      ) : (
-        <p>Welcome to Player Tracker!</p>
-      )}
 
       <motion.p
         className="text-sm text-gray-400 mb-2 font-bold"
@@ -61,7 +56,7 @@ export default function CoverSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.1 }}
       >
-        <Link to="/subscriptions">
+        <Link to="/Subscriptions">
           <Button className="px-6 py-3 bg-teal-500 text-white rounded-full text-lg font-bold hover:bg-teal-600">
             Choose a plan
           </Button>

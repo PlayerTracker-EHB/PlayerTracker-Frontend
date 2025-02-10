@@ -1,15 +1,18 @@
-import React from "react";
-import { motion } from "framer-motion";
-import Navbar from "@/components/navbar";
+import { createFileRoute } from '@tanstack/react-router'
+import { motion } from 'framer-motion'
 
-export const AboutPage = () => {
+export const Route = createFileRoute('/_guest/about')({
+  component: AboutPage,
+})
+
+function AboutPage() {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <Navbar />
+      {/* <Navbar /> */}
 
       {/* Deuxième section avec un GIF en couverture */}
       <motion.div
@@ -67,7 +70,7 @@ export const AboutPage = () => {
             className="bg-teal-500 text-white py-3 px-8 rounded-full text-lg font-bold mb-6 hover:bg-teal-600"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => (window.location.href = "/subscriptions")}
+            onClick={() => (window.location.href = '/subscriptions')}
           >
             Start a plan
           </motion.button>
@@ -145,5 +148,5 @@ export const AboutPage = () => {
         </div>
       </motion.div>
     </motion.div>
-  );
-};
+  )
+}
