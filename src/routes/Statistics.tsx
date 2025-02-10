@@ -1,82 +1,87 @@
-import React, { useState } from "react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import { useState } from 'react'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/app-sidebar'
+import { createFileRoute } from '@tanstack/react-router'
 
-export default function Statistics() {
+export const Route = createFileRoute('/Statistics')({
+  component: Statistics,
+})
+
+function Statistics() {
   const matches = [
     {
       id: 1,
-      homeTeam: { name: "EHB", logo: "https://via.placeholder.com/40" },
-      awayTeam: { name: "Italy", logo: "https://via.placeholder.com/40" },
-      score: "1 - 2",
-      result: "loss", // win, draw, loss
-      date: "18 December 2022",
+      homeTeam: { name: 'EHB', logo: 'https://via.placeholder.com/40' },
+      awayTeam: { name: 'Italy', logo: 'https://via.placeholder.com/40' },
+      score: '1 - 2',
+      result: 'loss', // win, draw, loss
+      date: '18 December 2022',
     },
     {
       id: 2,
-      homeTeam: { name: "EHB", logo: "https://via.placeholder.com/40" },
-      awayTeam: { name: "Italy", logo: "https://via.placeholder.com/40" },
-      score: "4 - 2",
-      result: "win",
-      date: "18 December 2022",
+      homeTeam: { name: 'EHB', logo: 'https://via.placeholder.com/40' },
+      awayTeam: { name: 'Italy', logo: 'https://via.placeholder.com/40' },
+      score: '4 - 2',
+      result: 'win',
+      date: '18 December 2022',
     },
     {
       id: 3,
-      homeTeam: { name: "EHB", logo: "https://via.placeholder.com/40" },
-      awayTeam: { name: "Brazil", logo: "https://via.placeholder.com/40" },
-      score: "1 - 3",
-      result: "loss",
-      date: "17 December 2022",
+      homeTeam: { name: 'EHB', logo: 'https://via.placeholder.com/40' },
+      awayTeam: { name: 'Brazil', logo: 'https://via.placeholder.com/40' },
+      score: '1 - 3',
+      result: 'loss',
+      date: '17 December 2022',
     },
     {
       id: 4,
-      homeTeam: { name: "Uruguay", logo: "https://via.placeholder.com/40" },
-      awayTeam: { name: "EHB", logo: "https://via.placeholder.com/40" },
-      score: "2 - 2",
-      result: "draw",
-      date: "17 December 2022",
+      homeTeam: { name: 'Uruguay', logo: 'https://via.placeholder.com/40' },
+      awayTeam: { name: 'EHB', logo: 'https://via.placeholder.com/40' },
+      score: '2 - 2',
+      result: 'draw',
+      date: '17 December 2022',
     },
     {
       id: 5,
-      homeTeam: { name: "Spanish", logo: "https://via.placeholder.com/40" },
-      awayTeam: { name: "EHB", logo: "https://via.placeholder.com/40" },
-      score: "3 - 3",
-      result: "draw",
-      date: "16 December 2022",
+      homeTeam: { name: 'Spanish', logo: 'https://via.placeholder.com/40' },
+      awayTeam: { name: 'EHB', logo: 'https://via.placeholder.com/40' },
+      score: '3 - 3',
+      result: 'draw',
+      date: '16 December 2022',
     },
-  ];
+  ]
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 3
 
   const sortedMatches = matches.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  )
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = sortedMatches.slice(indexOfFirstItem, indexOfLastItem);
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = sortedMatches.slice(indexOfFirstItem, indexOfLastItem)
 
-  const totalPages = Math.ceil(matches.length / itemsPerPage);
+  const totalPages = Math.ceil(matches.length / itemsPerPage)
 
   const handleNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1)
+  }
 
   const handlePreviousPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
+    if (currentPage > 1) setCurrentPage(currentPage - 1)
+  }
 
   // Statistiques globales
-  const totalMatches = matches.length;
-  const totalWins = matches.filter((match) => match.result === "win").length;
-  const totalDraws = matches.filter((match) => match.result === "draw").length;
-  const totalLosses = matches.filter((match) => match.result === "loss").length;
-  const winPercentage = ((totalWins / totalMatches) * 100).toFixed(2);
+  const totalMatches = matches.length
+  const totalWins = matches.filter((match) => match.result === 'win').length
+  const totalDraws = matches.filter((match) => match.result === 'draw').length
+  const totalLosses = matches.filter((match) => match.result === 'loss').length
+  const winPercentage = ((totalWins / totalMatches) * 100).toFixed(2)
   const goalDifference = matches.reduce((acc, match) => {
-    const [homeGoals, awayGoals] = match.score.split(" - ").map(Number);
-    return acc + (homeGoals - awayGoals);
-  }, 0);
+    const [homeGoals, awayGoals] = match.score.split(' - ').map(Number)
+    return acc + (homeGoals - awayGoals)
+  }, 0)
 
   return (
     <SidebarProvider defaultOpen={false}>
@@ -104,11 +109,10 @@ export default function Statistics() {
             {currentItems.map((match, index) => (
               <div
                 key={match.id}
-                className={`relative flex items-center justify-between py-4 px-6 mb-4 border rounded-lg shadow ${
-                  index === 0 && currentPage === 1
-                    ? "bg-blue-50 border-blue-300"
-                    : "bg-gray-50 border-gray-200"
-                }`}
+                className={`relative flex items-center justify-between py-4 px-6 mb-4 border rounded-lg shadow ${index === 0 && currentPage === 1
+                    ? 'bg-blue-50 border-blue-300'
+                    : 'bg-gray-50 border-gray-200'
+                  }`}
               >
                 {/* Badge for Latest Uploading */}
                 {index === 0 && currentPage === 1 && (
@@ -168,11 +172,10 @@ export default function Statistics() {
             <button
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
-              className={`px-4 py-2 font-semibold rounded ${
-                currentPage === 1
-                  ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-                  : "bg-blue-500 text-white hover:bg-blue-600"
-              }`}
+              className={`px-4 py-2 font-semibold rounded ${currentPage === 1
+                  ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                  : 'bg-blue-500 text-white hover:bg-blue-600'
+                }`}
             >
               Previous
             </button>
@@ -182,11 +185,10 @@ export default function Statistics() {
             <button
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
-              className={`px-4 py-2 font-semibold rounded ${
-                currentPage === totalPages
-                  ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-                  : "bg-blue-500 text-white hover:bg-blue-600"
-              }`}
+              className={`px-4 py-2 font-semibold rounded ${currentPage === totalPages
+                  ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                  : 'bg-blue-500 text-white hover:bg-blue-600'
+                }`}
             >
               Next
             </button>
@@ -222,5 +224,5 @@ export default function Statistics() {
         </div>
       </div>
     </SidebarProvider>
-  );
+  )
 }

@@ -1,15 +1,18 @@
-import React from "react";
+import { createFileRoute } from '@tanstack/react-router'
 import { motion } from "framer-motion";
-import Navbar from "@/components/navbar";
 
-export const AboutPage = () => {
+export const Route = createFileRoute('/about')({
+  component: AboutPage,
+})
+
+function AboutPage() {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <Navbar />
+      {/* <Navbar /> */}
 
       {/* Deuxième section avec un GIF en couverture */}
       <motion.div
@@ -147,3 +150,4 @@ export const AboutPage = () => {
     </motion.div>
   );
 };
+

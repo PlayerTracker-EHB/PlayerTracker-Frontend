@@ -1,39 +1,44 @@
-import React, { useState } from "react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import { useState } from 'react'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/app-sidebar'
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/MyAdmin')({
+  component: MyAdmin,
+})
 
 interface User {
-  id: number;
-  name: string;
-  email: string;
-  clubname: string;
-  active: boolean;
+  id: number
+  name: string
+  email: string
+  clubname: string
+  active: boolean
 }
 
-export default function MyAdmin() {
+function MyAdmin() {
   const [users, setUsers] = useState<User[]>([
     {
       id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com",
-      clubname: "EHB Club",
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      clubname: 'EHB Club',
       active: true,
     },
     {
       id: 2,
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      clubname: "XYZ Club",
+      name: 'Jane Smith',
+      email: 'jane.smith@example.com',
+      clubname: 'XYZ Club',
       active: false,
     },
-  ]);
+  ])
 
-  const [newUser, setNewUser] = useState<Omit<User, "id">>({
-    name: "",
-    email: "",
-    clubname: "",
+  const [newUser, setNewUser] = useState<Omit<User, 'id'>>({
+    name: '',
+    email: '',
+    clubname: '',
     active: true,
-  });
+  })
 
   const handleAddUser = () => {
     if (newUser.name && newUser.email && newUser.clubname) {
@@ -46,21 +51,21 @@ export default function MyAdmin() {
           clubname: newUser.clubname,
           active: newUser.active,
         },
-      ]);
-      setNewUser({ name: "", email: "", clubname: "", active: true });
-      alert("Utilisateur ajouté avec succès !");
+      ])
+      setNewUser({ name: '', email: '', clubname: '', active: true })
+      alert('Utilisateur ajouté avec succès !')
     } else {
-      alert("Veuillez remplir tous les champs.");
+      alert('Veuillez remplir tous les champs.')
     }
-  };
+  }
 
   const toggleUserStatus = (id: number) => {
     setUsers(
       users.map((user) =>
-        user.id === id ? { ...user, active: !user.active } : user
-      )
-    );
-  };
+        user.id === id ? { ...user, active: !user.active } : user,
+      ),
+    )
+  }
 
   return (
     <SidebarProvider defaultOpen={false}>
@@ -156,25 +161,23 @@ export default function MyAdmin() {
                     <td className="p-4 border-t text-white">{user.clubname}</td>
                     <td className="p-4 border-t text-center">
                       <span
-                        className={`px-3 py-1 rounded ${
-                          user.active
-                            ? "bg-green-100 text-green-600"
-                            : "bg-red-100 text-red-600"
-                        }`}
+                        className={`px-3 py-1 rounded ${user.active
+                            ? 'bg-green-100 text-green-600'
+                            : 'bg-red-100 text-red-600'
+                          }`}
                       >
-                        {user.active ? "Actif" : "Inactif"}
+                        {user.active ? 'Actif' : 'Inactif'}
                       </span>
                     </td>
                     <td className="p-4 border-t text-center">
                       <button
                         onClick={() => toggleUserStatus(user.id)}
-                        className={`px-4 py-2 font-semibold rounded ${
-                          user.active
-                            ? "bg-red-500 text-white hover:bg-red-600"
-                            : "bg-green-500 text-white hover:bg-green-600"
-                        }`}
+                        className={`px-4 py-2 font-semibold rounded ${user.active
+                            ? 'bg-red-500 text-white hover:bg-red-600'
+                            : 'bg-green-500 text-white hover:bg-green-600'
+                          }`}
                       >
-                        {user.active ? "Désactiver" : "Activer"}
+                        {user.active ? 'Désactiver' : 'Activer'}
                       </button>
                     </td>
                   </tr>
@@ -185,5 +188,5 @@ export default function MyAdmin() {
         </main>
       </div>
     </SidebarProvider>
-  );
+  )
 }

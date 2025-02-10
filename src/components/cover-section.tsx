@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import "./CoverSection.css"; // Importation du fichier CSS
 import { useAuthStore } from "@/store/authStore";
@@ -61,7 +61,7 @@ export default function CoverSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.1 }}
       >
-        <Link to="/subscriptions">
+        <Link to="/Subscriptions">
           <Button className="px-6 py-3 bg-teal-500 text-white rounded-full text-lg font-bold hover:bg-teal-600">
             Choose a plan
           </Button>

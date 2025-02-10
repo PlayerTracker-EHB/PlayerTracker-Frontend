@@ -1,17 +1,22 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import Navbar from "@/components/navbar";
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import Navbar from '@/components/navbar'
+import { createFileRoute } from '@tanstack/react-router'
 
-export default function Subscriptions() {
-  const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
+export const Route = createFileRoute('/Subscriptions')({
+  component: Subscriptions,
+})
+
+function Subscriptions() {
+  const [hoveredPlan, setHoveredPlan] = useState<string | null>(null)
 
   const handleMouseOver = (plan: string) => {
-    setHoveredPlan(plan);
-  };
+    setHoveredPlan(plan)
+  }
 
   const handleMouseOut = () => {
-    setHoveredPlan(null);
-  };
+    setHoveredPlan(null)
+  }
 
   return (
     <motion.div
@@ -47,10 +52,9 @@ export default function Subscriptions() {
       <div className="flex flex-col md:flex-row gap-8">
         {/* First Plan Container */}
         <motion.div
-          className={`bg-white p-8 rounded-lg shadow-md flex-1 max-w-full transition-transform duration-500 ease-in-out ${
-            hoveredPlan === "basic" ? "scale-110" : ""
-          }`}
-          onMouseOver={() => handleMouseOver("basic")}
+          className={`bg-white p-8 rounded-lg shadow-md flex-1 max-w-full transition-transform duration-500 ease-in-out ${hoveredPlan === 'basic' ? 'scale-110' : ''
+            }`}
+          onMouseOver={() => handleMouseOver('basic')}
           onMouseOut={handleMouseOut}
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -98,10 +102,9 @@ export default function Subscriptions() {
 
         {/* Second Plan Container with image */}
         <motion.div
-          className={`bg-white p-8 rounded-lg shadow-md flex-1 flex flex-col md:flex-row max-w-full transition-transform duration-500 ease-in-out ${
-            hoveredPlan === "pro" ? "scale-110" : ""
-          }`}
-          onMouseOver={() => handleMouseOver("pro")}
+          className={`bg-white p-8 rounded-lg shadow-md flex-1 flex flex-col md:flex-row max-w-full transition-transform duration-500 ease-in-out ${hoveredPlan === 'pro' ? 'scale-110' : ''
+            }`}
+          onMouseOver={() => handleMouseOver('pro')}
           onMouseOut={handleMouseOut}
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -162,5 +165,5 @@ export default function Subscriptions() {
         </motion.div>
       </div>
     </motion.div>
-  );
+  )
 }

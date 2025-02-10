@@ -1,60 +1,65 @@
-import { useState } from "react";
-import { TrashIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import { useState } from 'react'
+import { TrashIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/app-sidebar'
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/Team')({
+  component: Team,
+})
 
 type Player = {
-  id: number;
-  firstName: string;
-  lastName: string;
-};
+  id: number
+  firstName: string
+  lastName: string
+}
 
-export default function Team() {
+function Team() {
   const [teamDetails, setTeamDetails] = useState({
-    logo: "",
-    name: "",
-    coach: "",
-    color1: "#ffffff",
-    color2: "#000000",
-  });
+    logo: '',
+    name: '',
+    coach: '',
+    color1: '#ffffff',
+    color2: '#000000',
+  })
 
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [newPlayer, setNewPlayer] = useState({ firstName: "", lastName: "" });
+  const [players, setPlayers] = useState<Player[]>([])
+  const [newPlayer, setNewPlayer] = useState({ firstName: '', lastName: '' })
 
   const handleAddPlayer = () => {
     if (newPlayer.firstName && newPlayer.lastName) {
-      setPlayers([...players, { id: Date.now(), ...newPlayer }]);
-      setNewPlayer({ firstName: "", lastName: "" });
+      setPlayers([...players, { id: Date.now(), ...newPlayer }])
+      setNewPlayer({ firstName: '', lastName: '' })
     } else {
-      alert("Please fill in both First Name and Last Name.");
+      alert('Please fill in both First Name and Last Name.')
     }
-  };
+  }
 
   const handleDeletePlayer = (id: number) => {
-    setPlayers(players.filter((player) => player.id !== id));
-  };
+    setPlayers(players.filter((player) => player.id !== id))
+  }
 
   const handleTeamDetailsChange = (field: string, value: string) => {
     setTeamDetails({
       ...teamDetails,
       [field]: value,
-    });
-  };
+    })
+  }
 
   const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setTeamDetails({
         ...teamDetails,
         logo: URL.createObjectURL(event.target.files[0]),
-      });
+      })
     }
-  };
+  }
 
   const handleSubmit = () => {
-    console.log("Team Details:", teamDetails);
-    console.log("Players:", players);
-    alert("Team saved! Check the console for details.");
-  };
+    console.log('Team Details:', teamDetails)
+    console.log('Players:', players)
+    alert('Team saved! Check the console for details.')
+  }
 
   return (
     <SidebarProvider defaultOpen={false}>
@@ -99,7 +104,7 @@ export default function Team() {
                 className="w-full px-4 py-2 border border-gray-300 rounded"
                 value={teamDetails.name}
                 onChange={(e) =>
-                  handleTeamDetailsChange("name", e.target.value)
+                  handleTeamDetailsChange('name', e.target.value)
                 }
               />
             </div>
@@ -114,7 +119,7 @@ export default function Team() {
                 className="w-full px-4 py-2 border border-gray-300 rounded"
                 value={teamDetails.coach}
                 onChange={(e) =>
-                  handleTeamDetailsChange("coach", e.target.value)
+                  handleTeamDetailsChange('coach', e.target.value)
                 }
               />
             </div>
@@ -128,7 +133,7 @@ export default function Team() {
                   type="color"
                   value={teamDetails.color1}
                   onChange={(e) =>
-                    handleTeamDetailsChange("color1", e.target.value)
+                    handleTeamDetailsChange('color1', e.target.value)
                   }
                   className="w-16 h-10 border border-gray-300 rounded"
                 />
@@ -141,7 +146,7 @@ export default function Team() {
                   type="color"
                   value={teamDetails.color2}
                   onChange={(e) =>
-                    handleTeamDetailsChange("color2", e.target.value)
+                    handleTeamDetailsChange('color2', e.target.value)
                   }
                   className="w-16 h-10 border border-gray-300 rounded"
                 />
@@ -215,5 +220,5 @@ export default function Team() {
         </button>
       </div>
     </SidebarProvider>
-  );
+  )
 }

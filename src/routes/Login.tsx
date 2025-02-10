@@ -1,31 +1,36 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "@/store/authStore"; // Zustand store
-import { motion } from "framer-motion";
+import { useState } from 'react'
+import { useNavigate } from '@tanstack/react-router'
+import { useAuthStore } from '@/store/authStore' // Zustand store
+import { motion } from 'framer-motion'
+import { createFileRoute } from '@tanstack/react-router'
 
-export default function Login() {
-  const { login } = useAuthStore();
-  const navigate = useNavigate();
+export const Route = createFileRoute('/Login')({
+  component: Login,
+})
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+function Login() {
+  const { login } = useAuthStore()
+  const navigate = useNavigate({ from: "/Login" })
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    if (email === "" || password === "") {
-      setErrorMessage("Please fill in all fields.");
-      return;
+    if (email === '' || password === '') {
+      setErrorMessage('Please fill in all fields.')
+      return
     }
 
     try {
-      await login(email, password); // Zustand function
-      navigate("/statistics"); // Redirect to statistics on success
+      await login(email, password) // Zustand function
+      navigate({ to: "/Statistics" }) // Redirect to statistics on success
     } catch (error) {
-      setErrorMessage("Invalid email or password.");
+      setErrorMessage('Invalid email or password.')
     }
-  };
+  }
 
   return (
     <motion.div
@@ -117,7 +122,7 @@ export default function Login() {
 
         {/* Register Link */}
         <p className="text-sm text-gray-600 mt-4 text-center">
-          Don't have an account?{" "}
+          Don't have an account?{' '}
           <a href="/register" className="text-gray-500 hover:underline">
             Register here
           </a>
@@ -135,5 +140,5 @@ export default function Login() {
         Register
       </motion.a>
     </motion.div>
-  );
+  )
 }

@@ -1,82 +1,86 @@
-import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
-import { CloudUpload } from "lucide-react";
+import { useState, useEffect, useRef } from 'react'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/app-sidebar'
+import { CloudUpload } from 'lucide-react'
+import { useNavigate, createFileRoute } from '@tanstack/react-router'
 
-export default function Uploader() {
-  const [players, setPlayers] = useState([{ name: "", number: "" }]);
+export const Route = createFileRoute('/Uploader')({
+  component: Uploader,
+})
+
+function Uploader() {
+  const [players, setPlayers] = useState([{ name: '', number: '' }])
   const [matchDetails, setMatchDetails] = useState({
-    date: "",
-    homeAway: "home",
-    opponent: "",
-    color1: "#000000",
-    color2: "#ffffff",
-    result: "",
-    score: "",
-  });
-  const [video, setVideo] = useState<File | null>(null);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
+    date: '',
+    homeAway: 'home',
+    opponent: '',
+    color1: '#000000',
+    color2: '#ffffff',
+    result: '',
+    score: '',
+  })
+  const [video, setVideo] = useState<File | null>(null)
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [isReadyToSubmit, setIsReadyToSubmit] = useState(false)
 
-  const navigate = useNavigate();
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const navigate = useNavigate({ from: "/Uploader" })
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   const handlePlayerChange = (index: number, field: string, value: string) => {
-    const updatedPlayers = [...players];
-    updatedPlayers[index] = { ...updatedPlayers[index], [field]: value };
-    setPlayers(updatedPlayers);
-  };
+    const updatedPlayers = [...players]
+    updatedPlayers[index] = { ...updatedPlayers[index], [field]: value }
+    setPlayers(updatedPlayers)
+  }
 
   const handleMatchDetailsChange = (field: string, value: string) => {
-    setMatchDetails({ ...matchDetails, [field]: value });
-  };
+    setMatchDetails({ ...matchDetails, [field]: value })
+  }
 
   const handleFileDrop = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    const file = event.dataTransfer.files[0];
+    event.preventDefault()
+    const file = event.dataTransfer.files[0]
     if (file) {
-      setVideo(file);
-      setIsProcessing(true);
-      setIsReadyToSubmit(false);
+      setVideo(file)
+      setIsProcessing(true)
+      setIsReadyToSubmit(false)
     }
-  };
+  }
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      const file = event.target.files[0];
-      setVideo(file);
-      setIsProcessing(true);
-      setIsReadyToSubmit(false);
+      const file = event.target.files[0]
+      setVideo(file)
+      setIsProcessing(true)
+      setIsReadyToSubmit(false)
     }
-  };
+  }
 
   const handleAddPlayer = () => {
-    setPlayers([...players, { name: "", number: "" }]);
-  };
+    setPlayers([...players, { name: '', number: '' }])
+  }
 
   const handleRemovePlayer = (index: number) => {
-    const updatedPlayers = players.filter((_, i) => i !== index);
-    setPlayers(updatedPlayers);
-  };
+    const updatedPlayers = players.filter((_, i) => i !== index)
+    setPlayers(updatedPlayers)
+  }
 
   const handleSubmit = () => {
-    console.log("Players:", players);
-    console.log("Match Details:", matchDetails);
-    console.log("Uploaded Video:", video);
-    alert("Form submitted! Redirecting to statistics...");
-    navigate("/statistics");
-  };
+    console.log('Players:', players)
+    console.log('Match Details:', matchDetails)
+    console.log('Uploaded Video:', video)
+    alert('Form submitted! Redirecting to statistics...')
+    navigate({ to: "/Statistics" })
+  }
 
   useEffect(() => {
     if (isProcessing) {
       const timer = setTimeout(() => {
-        setIsProcessing(false);
-        setIsReadyToSubmit(true);
-      }, 5000);
-      return () => clearTimeout(timer);
+        setIsProcessing(false)
+        setIsReadyToSubmit(true)
+      }, 5000)
+      return () => clearTimeout(timer)
     }
-  }, [isProcessing]);
+  }, [isProcessing])
 
   return (
     <SidebarProvider defaultOpen={false}>
@@ -98,7 +102,7 @@ export default function Uploader() {
               type="date"
               className="px-4 py-2 border border-gray-300 rounded"
               value={matchDetails.date}
-              onChange={(e) => handleMatchDetailsChange("date", e.target.value)}
+              onChange={(e) => handleMatchDetailsChange('date', e.target.value)}
             />
           </div>
 
@@ -108,7 +112,7 @@ export default function Uploader() {
               className="px-4 py-2 border border-gray-300 rounded"
               value={matchDetails.homeAway}
               onChange={(e) =>
-                handleMatchDetailsChange("homeAway", e.target.value)
+                handleMatchDetailsChange('homeAway', e.target.value)
               }
             >
               <option value="home">Home</option>
@@ -122,7 +126,7 @@ export default function Uploader() {
               className="px-4 py-2 border border-gray-300 rounded"
               value={matchDetails.result}
               onChange={(e) =>
-                handleMatchDetailsChange("result", e.target.value)
+                handleMatchDetailsChange('result', e.target.value)
               }
             >
               <option value="">Select Result</option>
@@ -140,7 +144,7 @@ export default function Uploader() {
               className="px-4 py-2 border border-gray-300 rounded"
               value={matchDetails.score}
               onChange={(e) =>
-                handleMatchDetailsChange("score", e.target.value)
+                handleMatchDetailsChange('score', e.target.value)
               }
             />
           </div>
@@ -157,7 +161,7 @@ export default function Uploader() {
                   className="w-16 h-10"
                   value={matchDetails.color1}
                   onChange={(e) =>
-                    handleMatchDetailsChange("color1", e.target.value)
+                    handleMatchDetailsChange('color1', e.target.value)
                   }
                 />
               </div>
@@ -168,7 +172,7 @@ export default function Uploader() {
                   className="w-16 h-10"
                   value={matchDetails.color2}
                   onChange={(e) =>
-                    handleMatchDetailsChange("color2", e.target.value)
+                    handleMatchDetailsChange('color2', e.target.value)
                   }
                 />
               </div>
@@ -187,7 +191,7 @@ export default function Uploader() {
                 className="flex-1 px-4 py-2 border border-gray-300 rounded"
                 value={player.name}
                 onChange={(e) =>
-                  handlePlayerChange(index, "name", e.target.value)
+                  handlePlayerChange(index, 'name', e.target.value)
                 }
               />
               <input
@@ -196,7 +200,7 @@ export default function Uploader() {
                 className="w-20 px-4 py-2 border border-gray-300 rounded"
                 value={player.number}
                 onChange={(e) =>
-                  handlePlayerChange(index, "number", e.target.value)
+                  handlePlayerChange(index, 'number', e.target.value)
                 }
               />
               <button
@@ -261,15 +265,14 @@ export default function Uploader() {
         <button
           onClick={handleSubmit}
           disabled={!isReadyToSubmit}
-          className={`mt-6 px-6 py-2 rounded-lg text-lg font-medium transition-colors duration-300 ${
-            isReadyToSubmit
-              ? "bg-blue-600 text-white hover:bg-blue-700"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-          }`}
+          className={`mt-6 px-6 py-2 rounded-lg text-lg font-medium transition-colors duration-300 ${isReadyToSubmit
+            ? 'bg-blue-600 text-white hover:bg-blue-700'
+            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            }`}
         >
           Submit
         </button>
       </div>
     </SidebarProvider>
-  );
+  )
 }

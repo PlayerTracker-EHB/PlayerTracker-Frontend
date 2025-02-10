@@ -1,23 +1,22 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { LogIn, UserPlus } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // const [isScrolled, setIsScrolled] = useState(false);
+  //
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (window.scrollY > 50) {
+  //       setIsScrolled(true);
+  //     } else {
+  //       setIsScrolled(false);
+  //     }
+  //   };
+  //
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
 
   return (
     <motion.nav
@@ -51,7 +50,7 @@ export default function Navbar() {
             About
           </Link>
           <Link
-            to="/subscriptions"
+            to="/Subscriptions"
             className="text-white hover:text-blue-400 transition-colors"
           >
             Subscriptions
@@ -61,13 +60,13 @@ export default function Navbar() {
         {/* Icons for Login/Register */}
         <div className="flex gap-4">
           <Link
-            to="/login"
+            to="/Login"
             className="p-2 rounded-full hover:bg-blue-500 transition-colors"
           >
             <LogIn className="w-6 h-6 text-white hover:text-white" />
           </Link>
           <Link
-            to="/register"
+            to="/Register"
             className="p-2 rounded-full hover:bg-blue-500 transition-colors"
           >
             <UserPlus className="w-6 h-6 text-white hover:text-white" />

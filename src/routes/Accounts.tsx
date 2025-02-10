@@ -1,48 +1,53 @@
-import { useState } from "react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import { useState } from 'react'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/app-sidebar'
+import { createFileRoute } from '@tanstack/react-router'
 
-export default function Accounts() {
+export const Route = createFileRoute('/Accounts')({
+  component: Accounts,
+})
+
+function Accounts() {
   const [users, setUsers] = useState([
     {
       id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com",
-      role: "Viewer",
-      password: "******",
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      role: 'Viewer',
+      password: '******',
     },
     {
       id: 2,
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      role: "Viewer",
-      password: "******",
+      name: 'Jane Smith',
+      email: 'jane.smith@example.com',
+      role: 'Viewer',
+      password: '******',
     },
-  ]);
+  ])
 
   const [newUser, setNewUser] = useState({
-    name: "",
-    email: "",
-    role: "Viewer", // Role fixed to "Viewer"
-    password: "",
-  });
+    name: '',
+    email: '',
+    role: 'Viewer', // Role fixed to "Viewer"
+    password: '',
+  })
 
   const handleAddUser = () => {
     if (newUser.name && newUser.email && newUser.password) {
       setUsers([
         ...users,
-        { id: Date.now(), ...newUser, password: "******" }, // Cache le mot de passe
-      ]);
-      console.log("New User Added:", newUser); // Affiche le mot de passe dans la console pour tests
-      setNewUser({ name: "", email: "", role: "Viewer", password: "" });
+        { id: Date.now(), ...newUser, password: '******' }, // Cache le mot de passe
+      ])
+      console.log('New User Added:', newUser) // Affiche le mot de passe dans la console pour tests
+      setNewUser({ name: '', email: '', role: 'Viewer', password: '' })
     } else {
-      alert("Please fill in all fields, including password.");
+      alert('Please fill in all fields, including password.')
     }
-  };
+  }
 
   const handleDeleteUser = (id: number) => {
-    setUsers(users.filter((user) => user.id !== id));
-  };
+    setUsers(users.filter((user) => user.id !== id))
+  }
 
   return (
     <SidebarProvider defaultOpen={false}>
@@ -126,5 +131,5 @@ export default function Accounts() {
         </div>
       </div>
     </SidebarProvider>
-  );
+  )
 }

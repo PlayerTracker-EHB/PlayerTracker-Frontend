@@ -1,19 +1,23 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { motion } from "framer-motion"
-import { useAuthStore } from "../store/authStore"
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { useAuthStore } from '../store/authStore'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
-export default function Register() {
-  const navigate = useNavigate()
+export const Route = createFileRoute('/Register')({
+  component: Register,
+})
+
+function Register() {
+  const navigate = useNavigate({ from: "/Register" })
   const { register } = useAuthStore()
 
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   })
-  const [errorMessage, setErrorMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -23,21 +27,26 @@ export default function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!formData.email || !formData.password || !formData.confirmPassword || !formData.fullName) {
-      setErrorMessage("All fields are required.")
+    if (
+      !formData.email ||
+      !formData.password ||
+      !formData.confirmPassword ||
+      !formData.fullName
+    ) {
+      setErrorMessage('All fields are required.')
       return
     }
 
     if (formData.password !== formData.confirmPassword) {
-      setErrorMessage("Passwords do not match.")
+      setErrorMessage('Passwords do not match.')
       return
     }
 
     try {
       await register(formData.email, formData.password, formData.fullName)
-      navigate("/") // Redirect to home on success
+      navigate({ to: '/' }) // Redirect to home on success
     } catch (error) {
-      setErrorMessage("Registration failed. Try again.")
+      setErrorMessage('Registration failed. Try again.')
     }
   }
 
@@ -60,13 +69,20 @@ export default function Register() {
         </motion.h1>
 
         {errorMessage && (
-          <motion.div className="mb-4 text-sm text-red-500">{errorMessage}</motion.div>
+          <motion.div className="mb-4 text-sm text-red-500">
+            {errorMessage}
+          </motion.div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* FullName Field */}
           <motion.div>
-            <label htmlFor="fullName" className="block text-sm font-semibold mb-2">Full Name*</label>
+            <label
+              htmlFor="fullName"
+              className="block text-sm font-semibold mb-2"
+            >
+              Full Name*
+            </label>
             <input
               type="text"
               id="fullName"
@@ -81,7 +97,9 @@ export default function Register() {
 
           {/* Email Field */}
           <motion.div>
-            <label htmlFor="email" className="block text-sm font-semibold mb-2">Email*</label>
+            <label htmlFor="email" className="block text-sm font-semibold mb-2">
+              Email*
+            </label>
             <input
               type="email"
               id="email"
@@ -96,7 +114,12 @@ export default function Register() {
 
           {/* Password Field */}
           <motion.div>
-            <label htmlFor="password" className="block text-sm font-semibold mb-2">Password*</label>
+            <label
+              htmlFor="password"
+              className="block text-sm font-semibold mb-2"
+            >
+              Password*
+            </label>
             <input
               type="password"
               id="password"
@@ -111,7 +134,12 @@ export default function Register() {
 
           {/* Confirm Password Field */}
           <motion.div>
-            <label htmlFor="confirmPassword" className="block text-sm font-semibold mb-2">Confirm Password*</label>
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-semibold mb-2"
+            >
+              Confirm Password*
+            </label>
             <input
               type="password"
               id="confirmPassword"
@@ -135,10 +163,12 @@ export default function Register() {
 
         {/* Login Link */}
         <motion.p className="text-sm text-gray-600 mt-6 text-center">
-          Already have an account? <a href="/login" className="text-gray-500 hover:underline">Login here</a>
+          Already have an account?{' '}
+          <a href="/login" className="text-gray-500 hover:underline">
+            Login here
+          </a>
         </motion.p>
       </motion.div>
     </motion.div>
   )
 }
-
