@@ -19,22 +19,23 @@ import {
 } from "@/components/ui/sidebar";
 
 import { useAuthStore } from "@/auth/authStore";
+import { Link } from "@tanstack/react-router";
 
 export function AppSidebar() {
   const { user, logout } = useAuthStore();
 
   // Menu items
   const items = [
-    { title: "Uploader", url: "/uploader", icon: Upload },
-    { title: "Team", url: "/team", icon: Users },
-    { title: "Statistics", url: "/statistics", icon: BarChart },
-    { title: "Accounts", url: "/accounts", icon: Users },
-    { title: "Admin", url: "/admin", icon: Settings },
+    { title: "Uploader", url: "/Uploader", icon: Upload },
+    { title: "Team", url: "/Team", icon: Users },
+    { title: "Statistics", url: "/Statistics", icon: BarChart },
+    { title: "Accounts", url: "/admin/Accounts", icon: Users },
+    { title: "Admin", url: "/admin/myAdmin", icon: Settings },
   ];
 
   // Remove Login button if the user is logged in
   if (!user) {
-    items.push({ title: "Login", url: "/login", icon: LogIn });
+    items.push({ title: "Login", url: "/Login", icon: LogIn });
   }
 
   // Handle Logout
@@ -46,16 +47,16 @@ export function AppSidebar() {
     <Sidebar className="fixed top-0 left-0 h-full">
       <SidebarContent className="flex flex-col h-full">
         <SidebarGroup>
-          <SidebarGroupLabel>PlayerTracker</SidebarGroupLabel>
+          <SidebarGroupLabel className="font-semibold text-lg text-black">PlayerTracker</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center space-x-2">
+                    <Link to={item.url} className="flex items-center space-x-2">
                       <item.icon className="w-5 h-5" />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

@@ -1,14 +1,15 @@
-import Footer from '@/components/footer'
-import Navbar from '@/components/navbar'
-import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { AuthState } from '@/auth/authStore'
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
-export const Route = createRootRoute({
+interface RouterContext {
+  auth: AuthState
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
-      <Navbar />
       <Outlet />
-      <Footer />
       <TanStackRouterDevtools />
     </>
   ),

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import "./CoverSection.css"; // Importation du fichier CSS
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/auth/authStore";
 import { useEffect } from "react";
 
 export default function CoverSection() {

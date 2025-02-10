@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import Navbar from '@/components/navbar'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/Subscriptions')({
+export const Route = createFileRoute('/_guest/Subscriptions')({
   component: Subscriptions,
 })
 
@@ -25,7 +24,6 @@ function Subscriptions() {
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <Navbar />
 
       <motion.h2
         className="text-4xl font-bold text-center text-gray-900 mb-4"

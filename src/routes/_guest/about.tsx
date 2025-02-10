@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion'
 
-export const Route = createFileRoute('/about')({
+export const Route = createFileRoute('/_guest/about')({
   component: AboutPage,
 })
 
@@ -70,7 +70,7 @@ function AboutPage() {
             className="bg-teal-500 text-white py-3 px-8 rounded-full text-lg font-bold mb-6 hover:bg-teal-600"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => (window.location.href = "/subscriptions")}
+            onClick={() => (window.location.href = '/subscriptions')}
           >
             Start a plan
           </motion.button>
@@ -148,6 +148,5 @@ function AboutPage() {
         </div>
       </motion.div>
     </motion.div>
-  );
-};
-
+  )
+}

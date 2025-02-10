@@ -7,7 +7,13 @@ import "./index.css";
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
-const router = createRouter({ routeTree })
+import { useAuthStore } from './auth/authStore';
+const router = createRouter({
+  routeTree,
+  context: {
+    auth: undefined!,
+  }
+})
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
@@ -16,13 +22,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+function App() {
+  const auth = useAuthStore()
+  return (
+    <StrictMode>
+      <RouterProvider router={router} context={{ auth }} />
+    </StrictMode>
+  )
+}
+
 // Render the app
 const rootElement = document.getElementById('root')!
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
-    <StrictMode>
-      <RouterProvider router={router} />
-    </StrictMode>,
+    <App />
   )
 }

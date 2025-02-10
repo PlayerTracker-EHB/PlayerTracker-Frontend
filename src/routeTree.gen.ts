@@ -11,262 +11,316 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AboutImport } from './routes/about'
-import { Route as UploaderImport } from './routes/Uploader'
-import { Route as TeamImport } from './routes/Team'
-import { Route as SubscriptionsImport } from './routes/Subscriptions'
-import { Route as StatisticsImport } from './routes/Statistics'
-import { Route as RegisterImport } from './routes/Register'
-import { Route as MyAdminImport } from './routes/MyAdmin'
-import { Route as LoginImport } from './routes/Login'
-import { Route as AccountsImport } from './routes/Accounts'
-import { Route as IndexImport } from './routes/index'
+import { Route as GuestImport } from './routes/_guest'
+import { Route as AuthImport } from './routes/_auth'
+import { Route as GuestIndexImport } from './routes/_guest/index'
+import { Route as GuestAboutImport } from './routes/_guest/about'
+import { Route as GuestSubscriptionsImport } from './routes/_guest/Subscriptions'
+import { Route as GuestRegisterImport } from './routes/_guest/Register'
+import { Route as GuestLoginImport } from './routes/_guest/Login'
+import { Route as AuthUploaderImport } from './routes/_auth/Uploader'
+import { Route as AuthTeamImport } from './routes/_auth/Team'
+import { Route as AuthStatisticsImport } from './routes/_auth/Statistics'
+import { Route as AuthAdminMyAdminImport } from './routes/_auth/admin/MyAdmin'
+import { Route as AuthAdminAccountsImport } from './routes/_auth/admin/Accounts'
 
 // Create/Update Routes
 
-const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
+const GuestRoute = GuestImport.update({
+  id: '/_guest',
   getParentRoute: () => rootRoute,
 } as any)
 
-const UploaderRoute = UploaderImport.update({
-  id: '/Uploader',
-  path: '/Uploader',
+const AuthRoute = AuthImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRoute,
 } as any)
 
-const TeamRoute = TeamImport.update({
-  id: '/Team',
-  path: '/Team',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const SubscriptionsRoute = SubscriptionsImport.update({
-  id: '/Subscriptions',
-  path: '/Subscriptions',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const StatisticsRoute = StatisticsImport.update({
-  id: '/Statistics',
-  path: '/Statistics',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const RegisterRoute = RegisterImport.update({
-  id: '/Register',
-  path: '/Register',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const MyAdminRoute = MyAdminImport.update({
-  id: '/MyAdmin',
-  path: '/MyAdmin',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const LoginRoute = LoginImport.update({
-  id: '/Login',
-  path: '/Login',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AccountsRoute = AccountsImport.update({
-  id: '/Accounts',
-  path: '/Accounts',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const IndexRoute = IndexImport.update({
+const GuestIndexRoute = GuestIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => GuestRoute,
+} as any)
+
+const GuestAboutRoute = GuestAboutImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => GuestRoute,
+} as any)
+
+const GuestSubscriptionsRoute = GuestSubscriptionsImport.update({
+  id: '/Subscriptions',
+  path: '/Subscriptions',
+  getParentRoute: () => GuestRoute,
+} as any)
+
+const GuestRegisterRoute = GuestRegisterImport.update({
+  id: '/Register',
+  path: '/Register',
+  getParentRoute: () => GuestRoute,
+} as any)
+
+const GuestLoginRoute = GuestLoginImport.update({
+  id: '/Login',
+  path: '/Login',
+  getParentRoute: () => GuestRoute,
+} as any)
+
+const AuthUploaderRoute = AuthUploaderImport.update({
+  id: '/Uploader',
+  path: '/Uploader',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthTeamRoute = AuthTeamImport.update({
+  id: '/Team',
+  path: '/Team',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthStatisticsRoute = AuthStatisticsImport.update({
+  id: '/Statistics',
+  path: '/Statistics',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthAdminMyAdminRoute = AuthAdminMyAdminImport.update({
+  id: '/admin/MyAdmin',
+  path: '/admin/MyAdmin',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthAdminAccountsRoute = AuthAdminAccountsImport.update({
+  id: '/admin/Accounts',
+  path: '/admin/Accounts',
+  getParentRoute: () => AuthRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
-    '/Accounts': {
-      id: '/Accounts'
-      path: '/Accounts'
-      fullPath: '/Accounts'
-      preLoaderRoute: typeof AccountsImport
+    '/_guest': {
+      id: '/_guest'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof GuestImport
       parentRoute: typeof rootRoute
     }
-    '/Login': {
-      id: '/Login'
-      path: '/Login'
-      fullPath: '/Login'
-      preLoaderRoute: typeof LoginImport
-      parentRoute: typeof rootRoute
-    }
-    '/MyAdmin': {
-      id: '/MyAdmin'
-      path: '/MyAdmin'
-      fullPath: '/MyAdmin'
-      preLoaderRoute: typeof MyAdminImport
-      parentRoute: typeof rootRoute
-    }
-    '/Register': {
-      id: '/Register'
-      path: '/Register'
-      fullPath: '/Register'
-      preLoaderRoute: typeof RegisterImport
-      parentRoute: typeof rootRoute
-    }
-    '/Statistics': {
-      id: '/Statistics'
+    '/_auth/Statistics': {
+      id: '/_auth/Statistics'
       path: '/Statistics'
       fullPath: '/Statistics'
-      preLoaderRoute: typeof StatisticsImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthStatisticsImport
+      parentRoute: typeof AuthImport
     }
-    '/Subscriptions': {
-      id: '/Subscriptions'
-      path: '/Subscriptions'
-      fullPath: '/Subscriptions'
-      preLoaderRoute: typeof SubscriptionsImport
-      parentRoute: typeof rootRoute
-    }
-    '/Team': {
-      id: '/Team'
+    '/_auth/Team': {
+      id: '/_auth/Team'
       path: '/Team'
       fullPath: '/Team'
-      preLoaderRoute: typeof TeamImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthTeamImport
+      parentRoute: typeof AuthImport
     }
-    '/Uploader': {
-      id: '/Uploader'
+    '/_auth/Uploader': {
+      id: '/_auth/Uploader'
       path: '/Uploader'
       fullPath: '/Uploader'
-      preLoaderRoute: typeof UploaderImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthUploaderImport
+      parentRoute: typeof AuthImport
     }
-    '/about': {
-      id: '/about'
+    '/_guest/Login': {
+      id: '/_guest/Login'
+      path: '/Login'
+      fullPath: '/Login'
+      preLoaderRoute: typeof GuestLoginImport
+      parentRoute: typeof GuestImport
+    }
+    '/_guest/Register': {
+      id: '/_guest/Register'
+      path: '/Register'
+      fullPath: '/Register'
+      preLoaderRoute: typeof GuestRegisterImport
+      parentRoute: typeof GuestImport
+    }
+    '/_guest/Subscriptions': {
+      id: '/_guest/Subscriptions'
+      path: '/Subscriptions'
+      fullPath: '/Subscriptions'
+      preLoaderRoute: typeof GuestSubscriptionsImport
+      parentRoute: typeof GuestImport
+    }
+    '/_guest/about': {
+      id: '/_guest/about'
       path: '/about'
       fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof GuestAboutImport
+      parentRoute: typeof GuestImport
+    }
+    '/_guest/': {
+      id: '/_guest/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof GuestIndexImport
+      parentRoute: typeof GuestImport
+    }
+    '/_auth/admin/Accounts': {
+      id: '/_auth/admin/Accounts'
+      path: '/admin/Accounts'
+      fullPath: '/admin/Accounts'
+      preLoaderRoute: typeof AuthAdminAccountsImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/admin/MyAdmin': {
+      id: '/_auth/admin/MyAdmin'
+      path: '/admin/MyAdmin'
+      fullPath: '/admin/MyAdmin'
+      preLoaderRoute: typeof AuthAdminMyAdminImport
+      parentRoute: typeof AuthImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface AuthRouteChildren {
+  AuthStatisticsRoute: typeof AuthStatisticsRoute
+  AuthTeamRoute: typeof AuthTeamRoute
+  AuthUploaderRoute: typeof AuthUploaderRoute
+  AuthAdminAccountsRoute: typeof AuthAdminAccountsRoute
+  AuthAdminMyAdminRoute: typeof AuthAdminMyAdminRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthStatisticsRoute: AuthStatisticsRoute,
+  AuthTeamRoute: AuthTeamRoute,
+  AuthUploaderRoute: AuthUploaderRoute,
+  AuthAdminAccountsRoute: AuthAdminAccountsRoute,
+  AuthAdminMyAdminRoute: AuthAdminMyAdminRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
+interface GuestRouteChildren {
+  GuestLoginRoute: typeof GuestLoginRoute
+  GuestRegisterRoute: typeof GuestRegisterRoute
+  GuestSubscriptionsRoute: typeof GuestSubscriptionsRoute
+  GuestAboutRoute: typeof GuestAboutRoute
+  GuestIndexRoute: typeof GuestIndexRoute
+}
+
+const GuestRouteChildren: GuestRouteChildren = {
+  GuestLoginRoute: GuestLoginRoute,
+  GuestRegisterRoute: GuestRegisterRoute,
+  GuestSubscriptionsRoute: GuestSubscriptionsRoute,
+  GuestAboutRoute: GuestAboutRoute,
+  GuestIndexRoute: GuestIndexRoute,
+}
+
+const GuestRouteWithChildren = GuestRoute._addFileChildren(GuestRouteChildren)
+
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/Accounts': typeof AccountsRoute
-  '/Login': typeof LoginRoute
-  '/MyAdmin': typeof MyAdminRoute
-  '/Register': typeof RegisterRoute
-  '/Statistics': typeof StatisticsRoute
-  '/Subscriptions': typeof SubscriptionsRoute
-  '/Team': typeof TeamRoute
-  '/Uploader': typeof UploaderRoute
-  '/about': typeof AboutRoute
+  '': typeof GuestRouteWithChildren
+  '/Statistics': typeof AuthStatisticsRoute
+  '/Team': typeof AuthTeamRoute
+  '/Uploader': typeof AuthUploaderRoute
+  '/Login': typeof GuestLoginRoute
+  '/Register': typeof GuestRegisterRoute
+  '/Subscriptions': typeof GuestSubscriptionsRoute
+  '/about': typeof GuestAboutRoute
+  '/': typeof GuestIndexRoute
+  '/admin/Accounts': typeof AuthAdminAccountsRoute
+  '/admin/MyAdmin': typeof AuthAdminMyAdminRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/Accounts': typeof AccountsRoute
-  '/Login': typeof LoginRoute
-  '/MyAdmin': typeof MyAdminRoute
-  '/Register': typeof RegisterRoute
-  '/Statistics': typeof StatisticsRoute
-  '/Subscriptions': typeof SubscriptionsRoute
-  '/Team': typeof TeamRoute
-  '/Uploader': typeof UploaderRoute
-  '/about': typeof AboutRoute
+  '': typeof AuthRouteWithChildren
+  '/Statistics': typeof AuthStatisticsRoute
+  '/Team': typeof AuthTeamRoute
+  '/Uploader': typeof AuthUploaderRoute
+  '/Login': typeof GuestLoginRoute
+  '/Register': typeof GuestRegisterRoute
+  '/Subscriptions': typeof GuestSubscriptionsRoute
+  '/about': typeof GuestAboutRoute
+  '/': typeof GuestIndexRoute
+  '/admin/Accounts': typeof AuthAdminAccountsRoute
+  '/admin/MyAdmin': typeof AuthAdminMyAdminRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/Accounts': typeof AccountsRoute
-  '/Login': typeof LoginRoute
-  '/MyAdmin': typeof MyAdminRoute
-  '/Register': typeof RegisterRoute
-  '/Statistics': typeof StatisticsRoute
-  '/Subscriptions': typeof SubscriptionsRoute
-  '/Team': typeof TeamRoute
-  '/Uploader': typeof UploaderRoute
-  '/about': typeof AboutRoute
+  '/_auth': typeof AuthRouteWithChildren
+  '/_guest': typeof GuestRouteWithChildren
+  '/_auth/Statistics': typeof AuthStatisticsRoute
+  '/_auth/Team': typeof AuthTeamRoute
+  '/_auth/Uploader': typeof AuthUploaderRoute
+  '/_guest/Login': typeof GuestLoginRoute
+  '/_guest/Register': typeof GuestRegisterRoute
+  '/_guest/Subscriptions': typeof GuestSubscriptionsRoute
+  '/_guest/about': typeof GuestAboutRoute
+  '/_guest/': typeof GuestIndexRoute
+  '/_auth/admin/Accounts': typeof AuthAdminAccountsRoute
+  '/_auth/admin/MyAdmin': typeof AuthAdminMyAdminRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/Accounts'
-    | '/Login'
-    | '/MyAdmin'
-    | '/Register'
+    | ''
     | '/Statistics'
-    | '/Subscriptions'
     | '/Team'
     | '/Uploader'
+    | '/Login'
+    | '/Register'
+    | '/Subscriptions'
     | '/about'
+    | '/'
+    | '/admin/Accounts'
+    | '/admin/MyAdmin'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/Accounts'
-    | '/Login'
-    | '/MyAdmin'
-    | '/Register'
+    | ''
     | '/Statistics'
-    | '/Subscriptions'
     | '/Team'
     | '/Uploader'
+    | '/Login'
+    | '/Register'
+    | '/Subscriptions'
     | '/about'
+    | '/'
+    | '/admin/Accounts'
+    | '/admin/MyAdmin'
   id:
     | '__root__'
-    | '/'
-    | '/Accounts'
-    | '/Login'
-    | '/MyAdmin'
-    | '/Register'
-    | '/Statistics'
-    | '/Subscriptions'
-    | '/Team'
-    | '/Uploader'
-    | '/about'
+    | '/_auth'
+    | '/_guest'
+    | '/_auth/Statistics'
+    | '/_auth/Team'
+    | '/_auth/Uploader'
+    | '/_guest/Login'
+    | '/_guest/Register'
+    | '/_guest/Subscriptions'
+    | '/_guest/about'
+    | '/_guest/'
+    | '/_auth/admin/Accounts'
+    | '/_auth/admin/MyAdmin'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AccountsRoute: typeof AccountsRoute
-  LoginRoute: typeof LoginRoute
-  MyAdminRoute: typeof MyAdminRoute
-  RegisterRoute: typeof RegisterRoute
-  StatisticsRoute: typeof StatisticsRoute
-  SubscriptionsRoute: typeof SubscriptionsRoute
-  TeamRoute: typeof TeamRoute
-  UploaderRoute: typeof UploaderRoute
-  AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRouteWithChildren
+  GuestRoute: typeof GuestRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AccountsRoute: AccountsRoute,
-  LoginRoute: LoginRoute,
-  MyAdminRoute: MyAdminRoute,
-  RegisterRoute: RegisterRoute,
-  StatisticsRoute: StatisticsRoute,
-  SubscriptionsRoute: SubscriptionsRoute,
-  TeamRoute: TeamRoute,
-  UploaderRoute: UploaderRoute,
-  AboutRoute: AboutRoute,
+  AuthRoute: AuthRouteWithChildren,
+  GuestRoute: GuestRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -279,47 +333,69 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/Accounts",
-        "/Login",
-        "/MyAdmin",
-        "/Register",
-        "/Statistics",
-        "/Subscriptions",
-        "/Team",
-        "/Uploader",
-        "/about"
+        "/_auth",
+        "/_guest"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
+    "/_auth": {
+      "filePath": "_auth.tsx",
+      "children": [
+        "/_auth/Statistics",
+        "/_auth/Team",
+        "/_auth/Uploader",
+        "/_auth/admin/Accounts",
+        "/_auth/admin/MyAdmin"
+      ]
     },
-    "/Accounts": {
-      "filePath": "Accounts.tsx"
+    "/_guest": {
+      "filePath": "_guest.tsx",
+      "children": [
+        "/_guest/Login",
+        "/_guest/Register",
+        "/_guest/Subscriptions",
+        "/_guest/about",
+        "/_guest/"
+      ]
     },
-    "/Login": {
-      "filePath": "Login.tsx"
+    "/_auth/Statistics": {
+      "filePath": "_auth/Statistics.tsx",
+      "parent": "/_auth"
     },
-    "/MyAdmin": {
-      "filePath": "MyAdmin.tsx"
+    "/_auth/Team": {
+      "filePath": "_auth/Team.tsx",
+      "parent": "/_auth"
     },
-    "/Register": {
-      "filePath": "Register.tsx"
+    "/_auth/Uploader": {
+      "filePath": "_auth/Uploader.tsx",
+      "parent": "/_auth"
     },
-    "/Statistics": {
-      "filePath": "Statistics.tsx"
+    "/_guest/Login": {
+      "filePath": "_guest/Login.tsx",
+      "parent": "/_guest"
     },
-    "/Subscriptions": {
-      "filePath": "Subscriptions.tsx"
+    "/_guest/Register": {
+      "filePath": "_guest/Register.tsx",
+      "parent": "/_guest"
     },
-    "/Team": {
-      "filePath": "Team.tsx"
+    "/_guest/Subscriptions": {
+      "filePath": "_guest/Subscriptions.tsx",
+      "parent": "/_guest"
     },
-    "/Uploader": {
-      "filePath": "Uploader.tsx"
+    "/_guest/about": {
+      "filePath": "_guest/about.tsx",
+      "parent": "/_guest"
     },
-    "/about": {
-      "filePath": "about.tsx"
+    "/_guest/": {
+      "filePath": "_guest/index.tsx",
+      "parent": "/_guest"
+    },
+    "/_auth/admin/Accounts": {
+      "filePath": "_auth/admin/Accounts.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/admin/MyAdmin": {
+      "filePath": "_auth/admin/MyAdmin.tsx",
+      "parent": "/_auth"
     }
   }
 }

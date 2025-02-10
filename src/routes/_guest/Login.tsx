@@ -1,16 +1,16 @@
 import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
-import { useAuthStore } from '@/store/authStore' // Zustand store
+import { useAuthStore } from '@/auth/authStore' // Zustand store
 import { motion } from 'framer-motion'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/Login')({
+export const Route = createFileRoute('/_guest/Login')({
   component: Login,
 })
 
 function Login() {
   const { login } = useAuthStore()
-  const navigate = useNavigate({ from: "/Login" })
+  const navigate = useNavigate({ from: '/Login' })
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -26,7 +26,7 @@ function Login() {
 
     try {
       await login(email, password) // Zustand function
-      navigate({ to: "/Statistics" }) // Redirect to statistics on success
+      navigate({ to: '/Statistics' }) // Redirect to statistics on success
     } catch (error) {
       setErrorMessage('Invalid email or password.')
     }
