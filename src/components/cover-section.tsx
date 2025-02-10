@@ -24,11 +24,6 @@ export default function CoverSection() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}
     >
-      {user ? (
-        <p>Welcome back, {user.email}!</p>
-      ) : (
-        <p>Welcome to Player Tracker!</p>
-      )}
 
       <motion.p
         className="text-sm text-gray-400 mb-2 font-bold"

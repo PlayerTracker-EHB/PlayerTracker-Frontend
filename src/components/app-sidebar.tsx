@@ -19,10 +19,11 @@ import {
 } from "@/components/ui/sidebar";
 
 import { useAuthStore } from "@/auth/authStore";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 export function AppSidebar() {
   const { user, logout } = useAuthStore();
+  const navigate = useNavigate()
 
   // Menu items
   const items = [
@@ -41,6 +42,7 @@ export function AppSidebar() {
   // Handle Logout
   const handleLogout = async () => {
     await logout();
+    navigate({ to: '/' })
   };
 
   return (
