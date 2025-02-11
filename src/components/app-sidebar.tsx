@@ -5,6 +5,7 @@ import {
   Settings,
   LogOut,
   LogIn,
+  Home,
 } from "lucide-react";
 
 import {
@@ -27,6 +28,7 @@ export function AppSidebar() {
 
   // Menu items
   const items = [
+    { title: "Home", url: "/", icon: Home },
     { title: "Uploader", url: "/Uploader", icon: Upload },
     { title: "Team", url: "/Team", icon: Users },
     { title: "Statistics", url: "/Statistics", icon: BarChart },

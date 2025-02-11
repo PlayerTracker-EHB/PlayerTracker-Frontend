@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 
@@ -22,8 +22,22 @@ declare module '@tanstack/react-router' {
   }
 }
 
+// main.tsx
 function App() {
   const auth = useAuthStore()
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    // Initialize auth state
+    auth.fetchUser().finally(() => {
+      setIsLoading(false)
+    })
+  }, [])
+
+  if (isLoading) {
+    return null
+  }
+
   return (
     <StrictMode>
       <RouterProvider router={router} context={{ auth }} />
