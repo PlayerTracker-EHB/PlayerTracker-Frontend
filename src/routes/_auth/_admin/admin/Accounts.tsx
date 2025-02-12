@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/_auth/admin/Accounts')({
+export const Route = createFileRoute('/_auth/_admin/admin/Accounts')({
   component: Accounts,
 })
 
@@ -48,7 +48,6 @@ function Accounts() {
   }
 
   return (
-
     <div className="flex-grow p-8 bg-gray-100 flex flex-col items-center min-h-screen">
       <h1 className="text-4xl font-bold mb-8">Accounts</h1>
       <p className="text-lg mb-6 text-black">
@@ -70,9 +69,7 @@ function Accounts() {
             type="email"
             placeholder="Email"
             value={newUser.email}
-            onChange={(e) =>
-              setNewUser({ ...newUser, email: e.target.value })
-            }
+            onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
             className="px-4 py-2 border border-gray-300 rounded"
           />
           <input

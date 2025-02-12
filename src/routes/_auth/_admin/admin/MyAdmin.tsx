@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/_auth/admin/MyAdmin')({
+export const Route = createFileRoute('/_auth/_admin/admin/MyAdmin')({
   component: MyAdmin,
 })
 
@@ -89,9 +89,7 @@ function MyAdmin() {
               type="text"
               placeholder="Nom"
               value={newUser.name}
-              onChange={(e) =>
-                setNewUser({ ...newUser, name: e.target.value })
-              }
+              onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
               className="w-full px-4 py-2 border border-gray-300 rounded"
             />
             <input
@@ -155,10 +153,11 @@ function MyAdmin() {
                   <td className="p-4 border-t text-white">{user.clubname}</td>
                   <td className="p-4 border-t text-center">
                     <span
-                      className={`px-3 py-1 rounded ${user.active
-                        ? 'bg-green-100 text-green-600'
-                        : 'bg-red-100 text-red-600'
-                        }`}
+                      className={`px-3 py-1 rounded ${
+                        user.active
+                          ? 'bg-green-100 text-green-600'
+                          : 'bg-red-100 text-red-600'
+                      }`}
                     >
                       {user.active ? 'Actif' : 'Inactif'}
                     </span>
@@ -166,10 +165,11 @@ function MyAdmin() {
                   <td className="p-4 border-t text-center">
                     <button
                       onClick={() => toggleUserStatus(user.id)}
-                      className={`px-4 py-2 font-semibold rounded ${user.active
-                        ? 'bg-red-500 text-white hover:bg-red-600'
-                        : 'bg-green-500 text-white hover:bg-green-600'
-                        }`}
+                      className={`px-4 py-2 font-semibold rounded ${
+                        user.active
+                          ? 'bg-red-500 text-white hover:bg-red-600'
+                          : 'bg-green-500 text-white hover:bg-green-600'
+                      }`}
                     >
                       {user.active ? 'Désactiver' : 'Activer'}
                     </button>
