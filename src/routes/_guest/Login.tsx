@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
-import { useAuthStore } from '@/auth/authStore' // Zustand store
+import { useAuthStore } from '@/store/authStore' // Zustand store
 import { motion } from 'framer-motion'
 import { createFileRoute } from '@tanstack/react-router'
 
@@ -129,16 +129,6 @@ function Login() {
         </p>
       </motion.div>
 
-      {/* Fixed button for Register */}
-      <motion.a
-        href="/register"
-        className="fixed top-4 right-4 bg-black text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-gray-800"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1 }}
-      >
-        Register
-      </motion.a>
     </motion.div>
   )
 }

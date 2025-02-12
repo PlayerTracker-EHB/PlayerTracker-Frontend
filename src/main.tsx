@@ -7,7 +7,7 @@ import "./index.css";
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
-import { useAuthStore } from './auth/authStore';
+import { useAuthStore } from './store/authStore';
 const router = createRouter({
   routeTree,
   context: {

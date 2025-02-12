@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { useAuthStore } from '../../auth/authStore'
+import { useAuthStore } from '../../store/authStore'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_guest/Register')({

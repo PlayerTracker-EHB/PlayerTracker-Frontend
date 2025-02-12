@@ -2,18 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import "./CoverSection.css"; // Importation du fichier CSS
-import { useAuthStore } from "@/auth/authStore";
-import { useEffect } from "react";
 
 export default function CoverSection() {
-  const { user, fetchUser } = useAuthStore();
-
-  // Fetch user on first load to check login status
-  useEffect(() => {
-    fetchUser();
-  }, []);
-  console.log(user);
-
   return (
     <motion.div
       className="relative w-full h-[400px] bg-cover bg-center flex flex-col items-center justify-center text-center p-8 mt-20"
@@ -24,6 +14,11 @@ export default function CoverSection() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}
     >
+      <motion.h1
+        className="text-5xl font-bold mb-4"
+      >
+        Player Tracker
+      </motion.h1>
 
       <motion.p
         className="text-sm text-gray-400 mb-2 font-bold"
@@ -34,7 +29,7 @@ export default function CoverSection() {
         Track every action, enhance every performance.
       </motion.p>
       <motion.h1
-        className="text-5xl font-bold leading-tight mb-8 text-black"
+        className="text-5xl font-semibold leading-tight mb-8 text-black"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.7 }}
