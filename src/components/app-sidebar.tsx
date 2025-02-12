@@ -21,7 +21,7 @@ import { useAuthStore } from "@/store/authStore";
 import { Link, useNavigate } from "@tanstack/react-router";
 
 export function AppSidebar() {
-  const { logout } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const navigate = useNavigate();
 
   // Menu items for all users
@@ -50,25 +50,26 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel className="font-semibold text-xl text-black">PlayerTracker</SidebarGroupLabel>
         </SidebarGroup>
-
-        {/* Admin Sidebar Group */}
-        <SidebarGroup>
-          <SidebarGroupLabel className="font-semibold text-md text-black">Admin Panel</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {adminItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link to={item.url} className="flex items-center space-x-2">
-                      <item.icon className="w-5 h-5" />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {user?.isAdmin && (
+          // Admin Sidebar Group
+          <SidebarGroup>
+            <SidebarGroupLabel className="font-semibold text-md text-black">Admin Panel</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {adminItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link to={item.url} className="flex items-center space-x-2">
+                        <item.icon className="w-5 h-5" />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
 
         {/* General Sidebar Group */}
         <SidebarGroup>
@@ -101,7 +102,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
       </SidebarContent>
-    </Sidebar>
+    </Sidebar >
   );
 }
 
