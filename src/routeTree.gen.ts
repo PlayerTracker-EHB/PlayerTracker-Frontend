@@ -21,6 +21,7 @@ import { Route as GuestLoginImport } from './routes/_guest/Login'
 import { Route as AuthUploaderImport } from './routes/_auth/Uploader'
 import { Route as AuthTeamImport } from './routes/_auth/Team'
 import { Route as AuthStatisticsImport } from './routes/_auth/Statistics'
+import { Route as AuthMatchStatsImport } from './routes/_auth/MatchStats'
 import { Route as AuthAdminMyAdminImport } from './routes/_auth/admin/MyAdmin'
 import { Route as AuthAdminAccountsImport } from './routes/_auth/admin/Accounts'
 
@@ -84,6 +85,12 @@ const AuthStatisticsRoute = AuthStatisticsImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
+const AuthMatchStatsRoute = AuthMatchStatsImport.update({
+  id: '/MatchStats',
+  path: '/MatchStats',
+  getParentRoute: () => AuthRoute,
+} as any)
+
 const AuthAdminMyAdminRoute = AuthAdminMyAdminImport.update({
   id: '/admin/MyAdmin',
   path: '/admin/MyAdmin',
@@ -113,6 +120,13 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof GuestImport
       parentRoute: typeof rootRoute
+    }
+    '/_auth/MatchStats': {
+      id: '/_auth/MatchStats'
+      path: '/MatchStats'
+      fullPath: '/MatchStats'
+      preLoaderRoute: typeof AuthMatchStatsImport
+      parentRoute: typeof AuthImport
     }
     '/_auth/Statistics': {
       id: '/_auth/Statistics'
@@ -190,6 +204,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthRouteChildren {
+  AuthMatchStatsRoute: typeof AuthMatchStatsRoute
   AuthStatisticsRoute: typeof AuthStatisticsRoute
   AuthTeamRoute: typeof AuthTeamRoute
   AuthUploaderRoute: typeof AuthUploaderRoute
@@ -198,6 +213,7 @@ interface AuthRouteChildren {
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthMatchStatsRoute: AuthMatchStatsRoute,
   AuthStatisticsRoute: AuthStatisticsRoute,
   AuthTeamRoute: AuthTeamRoute,
   AuthUploaderRoute: AuthUploaderRoute,
@@ -227,6 +243,7 @@ const GuestRouteWithChildren = GuestRoute._addFileChildren(GuestRouteChildren)
 
 export interface FileRoutesByFullPath {
   '': typeof GuestRouteWithChildren
+  '/MatchStats': typeof AuthMatchStatsRoute
   '/Statistics': typeof AuthStatisticsRoute
   '/Team': typeof AuthTeamRoute
   '/Uploader': typeof AuthUploaderRoute
@@ -241,6 +258,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '': typeof AuthRouteWithChildren
+  '/MatchStats': typeof AuthMatchStatsRoute
   '/Statistics': typeof AuthStatisticsRoute
   '/Team': typeof AuthTeamRoute
   '/Uploader': typeof AuthUploaderRoute
@@ -257,6 +275,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_guest': typeof GuestRouteWithChildren
+  '/_auth/MatchStats': typeof AuthMatchStatsRoute
   '/_auth/Statistics': typeof AuthStatisticsRoute
   '/_auth/Team': typeof AuthTeamRoute
   '/_auth/Uploader': typeof AuthUploaderRoute
@@ -273,6 +292,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
+    | '/MatchStats'
     | '/Statistics'
     | '/Team'
     | '/Uploader'
@@ -286,6 +306,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
+    | '/MatchStats'
     | '/Statistics'
     | '/Team'
     | '/Uploader'
@@ -300,6 +321,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_auth'
     | '/_guest'
+    | '/_auth/MatchStats'
     | '/_auth/Statistics'
     | '/_auth/Team'
     | '/_auth/Uploader'
@@ -340,6 +362,7 @@ export const routeTree = rootRoute
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
+        "/_auth/MatchStats",
         "/_auth/Statistics",
         "/_auth/Team",
         "/_auth/Uploader",
@@ -356,6 +379,10 @@ export const routeTree = rootRoute
         "/_guest/about",
         "/_guest/"
       ]
+    },
+    "/_auth/MatchStats": {
+      "filePath": "_auth/MatchStats.tsx",
+      "parent": "/_auth"
     },
     "/_auth/Statistics": {
       "filePath": "_auth/Statistics.tsx",
