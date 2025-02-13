@@ -1,4 +1,4 @@
-import Navbar from '@/components/navbar'
+import NavBar from '@/components/navbar'
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_guest')({
@@ -15,7 +15,7 @@ export const Route = createFileRoute('/_guest')({
 function GuestLayout() {
   return (
     <>
-      <Navbar />
+      <NavBar />
       <Outlet />
     </>
   )

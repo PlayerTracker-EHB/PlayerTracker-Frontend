@@ -39,7 +39,9 @@ export default function CoverSection() {
         </div>
       </HeroHighlight>
       <div className="mx-auto w-max">
-        <ArrowDownToDot size={64} strokeWidth={2} />
+        <a href="#feature">
+          <ArrowDownToDot size={64} strokeWidth={2} />
+        </a>
       </div>
     </div>
   );
