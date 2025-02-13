@@ -52,7 +52,7 @@ function Register() {
 
   return (
     <motion.div
-      className="w-screen min-h-screen bg-[#f7f6f3] flex justify-center items-start pt-16 relative"
+      className="w-screen min-h-screen bg-[#f7f6f3] flex justify-center items-start pt-56 relative"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
