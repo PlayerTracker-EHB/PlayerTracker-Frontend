@@ -1,3 +1,7 @@
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 import { StrictMode, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
@@ -27,6 +31,7 @@ function App() {
   const auth = useAuthStore()
   const [isLoading, setIsLoading] = useState(true)
 
+  const queryClient = new QueryClient()
   useEffect(() => {
     // Initialize auth state
     auth.fetchUser().finally(() => {
@@ -40,7 +45,9 @@ function App() {
 
   return (
     <StrictMode>
-      <RouterProvider router={router} context={{ auth }} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} context={{ auth }} />
+      </QueryClientProvider>
     </StrictMode>
   )
 }

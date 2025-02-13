@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Trash2, UserPlus, Upload } from "lucide-react";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { getPlayers, PlayerType } from "@/lib/api/player";
 
 export const Route = createFileRoute("/_auth/Team")({
   component: Team,
@@ -19,7 +21,15 @@ function Team() {
   const [primaryColor, setPrimaryColor] = useState("#000000");
   const [secondaryColor, setSecondaryColor] = useState("#ffffff");
   const [logo, setLogo] = useState<string | null>(null);
-  const [players, setPlayers] = useState<Player[]>([]);
+  const [players, setPlayers] = useState<PlayerType[]>([]);
+
+  // Use the useSuspenseQuery hook at the top level
+  const playerQuery = useSuspenseQuery(getPlayers);
+  const fetchedPlayers = playerQuery.data;
+
+  useEffect(() => {
+    setPlayers(fetchedPlayers); // Set players when data is fetched
+  }, [fetchedPlayers]);
 
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -33,25 +43,25 @@ function Team() {
   };
 
   const addPlayer = () => {
-    const newPlayer: Player = {
-      id: crypto.randomUUID(),
-      firstName: "",
-      lastName: "",
-      number: "",
-    };
-    setPlayers([...players, newPlayer]);
+    // const newPlayer: Player = {
+    //   id: crypto.randomUUID(),
+    //   firstName: "",
+    //   lastName: "",
+    //   number: "",
+    // };
+    // setPlayers([...players, newPlayer]);
   };
 
-  const updatePlayer = (id: string, field: keyof Player, value: string) => {
+  const updatePlayer = (id: number, field: keyof Player, value: string) => {
     setPlayers(
       players.map((player) =>
-        player.id === id ? { ...player, [field]: value } : player
+        player.playerId === id ? { ...player, [field]: value } : player
       )
     );
   };
 
-  const deletePlayer = (id: string) => {
-    setPlayers(players.filter((player) => player.id !== id));
+  const deletePlayer = (id: number) => {
+    setPlayers(players.filter((player) => player.playerId !== id));
   };
 
   const handleSave = () => {
@@ -169,11 +179,11 @@ function Team() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {players.map((player) => (
               <div
-                key={player.id}
+                key={player.playerId}
                 className="bg-gray-50 rounded-lg p-4 relative"
               >
                 <button
-                  onClick={() => deletePlayer(player.id)}
+                  onClick={() => deletePlayer(player.playerId)}
                   className="absolute top-2 right-2 text-gray-400 hover:text-red-500"
                 >
                   <Trash2 className="h-5 w-5" />
@@ -187,7 +197,7 @@ function Team() {
                       type="text"
                       value={player.firstName}
                       onChange={(e) =>
-                        updatePlayer(player.id, "firstName", e.target.value)
+                        updatePlayer(player.playerId, "firstName", e.target.value)
                       }
                       className="mt-1 mx-auto block w-3/4 rounded-full border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-center"
                     />
@@ -200,7 +210,7 @@ function Team() {
                       type="text"
                       value={player.lastName}
                       onChange={(e) =>
-                        updatePlayer(player.id, "lastName", e.target.value)
+                        updatePlayer(player.playerId, "lastName", e.target.value)
                       }
                       className="mt-1 mx-auto block w-3/4 rounded-full border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-center"
                     />
@@ -212,9 +222,9 @@ function Team() {
                     <div className="mt-2 w-24 h-24 flex items-center justify-center rounded-full border-4 border-gray-300 bg-white shadow-sm">
                       <input
                         type="text"
-                        value={player.number}
+                        value={player.firstName}
                         onChange={(e) =>
-                          updatePlayer(player.id, "number", e.target.value)
+                          updatePlayer(player.playerId, "number", e.target.value)
                         }
                         className="w-full h-full text-3xl font-bold text-center rounded-full border-none focus:ring-0 focus:outline-none"
                       />
