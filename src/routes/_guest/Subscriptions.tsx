@@ -19,7 +19,7 @@ function Subscriptions() {
 
   return (
     <motion.div
-      className="w-screen h-screen bg-gray-100 py-16 px-8 md:px-20 lg:px-40 text-gray-800 mt-20"
+      className="w-screen h-screen py-16 px-8 md:px-20 lg:px-40 text-gray-800 mt-32"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}

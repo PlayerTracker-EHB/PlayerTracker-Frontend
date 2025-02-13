@@ -1,7 +1,7 @@
-import About from '@/components/about'
-import Carousel2 from '@/components/carousel2'
-import CoverSection from '@/components/cover-section'
-import SplashScreen from '@/components/SplashScreen'
+import CallToAction from '@/components/landing/CallToAction'
+import CoverSection from '@/components/landing/CoverSection'
+import FeatureSection from '@/components/landing/FeatureSection'
+import SplashScreen from '@/components/landing/SplashScreen'
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 
@@ -17,12 +17,8 @@ function Index() {
   ) : (
     <div>
       <CoverSection />
-      <hr className="w-full border-t-2 border-gray-300" />
-      <div className="bg-white flex items-center justify-center overflow-hidden">
-        <Carousel2 />
-      </div>
-      <hr className="w-full border-t-2 border-gray-300" />
-      <About />
+      <FeatureSection />
+      <CallToAction />
     </div>
   )
 }
