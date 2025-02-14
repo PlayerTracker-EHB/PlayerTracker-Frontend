@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { CloudUpload } from 'lucide-react'
 import { useNavigate, createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/_auth/Uploader')({
+export const Route = createFileRoute('/_auth/_admin/admin/Uploader')({
   component: Uploader,
 })
 
@@ -21,7 +21,7 @@ function Uploader() {
   const [isProcessing, setIsProcessing] = useState(false)
   const [isReadyToSubmit, setIsReadyToSubmit] = useState(false)
 
-  const navigate = useNavigate({ from: '/Uploader' })
+  const navigate = useNavigate({ from: '/admin/Uploader' })
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   const handlePlayerChange = (index: number, field: string, value: string) => {
@@ -119,9 +119,7 @@ function Uploader() {
           <select
             className="px-4 py-2 border border-gray-300 rounded"
             value={matchDetails.result}
-            onChange={(e) =>
-              handleMatchDetailsChange('result', e.target.value)
-            }
+            onChange={(e) => handleMatchDetailsChange('result', e.target.value)}
           >
             <option value="">Select Result</option>
             <option value="win">Victory</option>
@@ -137,9 +135,7 @@ function Uploader() {
             placeholder="e.g., 3-1"
             className="px-4 py-2 border border-gray-300 rounded"
             value={matchDetails.score}
-            onChange={(e) =>
-              handleMatchDetailsChange('score', e.target.value)
-            }
+            onChange={(e) => handleMatchDetailsChange('score', e.target.value)}
           />
         </div>
 
@@ -250,9 +246,7 @@ function Uploader() {
           <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
             <div className="h-full bg-blue-500 rounded-full animate-pulse w-full"></div>
           </div>
-          <p className="text-blue-600 mt-2 text-center">
-            Processing video...
-          </p>
+          <p className="text-blue-600 mt-2 text-center">Processing video...</p>
         </div>
       )}
 
@@ -260,8 +254,8 @@ function Uploader() {
         onClick={handleSubmit}
         disabled={!isReadyToSubmit}
         className={`mt-6 px-6 py-2 rounded-lg text-lg font-medium transition-colors duration-300 ${isReadyToSubmit
-          ? 'bg-blue-600 text-white hover:bg-blue-700'
-          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            ? 'bg-blue-600 text-white hover:bg-blue-700'
+            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
           }`}
       >
         Submit

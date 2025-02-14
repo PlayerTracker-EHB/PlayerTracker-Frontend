@@ -15,7 +15,6 @@ import { UpdatePlayerDialog } from "./UpdatePlayerDialog"
 export interface PlayerTableProps {
   players: PlayerType[]
   onDeletePlayer: (playerId: number) => void
-
 }
 
 export function PlayerTable({ players, onDeletePlayer }: PlayerTableProps) {

@@ -26,13 +26,13 @@ export function AppSidebar() {
 
   // Menu items for all users
   const items = [
-    { title: "Uploader", url: "/Uploader", icon: Upload },
-    { title: "Team", url: "/Team", icon: Users },
     { title: "Statistics", url: "/Statistics", icon: BarChart },
   ];
 
   // Menu items for admin users
   const adminItems = [
+    { title: "Team", url: "/admin/Team", icon: Users },
+    { title: "Uploader", url: "/admin/Uploader", icon: Upload },
     { title: "Accounts", url: "/admin/Accounts", icon: Users },
     { title: "Admin", url: "/admin/myAdmin", icon: Settings },
   ];

@@ -20,7 +20,6 @@ const baseFetch = async (url: string, options: RequestInit = {}): Promise<Respon
 
 const fetchPlayersQuery = async (): Promise<PlayerType[]> => {
   console.info('Fetching players...');
-  await new Promise((r) => setTimeout(r, 500)); // Simulating delay for demo purposes
 
   const response = await baseFetch("", {
     method: 'GET',
@@ -37,7 +36,6 @@ const fetchPlayersQuery = async (): Promise<PlayerType[]> => {
 
 const fetchPlayerQuery = async (playerId: number): Promise<PlayerType> => {
   console.info(`Fetching player with id ${playerId}...`);
-  await new Promise((r) => setTimeout(r, 500)); // Simulating delay for demo purposes
 
   const response = await baseFetch(`${playerId}`, {
     method: 'GET',

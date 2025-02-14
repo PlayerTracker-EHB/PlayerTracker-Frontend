@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Trophy, Minus, X, BarChart3, Home, Plane } from "lucide-react";
 

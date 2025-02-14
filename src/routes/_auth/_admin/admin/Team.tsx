@@ -1,57 +1,59 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Upload } from "lucide-react";
-import { useSuspenseQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { createFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
+import { Upload } from 'lucide-react'
+import {
+  useSuspenseQuery,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query'
 
 // Import our queries/mutations
-import { getPlayers, deletePlayer } from "@/lib/api/player";
-import { AddPlayerDialog } from "@/components/team/AddPlayerDialog";
-import { PlayerTable } from "@/components/team/PlayerTable";
+import { getPlayers, deletePlayer } from '@/lib/api/player'
+import { AddPlayerDialog } from '@/components/team/AddPlayerDialog'
+import { PlayerTable } from '@/components/team/PlayerTable'
 
-export const Route = createFileRoute("/_auth/Team")({
+export const Route = createFileRoute('/_auth/_admin/admin/Team')({
   component: Team,
-});
+})
 
 function Team() {
-  const [clubName, setClubName] = useState("");
-  const [coachName, setCoachName] = useState("");
-  const [primaryColor, setPrimaryColor] = useState("#000000");
-  const [secondaryColor, setSecondaryColor] = useState("#ffffff");
-  const [logo, setLogo] = useState<string | null>(null);
+  const [clubName, setClubName] = useState('')
+  const [coachName, setCoachName] = useState('')
+  const [primaryColor, setPrimaryColor] = useState('#000000')
+  const [secondaryColor, setSecondaryColor] = useState('#ffffff')
+  const [logo, setLogo] = useState<string | null>(null)
 
   // Query Client from React Query
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   // Fetch the players with useSuspenseQuery
-  const { data: players } = useSuspenseQuery(getPlayers);
-
+  const { data: players } = useSuspenseQuery(getPlayers)
 
   // Delete Player Mutation
   const deletePlayerMutation = useMutation({
     mutationFn: deletePlayer.mutationFn,
     onSuccess: () => {
       // Re-fetch after deleting
-      queryClient.invalidateQueries({ queryKey: ['players'] });
+      queryClient.invalidateQueries({ queryKey: ['players'] })
     },
-  });
+  })
 
   // Handle image upload
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files?.[0]
     if (file) {
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.onloadend = () => {
-        setLogo(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+        setLogo(reader.result as string)
+      }
+      reader.readAsDataURL(file)
     }
-  };
-
+  }
 
   // DELETE a player
   const handleDeletePlayer = (id: number) => {
-    deletePlayerMutation.mutate(id);
-  };
+    deletePlayerMutation.mutate(id)
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 w-full p-8">
@@ -154,12 +156,9 @@ function Team() {
             onDeletePlayer={handleDeletePlayer}
           />
         </div>
-
-
       </div>
     </div>
-  );
+  )
 }
 
-export default Team;
-
+export default Team
