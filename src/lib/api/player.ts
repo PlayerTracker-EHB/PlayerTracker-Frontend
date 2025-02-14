@@ -4,7 +4,6 @@ export type PlayerType = {
   playerId: number;
   firstName: string;
   lastName: string;
-  team: string;
   teamId: number;
   createdAt: string;
   updatedAt: string;
@@ -28,7 +27,7 @@ const fetchPlayersQuery = async (): Promise<PlayerType[]> => {
   });
 
   if (!response.ok) {
-    console.log("ERROR FETCHING PLAYERS");
+    console.log("Error: ", response.body);
     throw new Error('Failed to fetch players');
   }
 
@@ -45,6 +44,7 @@ const fetchPlayerQuery = async (playerId: number): Promise<PlayerType> => {
   });
 
   if (!response.ok) {
+    console.log("Error: ", response.body);
     throw new NotFoundError(`Player with id "${playerId}" not found!`);
   }
 
@@ -63,6 +63,7 @@ const createPlayerQuery = async (newPlayer: Partial<PlayerType>): Promise<Player
   });
 
   if (!response.ok) {
+    console.log("Error: ", response.body);
     throw new Error('Failed to create player');
   }
 
@@ -81,6 +82,7 @@ const updatePlayerQuery = async (playerId: number, updatedPlayerData: Partial<Pl
   });
 
   if (!response.ok) {
+    console.log("Error: ", response.body);
     throw new Error('Failed to update player');
   }
 
@@ -95,6 +97,7 @@ const deletePlayerQuery = async (playerId: number): Promise<void> => {
   });
 
   if (!response.ok) {
+    console.log("Error: ", response.body);
     throw new Error('Failed to delete player');
   }
 };

@@ -1,10 +1,24 @@
 import { create } from 'zustand';
 
+export interface Team {
+  teamId: number
+  coachName: string | null
+  clubName: string
+  teamLogoUrl: string | null
+  createdAt: string
+  updatedAt: string | null
+}
+
 export interface User {
-  id: number;
-  fullName: string;
-  email: string;
-  isAdmin: boolean;
+  id: number
+  fullName: string | null
+  email: string
+  isAdmin: boolean
+  teamId: number | null
+  createdAt: string
+  updatedAt: string | null
+
+  team: Team
 }
 
 export interface AuthState {
