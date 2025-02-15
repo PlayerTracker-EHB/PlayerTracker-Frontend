@@ -27,7 +27,6 @@ async function uploadFileInChunks(
     formData.append('chunkIndex', String(chunkIndex));
     formData.append('totalChunks', String(totalChunks));
 
-    console.log(`Uploading chunk ${chunkIndex + 1}/${totalChunks}: ${file.name}_${chunkIndex} (size: ${blobChunk.size} bytes)`);
 
     // POST the chunk using fetch
     try {
@@ -41,12 +40,9 @@ async function uploadFileInChunks(
         throw new Error(`Failed to upload chunk ${chunkIndex}: ${res.statusText}`);
       }
 
-      console.log(`Chunk ${chunkIndex + 1} uploaded successfully`);
-
       // Update progress after the chunk finishes
       if (onProgress) {
         const chunkProgress = Math.round(((chunkIndex + 1) / totalChunks) * 100);
-        console.log(`Upload progress: ${chunkProgress}%`);
         onProgress(chunkProgress);
       }
     } catch (error) {
@@ -76,8 +72,8 @@ async function uploadFileInChunks(
     }
 
     const responseData = await finalizeRes.json();
-    console.log(`Upload finalized successfully. File path: ${responseData.filePath}`);
-    return responseData.filePath;
+    console.log(`Upload finalized successfully. File path: ${responseData}`);
+    return responseData;
   } catch (error) {
     console.error("Error finalizing upload:", error);
     throw error; // Rethrow the error to be handled by the mutation
