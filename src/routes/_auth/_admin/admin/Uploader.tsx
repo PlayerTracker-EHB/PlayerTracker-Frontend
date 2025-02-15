@@ -14,7 +14,7 @@ export const Route = createFileRoute('/_auth/_admin/admin/Uploader')({
 function UploadVideoPage() {
   const [file, setFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [atHome, setAtHome] = useState<boolean>(false);
+  const [atHome, setAtHome] = useState<boolean>(true);
   const [adversaryName, setAdversaryName] = useState<string>("");
 
   const { mutate: uploadVideo } = useUploadVideo();
@@ -45,7 +45,7 @@ function UploadVideoPage() {
           title: "Video Upload Successful",
           description: "Your video has been uploaded successfully!",
         });
-        setUploadProgress(0);
+        resetUploadState();
       },
       onError: (error: any) => {
         toast({
@@ -53,8 +53,17 @@ function UploadVideoPage() {
           description: "There was an error while uploading the video, Please try again later",
         });
         console.error(error);
+        resetUploadState()
       },
     });
+  }
+
+
+  const resetUploadState = () => {
+    setFile(null);
+    setUploadProgress(0);
+    setAtHome(true);
+    setAdversaryName("");
   }
 
   return (
