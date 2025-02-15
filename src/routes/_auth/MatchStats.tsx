@@ -1,16 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import React from "react";
 import {
-  Trophy,
-  Users,
-  Timer,
-  Activity,
-  Target,
-  Percent,
   ArrowLeft,
-  Swords,
-  Shield,
-  Crosshair,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_auth/MatchStats")({
