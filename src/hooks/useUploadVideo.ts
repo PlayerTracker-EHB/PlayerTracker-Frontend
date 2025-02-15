@@ -52,6 +52,10 @@ async function uploadFileInChunks(file: File, onProgress?: (progress: number) =>
   if (!finalizeRes.ok) {
     throw new Error(`Failed to finalize upload: ${finalizeRes.statusText}`)
   }
+  const responseData = await finalizeRes.json()
+  console.log(responseData.filePath);
+  return responseData.filePath;
+
 }
 
 type UploadVideoVars = {
