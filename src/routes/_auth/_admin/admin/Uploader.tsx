@@ -25,7 +25,7 @@ function UploadVideoPage() {
 
   const navigate = useNavigate()
 
-  const teamId = user?.team.teamId
+  const teamId = user?.team?.teamId
 
   const handleFileChange = (files: File[]) => {
     setFile(files[0]);
