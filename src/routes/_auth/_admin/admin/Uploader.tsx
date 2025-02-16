@@ -4,7 +4,6 @@ import { Progress } from '@/components/ui/progress'
 import UploadDialog from '@/components/upload/UploadDialog'
 import { useToast } from '@/hooks/use-toast'
 import { useUploadVideo } from '@/hooks/useUploadVideo'
-import { useAuthStore } from '@/store/authStore'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 
@@ -21,11 +20,9 @@ function UploadVideoPage() {
 
   const { mutate: uploadVideo } = useUploadVideo();
   const { toast } = useToast();
-  const { user } = useAuthStore()
 
   const navigate = useNavigate()
 
-  const teamId = user?.team?.teamId
 
   const handleFileChange = (files: File[]) => {
     setFile(files[0]);
@@ -43,7 +40,6 @@ function UploadVideoPage() {
       },
       atHome,
       adversaryName,
-      teamId
     }, {
       onSuccess: () => {
         toast({

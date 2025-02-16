@@ -4,7 +4,6 @@ async function uploadFileInChunks(
   file: File,
   atHome: boolean,
   adversaryName: string,
-  teamId: number,
   onProgress?: (progress: number) => void
 ) {
   const CHUNK_SIZE = 1024 * 1024 * 5; // 5MB per chunk (adjust as needed)
@@ -63,7 +62,6 @@ async function uploadFileInChunks(
         totalChunks: totalChunks,
         atHome: atHome,
         adversaryName: adversaryName,
-        teamId: teamId,
       }),
     });
 
@@ -83,8 +81,8 @@ async function uploadFileInChunks(
 export function useUploadVideo() {
   return useMutation<void, Error, any>({
     // Provide the async mutation function here:
-    mutationFn: async ({ file, onProgress, atHome, adversaryName, teamId }) => {
-      return uploadFileInChunks(file, atHome, adversaryName, teamId, onProgress);
+    mutationFn: async ({ file, onProgress, atHome, adversaryName }) => {
+      return uploadFileInChunks(file, atHome, adversaryName, onProgress);
     },
 
     // Optional: onSuccess, onError, etc.
