@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Trophy, Minus, X, BarChart3, Home, Plane } from "lucide-react";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { getGames } from "@/lib/api/games";
 
 // Définition de la route
 export const Route = createFileRoute("/_auth/Statistics")({
@@ -79,6 +81,10 @@ function Statistics() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
   const navigate = useNavigate();
+
+  const { data: games } = useSuspenseQuery(getGames)
+
+  console.log(games)
 
   const sortedMatches = matches.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
