@@ -8,7 +8,7 @@ async function uploadFileInChunks(
 ) {
   const CHUNK_SIZE = 1024 * 1024 * 5; // 5MB per chunk (adjust as needed)
   const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
-  const BASE_URL = "http://localhost:3333/admin";
+  const BASE_URL = "http://10.2.160.40:3333/admin";
 
   console.log(`Starting upload of file: ${file.name}`);
   console.log(`Total file size: ${file.size} bytes`);

@@ -7,7 +7,7 @@ export interface Game {
   createdAt: string;
 }
 
-const baseGameURL = "http://localhost:3333/games/";
+const baseGameURL = "http://10.2.160.40:3333/games/";
 
 const fetchGamesQuery = async (): Promise<Game[]> => {
   console.info('Fetching games...');

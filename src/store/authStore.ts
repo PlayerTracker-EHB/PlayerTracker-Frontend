@@ -36,7 +36,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   login: async (email, password) => {
     try {
-      const response = await fetch('http://localhost:3333/login', {
+      const response = await fetch('http://10.2.160.40:3333/login', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -58,7 +58,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   register: async (email, password, fullName) => {
     try {
-      const response = await fetch('http://localhost:3333/register', {
+      const response = await fetch('http://10.2.160.40:3333/register', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -79,7 +79,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   logout: async () => {
-    await fetch('http://localhost:3333/logout', {
+    await fetch('http://10.2.160.40:3333/logout', {
       method: 'POST',
       credentials: 'include',
     });
@@ -88,7 +88,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   fetchUser: async () => {
     try {
-      const response = await fetch('http://localhost:3333/me', {
+      const response = await fetch('http://10.2.160.40:3333/me', {
         credentials: 'include',
       });
 

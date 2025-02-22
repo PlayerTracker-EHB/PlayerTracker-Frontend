@@ -9,7 +9,7 @@ export type PlayerType = {
   updatedAt: string;
 };
 
-const baseURL = "http://localhost:3333/admin/players/";
+const baseURL = "http://10.2.160.40:3333/admin/players/";
 
 const baseFetch = async (url: string, options: RequestInit = {}): Promise<Response> => {
   return await fetch(baseURL + url, {
