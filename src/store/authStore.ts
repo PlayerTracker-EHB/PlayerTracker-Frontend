@@ -1,3 +1,4 @@
+import { getBaseUrl } from '@/lib/utils';
 import { create } from 'zustand';
 
 export interface Team {
@@ -29,12 +30,6 @@ export interface AuthState {
   fetchUser: () => Promise<void>;
 }
 
-// Utility function to get the base URL based on the environment
-const getBaseUrl = (path: string): string => {
-  const host = import.meta.env.MODE === 'production' ? import.meta.env.VITE_PROD_BASE_URL : import.meta.env.VITE_DEV_BASE_URL;
-  const port = ':3333'; // Only add port for development
-  return `${host}${port}${path}`;
-};
 
 // Base fetch function to handle requests
 const baseFetch = async (path: string, options: RequestInit = {}): Promise<Response> => {

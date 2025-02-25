@@ -1,3 +1,4 @@
+import { getBaseUrl } from '@/lib/utils';
 import { useMutation } from '@tanstack/react-query'
 
 async function uploadFileInChunks(
@@ -9,11 +10,6 @@ async function uploadFileInChunks(
   const CHUNK_SIZE = 1024 * 1024 * 5; // 5MB per chunk (adjust as needed)
   const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
 
-  const getBaseUrl = (path: string): string => {
-    const baseUrl = import.meta.env.MODE === 'production' ? import.meta.env.VITE_PROD_BASE_URL : import.meta.env.VITE_DEV_BASE_URL;
-    const port = ':3333'
-    return `${baseUrl}${port}${path}`;
-  };
 
   const BASE_URL = getBaseUrl('/admin');
   console.log(`Starting upload of file: ${file.name}`);

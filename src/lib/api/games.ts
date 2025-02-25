@@ -1,3 +1,5 @@
+import { getBaseUrl } from "../utils";
+
 export interface Game {
   gameId: number;
   teamId: number;
@@ -7,12 +9,6 @@ export interface Game {
   createdAt: string;
 }
 
-// Utility function to get the base URL based on the environment
-const getBaseUrl = (path: string): string => {
-  const host = import.meta.env.MODE === 'production' ? import.meta.env.VITE_PROD_BASE_URL : import.meta.env.VITE_DEV_BASE_URL;
-  const port = ':3333'
-  return `${host}${port}${path}`;
-};
 
 // Use the utility function to define the game URL
 const baseGameURL = getBaseUrl('/games/');

@@ -4,3 +4,10 @@ import { twMerge } from "tailwind-merge"
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+export const getBaseUrl = (path: string): string => {
+  const host = import.meta.env.MODE === 'production' ? import.meta.env.VITE_PROD_BASE_URL : import.meta.env.VITE_DEV_BASE_URL;
+  const port = ':3333'
+  return `${host}${port}${path}`;
+};
+
