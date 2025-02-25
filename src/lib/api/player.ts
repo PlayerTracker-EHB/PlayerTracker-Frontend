@@ -11,7 +11,7 @@ export type PlayerType = {
 
 
 const getBaseUrl = (path: string): string => {
-  const host = process.env.NODE_ENV === 'production' ? process.env.PROD_BASE_URL : process.env.DEV_BASE_URL;
+  const host = import.meta.env.MODE === 'production' ? import.meta.env.VITE_PROD_BASE_URL : import.meta.env.VITE_DEV_BASE_URL;
   const port = ':3333'
   return `${host}${port}${path}`;
 };

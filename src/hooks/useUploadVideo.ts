@@ -10,8 +10,9 @@ async function uploadFileInChunks(
   const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
 
   const getBaseUrl = (path: string): string => {
-    const baseUrl = process.env.NODE_ENV === 'production' ? process.env.PROD_BASE_URL : process.env.DEV_BASE_URL;
-    return `${baseUrl}${path}`;
+    const baseUrl = import.meta.env.MODE === 'production' ? import.meta.env.VITE_PROD_BASE_URL : import.meta.env.VITE_DEV_BASE_URL;
+    const port = ':3333'
+    return `${baseUrl}${port}${path}`;
   };
 
   const BASE_URL = getBaseUrl('/admin');

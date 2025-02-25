@@ -31,7 +31,7 @@ export interface AuthState {
 
 // Utility function to get the base URL based on the environment
 const getBaseUrl = (path: string): string => {
-  const host = process.env.NODE_ENV === 'production' ? process.env.PROD_BASE_URL : process.env.DEV_BASE_URL;
+  const host = import.meta.env.MODE === 'production' ? import.meta.env.VITE_PROD_BASE_URL : import.meta.env.VITE_DEV_BASE_URL;
   const port = ':3333'; // Only add port for development
   return `${host}${port}${path}`;
 };
@@ -44,7 +44,7 @@ const baseFetch = async (path: string, options: RequestInit = {}): Promise<Respo
   });
 };
 
-const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isError: false,
 
