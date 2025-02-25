@@ -1,36 +1,42 @@
-import { useState } from 'react'
-import { useNavigate } from '@tanstack/react-router'
-import { useAuthStore } from '@/store/authStore' // Zustand store
-import { motion } from 'framer-motion'
-import { createFileRoute } from '@tanstack/react-router'
+import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { useAuthStore } from "@/store/authStore"; // Zustand store
+import { motion } from "framer-motion";
+import { createFileRoute } from "@tanstack/react-router";
+import { ImSpinner2 } from "react-icons/im"; // Import loading spinner icon
 
-export const Route = createFileRoute('/_guest/Login')({
+export const Route = createFileRoute("/_guest/Login")({
   component: Login,
-})
+});
 
 function Login() {
-  const { login } = useAuthStore()
-  const navigate = useNavigate({ from: '/Login' })
+  const { login } = useAuthStore();
+  const navigate = useNavigate({ from: "/Login" });
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    if (email === '' || password === '') {
-      setErrorMessage('Please fill in all fields.')
-      return
+    if (email === "" || password === "") {
+      setErrorMessage("Please fill in all fields.");
+      return;
     }
+
+    setLoading(true); // Activate loading state
+    setErrorMessage("");
 
     try {
-      await login(email, password) // Zustand function
-      navigate({ to: '/Statistics' }) // Redirect to statistics on success
+      await login(email, password); // Zustand function
+      navigate({ to: "/Statistics" }); // Redirect to statistics on success
     } catch (error) {
-      setErrorMessage('Invalid email or password.')
+      setErrorMessage("Invalid email or password.");
     }
-  }
+    setLoading(false); // Deactivate loading state
+  };
 
   return (
     <motion.div
@@ -111,24 +117,28 @@ function Login() {
             />
           </div>
 
-          {/* Submit Button */}
+          {/* Submit Button with Loading Spinner */}
           <button
             type="submit"
-            className="w-full px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
+            className="w-full px-4 py-2 flex items-center justify-center bg-black text-white rounded hover:bg-gray-800"
+            disabled={loading}
           >
-            Login
+            {loading ? (
+              <ImSpinner2 className="animate-spin text-white text-lg" />
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
 
         {/* Register Link */}
         <p className="text-sm text-gray-600 mt-4 text-center">
-          Don't have an account?{' '}
+          Don't have an account?{" "}
           <a href="/register" className="text-gray-500 hover:underline">
             Register here
           </a>
         </p>
       </motion.div>
-
     </motion.div>
-  )
+  );
 }

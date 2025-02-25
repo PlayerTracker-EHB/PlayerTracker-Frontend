@@ -4,12 +4,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog"
-import { Switch } from "@/components/ui/switch"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { UploadIcon, CircleX, Send } from "lucide-react"
+} from "@/components/ui/dialog";
+import { Switch } from "@/components/ui/switch";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { UploadIcon, CircleX, Send } from "lucide-react";
+import { useState } from "react";
+import { ImSpinner2 } from "react-icons/im"; // Import loading spinner icon
 
 function UploadDialog({
   open,
@@ -18,16 +20,24 @@ function UploadDialog({
   setAtHome,
   adversaryName,
   setAdversaryName,
-  onUpload
+  onUpload,
 }: {
-  open: boolean
-  setOpen: (open: boolean) => void
-  atHome: boolean
-  setAtHome: (atHome: boolean) => void
-  adversaryName: string
-  setAdversaryName: (name: string) => void
-  onUpload: () => void
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  atHome: boolean;
+  setAtHome: (atHome: boolean) => void;
+  adversaryName: string;
+  setAdversaryName: (name: string) => void;
+  onUpload: () => void;
 }) {
+  const [loading, setLoading] = useState(false);
+
+  const handleUpload = async () => {
+    setLoading(true);
+    await onUpload();
+    setLoading(false);
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
@@ -59,15 +69,18 @@ function UploadDialog({
           <Button variant="outline" onClick={() => setOpen(false)}>
             <CircleX className="inline-block mr-2" /> Cancel
           </Button>
-          <Button onClick={onUpload} disabled={!adversaryName}>
-            <Send />
-            Upload
+          <Button onClick={handleUpload} disabled={!adversaryName || loading}>
+            {loading ? (
+              <ImSpinner2 className="animate-spin text-white text-lg" />
+            ) : (
+              <Send />
+            )}
+            {loading ? "Uploading..." : "Upload"}
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
-export default UploadDialog
-
+export default UploadDialog;
