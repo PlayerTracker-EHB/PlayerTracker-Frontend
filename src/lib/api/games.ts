@@ -7,7 +7,15 @@ export interface Game {
   createdAt: string;
 }
 
-const baseGameURL = "http://10.2.160.40:3333/games/";
+// Utility function to get the base URL based on the environment
+const getBaseUrl = (path: string): string => {
+  const host = process.env.NODE_ENV === 'production' ? process.env.PROD_BASE_URL : process.env.DEV_BASE_URL;
+  const port = ':3333'
+  return `${host}${port}${path}`;
+};
+
+// Use the utility function to define the game URL
+const baseGameURL = getBaseUrl('/games/');
 
 const fetchGamesQuery = async (): Promise<Game[]> => {
   console.info('Fetching games...');
@@ -34,3 +42,4 @@ export const getGames = {
   queryKey: ['games'],
   queryFn: fetchGamesQuery,
 };
+
