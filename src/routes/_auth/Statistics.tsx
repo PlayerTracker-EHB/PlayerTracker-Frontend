@@ -4,87 +4,48 @@ import { Trophy, Minus, X, BarChart3, Home, Plane } from "lucide-react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getGames } from "@/lib/api/games";
 
-// Définition de la route
 export const Route = createFileRoute("/_auth/Statistics")({
   component: Statistics,
 });
-
-const matches = [
-  {
-    id: 1,
-    date: "2024-03-15",
-    ourTeam: "Phoenix FC",
-    ourScore: 3,
-    opponentScore: 1,
-    opponent: "Eagles United",
-    isHome: true,
-  },
-  {
-    id: 2,
-    date: "2024-03-08",
-    ourTeam: "Phoenix FC",
-    ourScore: 2,
-    opponentScore: 2,
-    opponent: "Royal Lions",
-    isHome: false,
-  },
-  {
-    id: 3,
-    date: "2024-03-01",
-    ourTeam: "Phoenix FC",
-    ourScore: 1,
-    opponentScore: 3,
-    opponent: "Victory Stars",
-    isHome: true,
-  },
-  {
-    id: 4,
-    date: "2024-02-23",
-    ourTeam: "Phoenix FC",
-    ourScore: 0,
-    opponentScore: 2,
-    opponent: "United Dragons",
-    isHome: false,
-  },
-  {
-    id: 5,
-    date: "2024-02-16",
-    ourTeam: "Phoenix FC",
-    ourScore: 4,
-    opponentScore: 2,
-    opponent: "Athletic Kings",
-    isHome: true,
-  },
-];
-
-const stats = {
-  wins: matches.filter((m) => m.ourScore > m.opponentScore).length,
-  draws: matches.filter((m) => m.ourScore === m.opponentScore).length,
-  losses: matches.filter((m) => m.ourScore < m.opponentScore).length,
-  goalDifference: matches.reduce(
-    (acc, m) => acc + (m.ourScore - m.opponentScore),
-    0
-  ),
-};
-
-const winPercentage = (stats.wins / matches.length) * 100;
-
-const getMatchOutcome = (ourScore: number, opponentScore: number) => {
-  if (ourScore > opponentScore)
-    return { type: "win", icon: Trophy, color: "text-emerald-500" };
-  if (ourScore === opponentScore)
-    return { type: "draw", icon: Minus, color: "text-blue-500" };
-  return { type: "loss", icon: X, color: "text-red-500" };
-};
 
 function Statistics() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
   const navigate = useNavigate();
 
-  const { data: games } = useSuspenseQuery(getGames)
+  const { data: games } = useSuspenseQuery(getGames);
 
-  console.log(games)
+  console.log(games);
+
+  const matches = games.map((game) => ({
+    id: game.gameId,
+    date: "2024-03-15", // Hardcoded
+    ourTeam: "Phoenix FC", // Hardcoded
+    ourScore: 3, // Hardcoded
+    opponentScore: 1, // Hardcoded
+    opponent: game.adversaryName,
+    isHome: game.atHome,
+  }));
+
+  const stats = {
+    wins: matches.filter((m) => m.ourScore > m.opponentScore).length,
+    draws: matches.filter((m) => m.ourScore === m.opponentScore).length,
+    losses: matches.filter((m) => m.ourScore < m.opponentScore).length,
+    goalDifference: matches.reduce(
+      (acc, m) => acc + (m.ourScore - m.opponentScore),
+      0
+    ),
+  };
+
+  const winPercentage = (stats.wins / matches.length) * 100;
+
+  const getMatchOutcome = (ourScore: number, opponentScore: number) => {
+    if (ourScore > opponentScore)
+      return { type: "win", icon: Trophy, color: "text-emerald-500" };
+    if (ourScore === opponentScore)
+      return { type: "draw", icon: Minus, color: "text-blue-500" };
+    return { type: "loss", icon: X, color: "text-red-500" };
+  };
 
   const sortedMatches = matches.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
