@@ -9,10 +9,16 @@ export type PlayerType = {
   updatedAt: string;
 };
 
-const baseURL = "http://10.2.160.40:3333/admin/players/";
 
-const baseFetch = async (url: string, options: RequestInit = {}): Promise<Response> => {
-  return await fetch(baseURL + url, {
+const getBaseUrl = (path: string): string => {
+  const host = process.env.NODE_ENV === 'production' ? 'http://10.2.160.40' : 'http://localhost';
+  const port = ':3333'
+  return `${host}${port}${path}`;
+};
+
+
+const baseFetch = async (path: string, options: RequestInit = {}): Promise<Response> => {
+  return await fetch(getBaseUrl("/admin/players/") + path, {
     ...options,
     credentials: 'include', // Ensure cookies are sent with the request
   });

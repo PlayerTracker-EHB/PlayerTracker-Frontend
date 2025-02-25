@@ -8,8 +8,13 @@ async function uploadFileInChunks(
 ) {
   const CHUNK_SIZE = 1024 * 1024 * 5; // 5MB per chunk (adjust as needed)
   const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
-  const BASE_URL = "http://10.2.160.40:3333/admin";
 
+  const getBaseUrl = (path: string): string => {
+    const baseUrl = process.env.NODE_ENV === 'production' ? process.env.PROD_BASE_URL : process.env.DEV_BASE_URL;
+    return `${baseUrl}${path}`;
+  };
+
+  const BASE_URL = getBaseUrl('/admin');
   console.log(`Starting upload of file: ${file.name}`);
   console.log(`Total file size: ${file.size} bytes`);
   console.log(`Total chunks to upload: ${totalChunks}`);
