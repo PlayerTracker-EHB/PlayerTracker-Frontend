@@ -10,16 +10,18 @@ import {
 import { getPlayers, deletePlayer } from "@/lib/api/player";
 import { AddPlayerDialog } from "@/components/team/AddPlayerDialog";
 import { PlayerTable } from "@/components/team/PlayerTable";
+import { Team as teamType, updateTeam } from "@/lib/api/team";
+import useAuthStore from "@/store/authStore";
+import { toast } from "@/hooks/use-toast";
 
 export const Route = createFileRoute("/_auth/_admin/admin/Team")({
   component: Team,
 });
 
 function Team() {
-  const [clubName, setClubName] = useState("");
-  const [coachName, setCoachName] = useState("");
-  const [primaryColor, setPrimaryColor] = useState("#000000");
-  const [secondaryColor, setSecondaryColor] = useState("#ffffff");
+  const team = useAuthStore().user?.team;
+  const [clubName, setClubName] = useState(team?.clubName||"");
+  const [coachName, setCoachName] = useState(team?.coachName||"");
   const [logo, setLogo] = useState<string | null>(null);
 
   // Query Client from React Query
@@ -28,12 +30,32 @@ function Team() {
   // Fetch the players with useSuspenseQuery
   const { data: players } = useSuspenseQuery(getPlayers);
 
+
+const updateTeamMutation = useMutation({
+  // The `updatePlayer.mutationFn` expects (playerId, updatedData)
+  mutationFn: (vars: { updatedData: Partial<teamType> }) =>
+    updateTeam.mutationFn(vars.updatedData),
+
+  onSuccess: () => {
+    // Invalidate the cached list of players so the UI refreshes
+    queryClient.invalidateQueries({ queryKey: [updateTeam.mutationKey] })
+    
+    // Show a success toast
+    toast({
+      title: "Team Updated",
+      description: `Team was successfully updated.`,
+    })
+  },
+
+
+})
+
   // Delete Player Mutation
   const deletePlayerMutation = useMutation({
     mutationFn: deletePlayer.mutationFn,
     onSuccess: () => {
       // Re-fetch after deleting
-      queryClient.invalidateQueries({ queryKey: ["players"] });
+      queryClient.invalidateQueries({ queryKey: [deletePlayer.mutationKey] });
     },
   });
 
