@@ -5,7 +5,6 @@ export interface Team {
   teamId: number;
   coachName: string | null;
   clubName: string;
-  teamLogoUrl: string | null;
   createdAt: string;
   updatedAt: string | null;
 }

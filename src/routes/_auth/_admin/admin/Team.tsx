@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Upload } from "lucide-react";
 import {
   useSuspenseQuery,
   useMutation,
@@ -19,10 +18,10 @@ export const Route = createFileRoute("/_auth/_admin/admin/Team")({
 });
 
 function Team() {
-  const team = useAuthStore().user?.team;
-  const [clubName, setClubName] = useState(team?.clubName||"");
-  const [coachName, setCoachName] = useState(team?.coachName||"");
-  const [logo, setLogo] = useState<string | null>(null);
+  const auth = useAuthStore()
+  const team = auth.user?.team
+  const [clubName, setClubName] = useState(team?.clubName || "");
+  const [coachName, setCoachName] = useState(team?.coachName || "");
 
   // Query Client from React Query
   const queryClient = useQueryClient();
@@ -30,25 +29,22 @@ function Team() {
   // Fetch the players with useSuspenseQuery
   const { data: players } = useSuspenseQuery(getPlayers);
 
+  const updateTeamMutation = useMutation({
+    mutationFn: (vars: { updatedData: Partial<teamType> }) =>
+      updateTeam.mutationFn(vars.updatedData),
 
-const updateTeamMutation = useMutation({
-  // The `updatePlayer.mutationFn` expects (playerId, updatedData)
-  mutationFn: (vars: { updatedData: Partial<teamType> }) =>
-    updateTeam.mutationFn(vars.updatedData),
+    onSuccess: () => {
+      // Invalidate the cached list of players so the UI refreshes
+      queryClient.invalidateQueries({ queryKey: [updateTeam.mutationKey] });
+      auth.fetchUser()
 
-  onSuccess: () => {
-    // Invalidate the cached list of players so the UI refreshes
-    queryClient.invalidateQueries({ queryKey: [updateTeam.mutationKey] })
-    
-    // Show a success toast
-    toast({
-      title: "Team Updated",
-      description: `Team was successfully updated.`,
-    })
-  },
-
-
-})
+      // Show a success toast
+      toast({
+        title: "Team Updated",
+        description: `Team was successfully updated.`,
+      });
+    },
+  });
 
   // Delete Player Mutation
   const deletePlayerMutation = useMutation({
@@ -59,21 +55,20 @@ const updateTeamMutation = useMutation({
     },
   });
 
-  // Handle image upload
-  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setLogo(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   // DELETE a player
   const handleDeletePlayer = (id: number) => {
     deletePlayerMutation.mutate(id);
+  };
+
+  // Handle save button click
+  const handleSave = () => {
+    const updatedData = {
+      teamId: team?.teamId,
+      clubName,
+      coachName,
+    };
+    updateTeamMutation.mutate({ updatedData });
   };
 
   return (
@@ -84,35 +79,8 @@ const updateTeamMutation = useMutation({
         </h1>
 
         {/* Team info block */}
-        {/* Team info block */}
         <div className="bg-white rounded-lg shadow-md p-6 space-y-6 max-w-4xl mx-auto">
           <div className="flex items-start gap-6">
-            {/* Logo section */}
-            <div className="flex-shrink-0">
-              <div className="w-40 h-40 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
-                {logo ? (
-                  <img
-                    src={logo}
-                    alt="Club logo"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="text-center p-4">
-                    <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                    <label className="mt-2 cursor-pointer text-sm text-blue-600 hover:text-blue-500">
-                      Upload Logo
-                      <input
-                        type="file"
-                        className="hidden"
-                        accept="image/*"
-                        onChange={handleLogoUpload}
-                      />
-                    </label>
-                  </div>
-                )}
-              </div>
-            </div>
-
             {/* Info section */}
             <div className="flex-grow space-y-6">
               {/* Club Name */}
@@ -128,27 +96,6 @@ const updateTeamMutation = useMutation({
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 sm:text-sm"
                     placeholder="Enter club name"
                   />
-                  {/* Icon button */}
-                  <button
-                    className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-500 transition duration-300"
-                    title="Mettre à jour"
-                  >
-                    {/* Crayon icon */}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M14 2l7 7-9 9H5v-7l9-9z"
-                      />
-                    </svg>
-                  </button>
                 </div>
               </div>
 
@@ -165,30 +112,19 @@ const updateTeamMutation = useMutation({
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 sm:text-sm"
                     placeholder="Enter coach name"
                   />
-                  {/* Icon button */}
-                  <button
-                    className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-500 transition duration-300"
-                    title="Mettre à jour"
-                  >
-                    {/* Crayon icon */}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M14 2l7 7-9 9H5v-7l9-9z"
-                      />
-                    </svg>
-                  </button>
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Save Button */}
+          <div className="flex justify-end">
+            <button
+              onClick={handleSave}
+              className="mt-4 p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition duration-300"
+            >
+              Save
+            </button>
           </div>
         </div>
 
@@ -209,3 +145,4 @@ const updateTeamMutation = useMutation({
 }
 
 export default Team;
+
