@@ -48,7 +48,7 @@ export function AppSidebar() {
       <SidebarContent className="flex flex-col h-full">
         {/*SiderBar Title*/}
         <SidebarGroup>
-          <SidebarGroupLabel className="font-semibold text-xl text-black">PlayerTracker</SidebarGroupLabel>
+          <SidebarGroupLabel className="font-semibold text-xl text-black">{user ? user.team.clubName : "PlayerTracker"}</SidebarGroupLabel>
         </SidebarGroup>
         {user?.isAdmin && (
           // Admin Sidebar Group
