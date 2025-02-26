@@ -1,10 +1,12 @@
 import { getBaseUrl } from '@/lib/utils';
 import { useMutation } from '@tanstack/react-query'
+import { format } from 'date-fns';
 
 async function uploadFileInChunks(
   file: File,
   atHome: boolean,
   adversaryName: string,
+  gameDate: Date,
   onProgress?: (progress: number) => void
 ) {
   const CHUNK_SIZE = 1024 * 1024 * 5; // 5MB per chunk (adjust as needed)
@@ -54,6 +56,7 @@ async function uploadFileInChunks(
 
   // Once all chunks are uploaded, finalize on the server
   console.log(`Finalizing upload for file: ${file.name}`);
+  const formattedDate = format(gameDate, 'yyyy-MM-dd')
   try {
     const finalizeRes = await fetch(BASE_URL + '/finalize-upload', {
       method: 'POST',
@@ -64,6 +67,7 @@ async function uploadFileInChunks(
         totalChunks: totalChunks,
         atHome: atHome,
         adversaryName: adversaryName,
+        gameDate: formattedDate,
       }),
     });
 
@@ -83,8 +87,8 @@ async function uploadFileInChunks(
 export function useUploadVideo() {
   return useMutation<void, Error, any>({
     // Provide the async mutation function here:
-    mutationFn: async ({ file, onProgress, atHome, adversaryName }) => {
-      return uploadFileInChunks(file, atHome, adversaryName, onProgress);
+    mutationFn: async ({ file, atHome, adversaryName, gameDate, onProgress }) => {
+      return uploadFileInChunks(file, atHome, adversaryName, gameDate, onProgress);
     },
 
     // Optional: onSuccess, onError, etc.

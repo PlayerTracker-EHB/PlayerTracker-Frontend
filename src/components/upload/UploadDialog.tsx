@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { UploadIcon, CircleX, Send } from "lucide-react";
 import { useState } from "react";
 import { ImSpinner2 } from "react-icons/im"; // Import loading spinner icon
+import { DatePicker } from "../ui/DatePicker";
 
 function UploadDialog({
   open,
@@ -20,6 +21,8 @@ function UploadDialog({
   setAtHome,
   adversaryName,
   setAdversaryName,
+  gameDate,
+  setGameDate,
   onUpload,
 }: {
   open: boolean;
@@ -28,13 +31,15 @@ function UploadDialog({
   setAtHome: (atHome: boolean) => void;
   adversaryName: string;
   setAdversaryName: (name: string) => void;
+  gameDate: Date | undefined;
+  setGameDate: (gameDate: Date) => void;
   onUpload: () => void;
 }) {
   const [loading, setLoading] = useState(false);
 
   const handleUpload = async () => {
     setLoading(true);
-    await onUpload();
+    onUpload();
     setLoading(false);
   };
 
@@ -64,6 +69,7 @@ function UploadDialog({
               placeholder="Enter adversary name"
             />
           </div>
+          <DatePicker date={gameDate} setDate={setGameDate} />
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)}>
