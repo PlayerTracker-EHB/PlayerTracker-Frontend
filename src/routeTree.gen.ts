@@ -23,7 +23,6 @@ import { Route as AuthStatisticsImport } from './routes/_auth/Statistics'
 import { Route as AuthMatchStatsImport } from './routes/_auth/MatchStats'
 import { Route as AuthAdminAdminUploaderImport } from './routes/_auth/_admin/admin/Uploader'
 import { Route as AuthAdminAdminTeamImport } from './routes/_auth/_admin/admin/Team'
-import { Route as AuthAdminAdminMyAdminImport } from './routes/_auth/_admin/admin/MyAdmin'
 import { Route as AuthAdminAdminAccountsImport } from './routes/_auth/_admin/admin/Accounts'
 
 // Create/Update Routes
@@ -94,12 +93,6 @@ const AuthAdminAdminUploaderRoute = AuthAdminAdminUploaderImport.update({
 const AuthAdminAdminTeamRoute = AuthAdminAdminTeamImport.update({
   id: '/admin/Team',
   path: '/admin/Team',
-  getParentRoute: () => AuthAdminRoute,
-} as any)
-
-const AuthAdminAdminMyAdminRoute = AuthAdminAdminMyAdminImport.update({
-  id: '/admin/MyAdmin',
-  path: '/admin/MyAdmin',
   getParentRoute: () => AuthAdminRoute,
 } as any)
 
@@ -190,13 +183,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminAdminAccountsImport
       parentRoute: typeof AuthAdminImport
     }
-    '/_auth/_admin/admin/MyAdmin': {
-      id: '/_auth/_admin/admin/MyAdmin'
-      path: '/admin/MyAdmin'
-      fullPath: '/admin/MyAdmin'
-      preLoaderRoute: typeof AuthAdminAdminMyAdminImport
-      parentRoute: typeof AuthAdminImport
-    }
     '/_auth/_admin/admin/Team': {
       id: '/_auth/_admin/admin/Team'
       path: '/admin/Team'
@@ -218,14 +204,12 @@ declare module '@tanstack/react-router' {
 
 interface AuthAdminRouteChildren {
   AuthAdminAdminAccountsRoute: typeof AuthAdminAdminAccountsRoute
-  AuthAdminAdminMyAdminRoute: typeof AuthAdminAdminMyAdminRoute
   AuthAdminAdminTeamRoute: typeof AuthAdminAdminTeamRoute
   AuthAdminAdminUploaderRoute: typeof AuthAdminAdminUploaderRoute
 }
 
 const AuthAdminRouteChildren: AuthAdminRouteChildren = {
   AuthAdminAdminAccountsRoute: AuthAdminAdminAccountsRoute,
-  AuthAdminAdminMyAdminRoute: AuthAdminAdminMyAdminRoute,
   AuthAdminAdminTeamRoute: AuthAdminAdminTeamRoute,
   AuthAdminAdminUploaderRoute: AuthAdminAdminUploaderRoute,
 }
@@ -276,7 +260,6 @@ export interface FileRoutesByFullPath {
   '/about': typeof GuestAboutRoute
   '/': typeof GuestIndexRoute
   '/admin/Accounts': typeof AuthAdminAdminAccountsRoute
-  '/admin/MyAdmin': typeof AuthAdminAdminMyAdminRoute
   '/admin/Team': typeof AuthAdminAdminTeamRoute
   '/admin/Uploader': typeof AuthAdminAdminUploaderRoute
 }
@@ -291,7 +274,6 @@ export interface FileRoutesByTo {
   '/about': typeof GuestAboutRoute
   '/': typeof GuestIndexRoute
   '/admin/Accounts': typeof AuthAdminAdminAccountsRoute
-  '/admin/MyAdmin': typeof AuthAdminAdminMyAdminRoute
   '/admin/Team': typeof AuthAdminAdminTeamRoute
   '/admin/Uploader': typeof AuthAdminAdminUploaderRoute
 }
@@ -309,7 +291,6 @@ export interface FileRoutesById {
   '/_guest/about': typeof GuestAboutRoute
   '/_guest/': typeof GuestIndexRoute
   '/_auth/_admin/admin/Accounts': typeof AuthAdminAdminAccountsRoute
-  '/_auth/_admin/admin/MyAdmin': typeof AuthAdminAdminMyAdminRoute
   '/_auth/_admin/admin/Team': typeof AuthAdminAdminTeamRoute
   '/_auth/_admin/admin/Uploader': typeof AuthAdminAdminUploaderRoute
 }
@@ -317,48 +298,45 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-  | ''
-  | '/MatchStats'
-  | '/Statistics'
-  | '/Login'
-  | '/Register'
-  | '/Subscriptions'
-  | '/about'
-  | '/'
-  | '/admin/Accounts'
-  | '/admin/MyAdmin'
-  | '/admin/Team'
-  | '/admin/Uploader'
+    | ''
+    | '/MatchStats'
+    | '/Statistics'
+    | '/Login'
+    | '/Register'
+    | '/Subscriptions'
+    | '/about'
+    | '/'
+    | '/admin/Accounts'
+    | '/admin/Team'
+    | '/admin/Uploader'
   fileRoutesByTo: FileRoutesByTo
   to:
-  | ''
-  | '/MatchStats'
-  | '/Statistics'
-  | '/Login'
-  | '/Register'
-  | '/Subscriptions'
-  | '/about'
-  | '/'
-  | '/admin/Accounts'
-  | '/admin/MyAdmin'
-  | '/admin/Team'
-  | '/admin/Uploader'
+    | ''
+    | '/MatchStats'
+    | '/Statistics'
+    | '/Login'
+    | '/Register'
+    | '/Subscriptions'
+    | '/about'
+    | '/'
+    | '/admin/Accounts'
+    | '/admin/Team'
+    | '/admin/Uploader'
   id:
-  | '__root__'
-  | '/_auth'
-  | '/_guest'
-  | '/_auth/MatchStats'
-  | '/_auth/Statistics'
-  | '/_auth/_admin'
-  | '/_guest/Login'
-  | '/_guest/Register'
-  | '/_guest/Subscriptions'
-  | '/_guest/about'
-  | '/_guest/'
-  | '/_auth/_admin/admin/Accounts'
-  | '/_auth/_admin/admin/MyAdmin'
-  | '/_auth/_admin/admin/Team'
-  | '/_auth/_admin/admin/Uploader'
+    | '__root__'
+    | '/_auth'
+    | '/_guest'
+    | '/_auth/MatchStats'
+    | '/_auth/Statistics'
+    | '/_auth/_admin'
+    | '/_guest/Login'
+    | '/_guest/Register'
+    | '/_guest/Subscriptions'
+    | '/_guest/about'
+    | '/_guest/'
+    | '/_auth/_admin/admin/Accounts'
+    | '/_auth/_admin/admin/Team'
+    | '/_auth/_admin/admin/Uploader'
   fileRoutesById: FileRoutesById
 }
 
@@ -417,7 +395,6 @@ export const routeTree = rootRoute
       "parent": "/_auth",
       "children": [
         "/_auth/_admin/admin/Accounts",
-        "/_auth/_admin/admin/MyAdmin",
         "/_auth/_admin/admin/Team",
         "/_auth/_admin/admin/Uploader"
       ]
@@ -444,10 +421,6 @@ export const routeTree = rootRoute
     },
     "/_auth/_admin/admin/Accounts": {
       "filePath": "_auth/_admin/admin/Accounts.tsx",
-      "parent": "/_auth/_admin"
-    },
-    "/_auth/_admin/admin/MyAdmin": {
-      "filePath": "_auth/_admin/admin/MyAdmin.tsx",
       "parent": "/_auth/_admin"
     },
     "/_auth/_admin/admin/Team": {

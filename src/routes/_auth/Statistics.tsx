@@ -3,6 +3,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Trophy, Minus, X, BarChart3, Home, Plane } from "lucide-react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getGames } from "@/lib/api/games";
+import { useAuthStore } from "@/store/authStore";
 
 export const Route = createFileRoute("/_auth/Statistics")({
   component: Statistics,
@@ -17,10 +18,12 @@ function Statistics() {
 
   console.log(games);
 
+  const { user } = useAuthStore();
+
   const matches = games.map((game) => ({
     id: game.gameId,
-    date: "2024-03-15", // Hardcoded
-    ourTeam: "Phoenix FC", // Hardcoded
+    date: game.gameDate,
+    ourTeam: user ? user.team.clubName : "Unknown Team",
     ourScore: 3, // Hardcoded
     opponentScore: 1, // Hardcoded
     opponent: game.adversaryName,
