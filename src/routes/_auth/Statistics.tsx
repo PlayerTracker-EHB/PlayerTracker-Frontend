@@ -13,17 +13,13 @@ function Statistics() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
   const navigate = useNavigate();
-
   const { data: games } = useSuspenseQuery(getGames);
-  console.log("Games from backend:", games);
-
-  console.log(games);
-
   const { user } = useAuthStore();
 
   const matches = games.map((game) => ({
     id: game.gameId,
     date: game.gameDate,
+    ourCoach: user ? user.team.coachName : "Unknown Team",
     ourTeam: user ? user.team.clubName : "Unknown Team",
     ourScore: game.atHome ? game.homeTeamScore : game.awayTeamScore,
     opponentScore: game.atHome ? game.awayTeamScore : game.homeTeamScore,
@@ -94,8 +90,9 @@ function Statistics() {
           </div>
           <div className="bg-white rounded-xl shadow-md p-8 text-center hover:scale-105 transition-transform">
             <div className="text-3xl font-bold text-blue-600 mb-3">
-              {stats.goalDifference > 0 ? "+" : ""}
-              {stats.goalDifference}
+              {stats.goalDifference > 0
+                ? `+${stats.goalDifference}`
+                : stats.goalDifference}
             </div>
             <div className="text-gray-600 text-lg">Goal Difference</div>
           </div>
