@@ -1,10 +1,4 @@
-import {
-  Upload,
-  Users,
-  BarChart,
-  Settings,
-  LogOut,
-} from "lucide-react";
+import { Upload, Users, BarChart, Settings, LogOut } from "lucide-react";
 
 import {
   Sidebar,
@@ -25,22 +19,19 @@ export function AppSidebar() {
   const navigate = useNavigate();
 
   // Menu items for all users
-  const items = [
-    { title: "Statistics", url: "/Statistics", icon: BarChart },
-  ];
+  const items = [{ title: "Statistics", url: "/Statistics", icon: BarChart }];
 
   // Menu items for admin users
   const adminItems = [
     { title: "Team", url: "/admin/Team", icon: Users },
     { title: "Uploader", url: "/admin/Uploader", icon: Upload },
     { title: "Accounts", url: "/admin/Accounts", icon: Users },
-    { title: "Admin", url: "/admin/myAdmin", icon: Settings },
   ];
 
   // Handle Logout
   const handleLogout = async () => {
     await logout();
-    navigate({ to: '/' });
+    navigate({ to: "/" });
   };
 
   return (
@@ -48,18 +39,25 @@ export function AppSidebar() {
       <SidebarContent className="flex flex-col h-full">
         {/*SiderBar Title*/}
         <SidebarGroup>
-          <SidebarGroupLabel className="font-semibold text-xl text-black">PlayerTracker</SidebarGroupLabel>
+          <SidebarGroupLabel className="font-semibold text-xl text-black">
+            PlayerTracker
+          </SidebarGroupLabel>
         </SidebarGroup>
         {user?.isAdmin && (
           // Admin Sidebar Group
           <SidebarGroup>
-            <SidebarGroupLabel className="font-semibold text-md text-black">Admin Panel</SidebarGroupLabel>
+            <SidebarGroupLabel className="font-semibold text-md text-black">
+              Admin Panel
+            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {adminItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
-                      <Link to={item.url} className="flex items-center space-x-2">
+                      <Link
+                        to={item.url}
+                        className="flex items-center space-x-2"
+                      >
                         <item.icon className="w-5 h-5" />
                         <span>{item.title}</span>
                       </Link>
@@ -73,7 +71,9 @@ export function AppSidebar() {
 
         {/* General Sidebar Group */}
         <SidebarGroup>
-          <SidebarGroupLabel className="font-semibold text-md text-black">General</SidebarGroupLabel>
+          <SidebarGroupLabel className="font-semibold text-md text-black">
+            General
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -100,9 +100,7 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
       </SidebarContent>
-    </Sidebar >
+    </Sidebar>
   );
 }
-
