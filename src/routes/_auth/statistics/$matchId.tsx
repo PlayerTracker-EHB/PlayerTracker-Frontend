@@ -3,7 +3,7 @@ import { Trophy, Home, MapPin, Repeat, Timer, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 
 // Définition de la route
-export const Route = createFileRoute("/_auth/MatchStats")({
+export const Route = createFileRoute("/_auth/statistics/$matchId")({
   component: MatchStats,
 });
 
@@ -92,7 +92,7 @@ function MatchStats() {
             </div>
 
             {/* Score Section */}
-            <div className="relative -mt-10 mx-8 mt-20 mb-10">
+            <div className="relative  mx-8 mt-20 mb-10">
               <div className="glass-effect rounded-2xl p-8 shadow-lg">
                 <div className="flex justify-center items-center">
                   <div className="flex items-center space-x-8">

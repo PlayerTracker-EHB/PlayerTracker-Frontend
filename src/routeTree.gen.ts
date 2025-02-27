@@ -19,8 +19,8 @@ import { Route as GuestSubscriptionsImport } from './routes/_guest/Subscriptions
 import { Route as GuestRegisterImport } from './routes/_guest/Register'
 import { Route as GuestLoginImport } from './routes/_guest/Login'
 import { Route as AuthAdminImport } from './routes/_auth/_admin'
-import { Route as AuthStatisticsImport } from './routes/_auth/Statistics'
-import { Route as AuthMatchStatsImport } from './routes/_auth/MatchStats'
+import { Route as AuthStatisticsIndexImport } from './routes/_auth/statistics/index'
+import { Route as AuthStatisticsMatchIdImport } from './routes/_auth/statistics/$matchId'
 import { Route as AuthAdminAdminUploaderImport } from './routes/_auth/_admin/admin/Uploader'
 import { Route as AuthAdminAdminTeamImport } from './routes/_auth/_admin/admin/Team'
 import { Route as AuthAdminAdminAccountsImport } from './routes/_auth/_admin/admin/Accounts'
@@ -72,15 +72,15 @@ const AuthAdminRoute = AuthAdminImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
-const AuthStatisticsRoute = AuthStatisticsImport.update({
-  id: '/Statistics',
-  path: '/Statistics',
+const AuthStatisticsIndexRoute = AuthStatisticsIndexImport.update({
+  id: '/statistics/',
+  path: '/statistics/',
   getParentRoute: () => AuthRoute,
 } as any)
 
-const AuthMatchStatsRoute = AuthMatchStatsImport.update({
-  id: '/MatchStats',
-  path: '/MatchStats',
+const AuthStatisticsMatchIdRoute = AuthStatisticsMatchIdImport.update({
+  id: '/statistics/$matchId',
+  path: '/statistics/$matchId',
   getParentRoute: () => AuthRoute,
 } as any)
 
@@ -119,20 +119,6 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof GuestImport
       parentRoute: typeof rootRoute
-    }
-    '/_auth/MatchStats': {
-      id: '/_auth/MatchStats'
-      path: '/MatchStats'
-      fullPath: '/MatchStats'
-      preLoaderRoute: typeof AuthMatchStatsImport
-      parentRoute: typeof AuthImport
-    }
-    '/_auth/Statistics': {
-      id: '/_auth/Statistics'
-      path: '/Statistics'
-      fullPath: '/Statistics'
-      preLoaderRoute: typeof AuthStatisticsImport
-      parentRoute: typeof AuthImport
     }
     '/_auth/_admin': {
       id: '/_auth/_admin'
@@ -175,6 +161,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof GuestIndexImport
       parentRoute: typeof GuestImport
+    }
+    '/_auth/statistics/$matchId': {
+      id: '/_auth/statistics/$matchId'
+      path: '/statistics/$matchId'
+      fullPath: '/statistics/$matchId'
+      preLoaderRoute: typeof AuthStatisticsMatchIdImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/statistics/': {
+      id: '/_auth/statistics/'
+      path: '/statistics'
+      fullPath: '/statistics'
+      preLoaderRoute: typeof AuthStatisticsIndexImport
+      parentRoute: typeof AuthImport
     }
     '/_auth/_admin/admin/Accounts': {
       id: '/_auth/_admin/admin/Accounts'
@@ -219,15 +219,15 @@ const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
 )
 
 interface AuthRouteChildren {
-  AuthMatchStatsRoute: typeof AuthMatchStatsRoute
-  AuthStatisticsRoute: typeof AuthStatisticsRoute
   AuthAdminRoute: typeof AuthAdminRouteWithChildren
+  AuthStatisticsMatchIdRoute: typeof AuthStatisticsMatchIdRoute
+  AuthStatisticsIndexRoute: typeof AuthStatisticsIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
-  AuthMatchStatsRoute: AuthMatchStatsRoute,
-  AuthStatisticsRoute: AuthStatisticsRoute,
   AuthAdminRoute: AuthAdminRouteWithChildren,
+  AuthStatisticsMatchIdRoute: AuthStatisticsMatchIdRoute,
+  AuthStatisticsIndexRoute: AuthStatisticsIndexRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
@@ -252,13 +252,13 @@ const GuestRouteWithChildren = GuestRoute._addFileChildren(GuestRouteChildren)
 
 export interface FileRoutesByFullPath {
   '': typeof AuthAdminRouteWithChildren
-  '/MatchStats': typeof AuthMatchStatsRoute
-  '/Statistics': typeof AuthStatisticsRoute
   '/Login': typeof GuestLoginRoute
   '/Register': typeof GuestRegisterRoute
   '/Subscriptions': typeof GuestSubscriptionsRoute
   '/about': typeof GuestAboutRoute
   '/': typeof GuestIndexRoute
+  '/statistics/$matchId': typeof AuthStatisticsMatchIdRoute
+  '/statistics': typeof AuthStatisticsIndexRoute
   '/admin/Accounts': typeof AuthAdminAdminAccountsRoute
   '/admin/Team': typeof AuthAdminAdminTeamRoute
   '/admin/Uploader': typeof AuthAdminAdminUploaderRoute
@@ -266,13 +266,13 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '': typeof AuthAdminRouteWithChildren
-  '/MatchStats': typeof AuthMatchStatsRoute
-  '/Statistics': typeof AuthStatisticsRoute
   '/Login': typeof GuestLoginRoute
   '/Register': typeof GuestRegisterRoute
   '/Subscriptions': typeof GuestSubscriptionsRoute
   '/about': typeof GuestAboutRoute
   '/': typeof GuestIndexRoute
+  '/statistics/$matchId': typeof AuthStatisticsMatchIdRoute
+  '/statistics': typeof AuthStatisticsIndexRoute
   '/admin/Accounts': typeof AuthAdminAdminAccountsRoute
   '/admin/Team': typeof AuthAdminAdminTeamRoute
   '/admin/Uploader': typeof AuthAdminAdminUploaderRoute
@@ -282,14 +282,14 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_guest': typeof GuestRouteWithChildren
-  '/_auth/MatchStats': typeof AuthMatchStatsRoute
-  '/_auth/Statistics': typeof AuthStatisticsRoute
   '/_auth/_admin': typeof AuthAdminRouteWithChildren
   '/_guest/Login': typeof GuestLoginRoute
   '/_guest/Register': typeof GuestRegisterRoute
   '/_guest/Subscriptions': typeof GuestSubscriptionsRoute
   '/_guest/about': typeof GuestAboutRoute
   '/_guest/': typeof GuestIndexRoute
+  '/_auth/statistics/$matchId': typeof AuthStatisticsMatchIdRoute
+  '/_auth/statistics/': typeof AuthStatisticsIndexRoute
   '/_auth/_admin/admin/Accounts': typeof AuthAdminAdminAccountsRoute
   '/_auth/_admin/admin/Team': typeof AuthAdminAdminTeamRoute
   '/_auth/_admin/admin/Uploader': typeof AuthAdminAdminUploaderRoute
@@ -299,26 +299,26 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
-    | '/MatchStats'
-    | '/Statistics'
     | '/Login'
     | '/Register'
     | '/Subscriptions'
     | '/about'
     | '/'
+    | '/statistics/$matchId'
+    | '/statistics'
     | '/admin/Accounts'
     | '/admin/Team'
     | '/admin/Uploader'
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
-    | '/MatchStats'
-    | '/Statistics'
     | '/Login'
     | '/Register'
     | '/Subscriptions'
     | '/about'
     | '/'
+    | '/statistics/$matchId'
+    | '/statistics'
     | '/admin/Accounts'
     | '/admin/Team'
     | '/admin/Uploader'
@@ -326,14 +326,14 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_auth'
     | '/_guest'
-    | '/_auth/MatchStats'
-    | '/_auth/Statistics'
     | '/_auth/_admin'
     | '/_guest/Login'
     | '/_guest/Register'
     | '/_guest/Subscriptions'
     | '/_guest/about'
     | '/_guest/'
+    | '/_auth/statistics/$matchId'
+    | '/_auth/statistics/'
     | '/_auth/_admin/admin/Accounts'
     | '/_auth/_admin/admin/Team'
     | '/_auth/_admin/admin/Uploader'
@@ -367,9 +367,9 @@ export const routeTree = rootRoute
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
-        "/_auth/MatchStats",
-        "/_auth/Statistics",
-        "/_auth/_admin"
+        "/_auth/_admin",
+        "/_auth/statistics/$matchId",
+        "/_auth/statistics/"
       ]
     },
     "/_guest": {
@@ -381,14 +381,6 @@ export const routeTree = rootRoute
         "/_guest/about",
         "/_guest/"
       ]
-    },
-    "/_auth/MatchStats": {
-      "filePath": "_auth/MatchStats.tsx",
-      "parent": "/_auth"
-    },
-    "/_auth/Statistics": {
-      "filePath": "_auth/Statistics.tsx",
-      "parent": "/_auth"
     },
     "/_auth/_admin": {
       "filePath": "_auth/_admin.tsx",
@@ -418,6 +410,14 @@ export const routeTree = rootRoute
     "/_guest/": {
       "filePath": "_guest/index.tsx",
       "parent": "/_guest"
+    },
+    "/_auth/statistics/$matchId": {
+      "filePath": "_auth/statistics/$matchId.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/statistics/": {
+      "filePath": "_auth/statistics/index.tsx",
+      "parent": "/_auth"
     },
     "/_auth/_admin/admin/Accounts": {
       "filePath": "_auth/_admin/admin/Accounts.tsx",

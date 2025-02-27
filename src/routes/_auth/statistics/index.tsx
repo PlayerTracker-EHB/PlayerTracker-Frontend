@@ -1,18 +1,17 @@
 import { useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Trophy, Minus, X, BarChart3, Home, Plane } from "lucide-react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getGames } from "@/lib/api/games";
 import { useAuthStore } from "@/store/authStore";
 
-export const Route = createFileRoute("/_auth/Statistics")({
+export const Route = createFileRoute("/_auth/statistics/")({
   component: Statistics,
 });
 
 function Statistics() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
-  const navigate = useNavigate();
 
   const { data: games } = useSuspenseQuery(getGames);
 
@@ -67,9 +66,6 @@ function Statistics() {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
-  const handleMatchStatsClick = (matchId: number) => {
-    navigate({ to: `/match-stats/${matchId}` });
-  };
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-gray-50 to-gray-100 p-8">
@@ -167,13 +163,14 @@ function Statistics() {
                       </span>
                     </div>
                   </div>
-                  <button
-                    onClick={() => handleMatchStatsClick(match.id)}
-                    className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50"
-                  >
-                    <BarChart3 className="h-4 w-4 mr-2" />
-                    Match Stats
-                  </button>
+                  <Link to='/statistics/$matchId' params={{ matchId: match.id.toString() }}>
+                    <button
+                      className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50"
+                    >
+                      <BarChart3 className="h-4 w-4 mr-2" />
+                      Match Stats
+                    </button>
+                  </Link>
                 </div>
               );
             })}
