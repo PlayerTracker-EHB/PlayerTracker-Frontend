@@ -7,6 +7,9 @@ async function uploadFileInChunks(
   atHome: boolean,
   adversaryName: string,
   gameDate: Date,
+  homeTeamScore: number,
+  awayTeamScore: number,
+  startsLeft: boolean,
   onProgress?: (progress: number) => void
 ) {
   const CHUNK_SIZE = 1024 * 1024 * 5; // 5MB per chunk (adjust as needed)
@@ -57,6 +60,9 @@ async function uploadFileInChunks(
   // Once all chunks are uploaded, finalize on the server
   console.log(`Finalizing upload for file: ${file.name}`);
   const formattedDate = format(gameDate, 'yyyy-MM-dd')
+  console.log("homeTeamScore", homeTeamScore);
+  console.log("awayTeamScore", awayTeamScore);
+  console.log("startsLeft", startsLeft);
   try {
     const finalizeRes = await fetch(BASE_URL + '/finalize-upload', {
       method: 'POST',
@@ -68,6 +74,9 @@ async function uploadFileInChunks(
         atHome: atHome,
         adversaryName: adversaryName,
         gameDate: formattedDate,
+        homeTeamScore: homeTeamScore,
+        awayTeamScore: awayTeamScore,
+        startsLeft: startsLeft,
       }),
     });
 
@@ -87,8 +96,8 @@ async function uploadFileInChunks(
 export function useUploadVideo() {
   return useMutation<void, Error, any>({
     // Provide the async mutation function here:
-    mutationFn: async ({ file, atHome, adversaryName, gameDate, onProgress }) => {
-      return uploadFileInChunks(file, atHome, adversaryName, gameDate, onProgress);
+    mutationFn: async ({ file, atHome, adversaryName, gameDate, homeTeamScore, awayTeamScore, startsLeft, onProgress }) => {
+      return uploadFileInChunks(file, atHome, adversaryName, gameDate, homeTeamScore, awayTeamScore, startsLeft, onProgress);
     },
 
     // Optional: onSuccess, onError, etc.

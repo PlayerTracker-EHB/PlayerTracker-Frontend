@@ -17,6 +17,9 @@ function UploadVideoPage() {
   const [atHome, setAtHome] = useState<boolean>(true);
   const [adversaryName, setAdversaryName] = useState<string>("");
   const [gameDate, setGameDate] = useState<Date>();
+  const [homeTeamScore, setHomeTeamScore] = useState<number>(0);
+  const [awayTeamScore, setAwayTeamScore] = useState<number>(0);
+  const [startsLeft, setStartsLeft] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const { mutate: uploadVideo } = useUploadVideo();
@@ -39,6 +42,9 @@ function UploadVideoPage() {
       atHome,
       adversaryName,
       gameDate,
+      homeTeamScore,
+      awayTeamScore,
+      startsLeft,
       onProgress: (progress: number) => {
         setUploadProgress(progress);
       },
@@ -69,6 +75,9 @@ function UploadVideoPage() {
     setAtHome(true);
     setAdversaryName("");
     setGameDate(undefined)
+    setHomeTeamScore(0)
+    setAwayTeamScore(0)
+    setStartsLeft(false)
   }
 
   return (
@@ -96,6 +105,12 @@ function UploadVideoPage() {
           setAdversaryName={setAdversaryName}
           gameDate={gameDate}
           setGameDate={setGameDate}
+          homeTeamScore={homeTeamScore}
+          setHomeTeamScore={setHomeTeamScore}
+          awayTeamScore={awayTeamScore}
+          setAwayTeamScore={setAwayTeamScore}
+          startsLeft={startsLeft}
+          setStartsLeft={setStartsLeft}
           onUpload={handleUpload}
         />
 
