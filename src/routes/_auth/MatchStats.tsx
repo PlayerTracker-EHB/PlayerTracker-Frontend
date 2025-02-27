@@ -1,5 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import React from "react";
+import { createFileRoute } from "@tanstack/react-router";
 import { Trophy, Home, MapPin, Repeat, Timer, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -118,13 +117,12 @@ function MatchStats() {
                 </div>
                 <div className="text-center mt-4">
                   <div
-                    className={`px-8 py-4 rounded-full font-medium text-lg ${
-                      result === "Victory"
-                        ? "bg-green-100 text-green-800"
-                        : result === "Defeat"
-                          ? "bg-red-100 text-red-800"
-                          : "bg-yellow-100 text-yellow-800"
-                    }`}
+                    className={`px-8 py-4 rounded-full font-medium text-lg ${result === "Victory"
+                      ? "bg-green-100 text-green-800"
+                      : result === "Defeat"
+                        ? "bg-red-100 text-red-800"
+                        : "bg-yellow-100 text-yellow-800"
+                      }`}
                   >
                     {result}
                   </div>

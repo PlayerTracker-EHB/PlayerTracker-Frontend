@@ -13,6 +13,7 @@ import { UploadIcon, CircleX, Send } from "lucide-react";
 import { useState } from "react";
 import { ImSpinner2 } from "react-icons/im"; // Import loading spinner icon
 import { DatePicker } from "../ui/DatePicker";
+import { Checkbox } from "../ui/checkbox";
 
 function UploadDialog({
   open,
@@ -23,6 +24,12 @@ function UploadDialog({
   setAdversaryName,
   gameDate,
   setGameDate,
+  homeTeamScore,
+  setHomeTeamScore,
+  awayTeamScore,
+  setAwayTeamScore,
+  startsLeft,
+  setStartsLeft,
   onUpload,
 }: {
   open: boolean;
@@ -33,6 +40,13 @@ function UploadDialog({
   setAdversaryName: (name: string) => void;
   gameDate: Date | undefined;
   setGameDate: (gameDate: Date) => void;
+  homeTeamScore: number;
+  setHomeTeamScore: (score: number) => void;
+  awayTeamScore: number;
+  setAwayTeamScore: (score: number) => void;
+  startsLeft: boolean;
+  setStartsLeft: (left: boolean) => void;
+
   onUpload: () => void;
 }) {
   const [loading, setLoading] = useState(false);
@@ -52,7 +66,7 @@ function UploadDialog({
           </DialogTitle>
         </DialogHeader>
         <div className="grid gap-8 py-4">
-          <div className="flex items-center gap-8">
+          <div className="flex items-center justify-between">
             <Label htmlFor="home-game">Home Game</Label>
             <Switch
               id="home-game"
@@ -60,7 +74,7 @@ function UploadDialog({
               onCheckedChange={setAtHome}
             />
           </div>
-          <div className="flex items-center gap-8">
+          <div className="flex items-center justify-between">
             <Label htmlFor="adversary">Adversary Name</Label>
             <Input
               id="adversary"
@@ -69,8 +83,44 @@ function UploadDialog({
               placeholder="Enter adversary name"
             />
           </div>
-          <DatePicker date={gameDate} setDate={setGameDate} />
-        </div>
+          <div className="flex items-center justify-between ">
+            <Label htmlFor="datePicker">Pick a Game Date</Label>
+            <DatePicker date={gameDate} setDate={setGameDate} />
+          </div>
+          <div className="flex items-center justify-between gap-8">
+            <div>
+              <Label htmlFor="home-team-score">Home Team Score</Label>
+              <Input
+                id="home-team-score"
+                type="number"
+                value={homeTeamScore}
+                onChange={(e) => setHomeTeamScore(e.target.valueAsNumber)}
+              />
+            </div>
+            <div>
+              <Label htmlFor="away-team-score">Away Team Score</Label>
+              <Input
+                id="away-team-score"
+                type="number"
+                value={awayTeamScore}
+                onChange={(e) => setAwayTeamScore(e.target.valueAsNumber)}
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              checked={startsLeft}
+              onCheckedChange={setStartsLeft}
+              id="left"
+            />
+            <label
+              htmlFor="left"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Check this if your team started the game on the left side.
+            </label>
+          </div>        </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)}>
             <CircleX className="inline-block mr-2" /> Cancel

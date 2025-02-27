@@ -19,9 +19,19 @@ import {
 
 import { useAuthStore } from "@/store/authStore";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 
 export function AppSidebar() {
-  const { user, logout } = useAuthStore();
+  const authStore = useAuthStore();
+
+  useEffect(() => {
+    async function fetchUser() {
+      await authStore.fetchUser()
+    }
+    fetchUser()
+  }, [])
+
+  const user = authStore.user
   const navigate = useNavigate();
 
   // Menu items for all users
@@ -39,7 +49,7 @@ export function AppSidebar() {
 
   // Handle Logout
   const handleLogout = async () => {
-    await logout();
+    await authStore.logout();
     navigate({ to: '/' });
   };
 
@@ -48,7 +58,7 @@ export function AppSidebar() {
       <SidebarContent className="flex flex-col h-full">
         {/*SiderBar Title*/}
         <SidebarGroup>
-          <SidebarGroupLabel className="font-semibold text-xl text-black">{user ? user.team.clubName : "PlayerTracker"}</SidebarGroupLabel>
+          <SidebarGroupLabel className="font-semibold text-xl text-black">  {user && user.team ? user.team.clubName : "PlayerTracker"}</SidebarGroupLabel>
         </SidebarGroup>
         {user?.isAdmin && (
           // Admin Sidebar Group
