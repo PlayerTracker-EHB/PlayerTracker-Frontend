@@ -6,6 +6,9 @@ export interface Game {
   atHome: boolean;
   adversaryName: string;
   gameDate: Date;
+  homeTeamScore: number;
+  awayTeamScore: number;
+  startsLeft: boolean;
   videoPath: string | null;
   createdAt: string;
 }
