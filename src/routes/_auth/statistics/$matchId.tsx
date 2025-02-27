@@ -1,40 +1,31 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Trophy, Home, MapPin, Repeat, Timer, ArrowLeft } from "lucide-react";
+import { Trophy, Home, MapPin, ArrowLeft, Timer, Repeat } from "lucide-react";
 import { motion } from "framer-motion";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { getGames } from "@/lib/api/games";
+import { useAuthStore } from "@/store/authStore";
 
-// Définition de la route
 export const Route = createFileRoute("/_auth/statistics/$matchId")({
   component: MatchStats,
 });
 
 function MatchStats() {
-  const matchData = {
-    team: "Manchester City",
-    opponent: "Liverpool FC",
-    date: "March 15, 2024",
-    isHome: true,
-    score: {
-      team: 3,
-      opponent: 1,
-    },
-    stats: {
-      possession: {
-        team: 65,
-        opponent: 35,
-      },
-      passes: {
-        team: 547,
-        opponent: 324,
-      },
-    },
-  };
+  const { matchId } = Route.useParams();
 
-  const result =
-    matchData.score.team > matchData.score.opponent
-      ? "Victory"
-      : matchData.score.team === matchData.score.opponent
-        ? "Draw"
-        : "Defeat";
+  const { user } = useAuthStore();
+  const { data: games } = useSuspenseQuery(getGames);
+
+  const matches = games.map((game) => ({
+    id: String(game.gameId),
+    date: game.gameDate,
+    ourTeam: user ? user.team.clubName : "Unknown Team",
+    ourScore: game.atHome ? game.homeTeamScore : game.awayTeamScore,
+    opponentScore: game.atHome ? game.awayTeamScore : game.homeTeamScore,
+    opponent: game.adversaryName,
+    isHome: game.atHome,
+  }));
+
+  const match = matches.find((m) => m.id === matchId);
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-sky-50 via-white to-indigo-50">
@@ -53,83 +44,97 @@ function MatchStats() {
             </button>
           </div>
 
-          {/* Match Header */}
-          <motion.div
-            className="animate-slide-in bg-white rounded-3xl shadow-xl overflow-hidden mb-8"
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="relative h-40 bg-gradient-to-r from-sky-600 via-blue-600 to-indigo-600 p-8">
-              <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=1200')] bg-cover bg-center mix-blend-overlay"></div>
-              <div className="relative flex justify-between items-start">
-                <div className="text-white">
-                  <h1 className="text-5xl font-bold tracking-tight">
-                    {matchData.team}
-                  </h1>
-                  <div className="mt-2 flex items-center text-sky-100 space-x-2">
-                    <Trophy className="w-5 h-5" />
-                    <span>Premier League</span>
+          {/* Match List */}
+          {match ? (
+            <motion.div
+              key={match.id}
+              className="animate-slide-in bg-white rounded-3xl shadow-xl overflow-hidden mb-8"
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="relative h-40 bg-gradient-to-r from-sky-600 via-blue-600 to-indigo-600 p-8">
+                <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=1200')] bg-cover bg-center mix-blend-overlay"></div>
+                <div className="relative flex justify-between items-start">
+                  <div className="text-white">
+                    <h1 className="text-5xl font-bold tracking-tight">
+                      {match.ourTeam}
+                    </h1>
+                    <div className="mt-2 flex items-center text-sky-100 space-x-2">
+                      <Trophy className="w-5 h-5" />
+                      <span>-</span>
+                    </div>
                   </div>
-                </div>
-                <div className="text-right text-white">
-                  <p className="text-xl font-medium">{matchData.date}</p>
-                  <div className="flex items-center justify-end mt-2 text-sky-100">
-                    {matchData.isHome ? (
-                      <>
-                        <Home className="w-5 h-5" />
-                        <span className="ml-2">Home</span>
-                      </>
-                    ) : (
-                      <>
-                        <MapPin className="w-5 h-5" />
-                        <span className="ml-2">Away</span>
-                      </>
-                    )}
+                  <div className="text-right text-white">
+                    <p className="text-xl font-medium">
+                      {new Date(match.date).toLocaleDateString()}
+                    </p>
+                    <div className="flex items-center justify-end mt-2 text-sky-100">
+                      {match.isHome ? (
+                        <>
+                          <Home className="w-5 h-5" />
+                          <span className="ml-2">Home</span>
+                        </>
+                      ) : (
+                        <>
+                          <MapPin className="w-5 h-5" />
+                          <span className="ml-2">Away</span>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Score Section */}
-            <div className="relative  mx-8 mt-20 mb-10">
-              <div className="glass-effect rounded-2xl p-8 shadow-lg">
-                <div className="flex justify-center items-center">
-                  <div className="flex items-center space-x-8">
-                    <div>
-                      <p className="text-sm font-medium text-gray-500 mb-1">
-                        {matchData.team}
-                      </p>
-                      <p className="text-6xl font-bold text-blue-600 text-center">
-                        {matchData.score.team}
-                      </p>
-                    </div>
-                    <div className="text-4xl font-light text-gray-300">vs</div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-500 mb-1">
-                        {matchData.opponent}
-                      </p>
-                      <p className="text-6xl font-bold text-gray-400 text-center">
-                        {matchData.score.opponent}
-                      </p>
+              {/* Score Section */}
+              <div className="relative mx-8 mt-20 mb-10">
+                <div className="glass-effect rounded-2xl p-8 shadow-lg">
+                  <div className="flex justify-center items-center">
+                    <div className="flex items-center space-x-8">
+                      <div>
+                        <p className="text-sm font-medium text-gray-500 mb-1">
+                          {match.ourTeam}
+                        </p>
+                        <p className="text-6xl font-bold text-blue-600 text-center">
+                          {match.ourScore}
+                        </p>
+                      </div>
+                      <div className="text-4xl font-light text-gray-300">
+                        vs
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-500 mb-1">
+                          {match.opponent}
+                        </p>
+                        <p className="text-6xl font-bold text-gray-400 text-center">
+                          {match.opponentScore}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="text-center mt-4">
-                  <div
-                    className={`px-8 py-4 rounded-full font-medium text-lg ${result === "Victory"
-                      ? "bg-green-100 text-green-800"
-                      : result === "Defeat"
-                        ? "bg-red-100 text-red-800"
-                        : "bg-yellow-100 text-yellow-800"
+                  <div className="text-center mt-4">
+                    <div
+                      className={`px-8 py-4 rounded-full font-medium text-lg ${
+                        match.ourScore > match.opponentScore
+                          ? "bg-green-100 text-green-800"
+                          : match.ourScore < match.opponentScore
+                            ? "bg-red-100 text-red-800"
+                            : "bg-yellow-100 text-yellow-800"
                       }`}
-                  >
-                    {result}
+                    >
+                      {match.ourScore > match.opponentScore
+                        ? "Victory"
+                        : match.ourScore < match.opponentScore
+                          ? "Defeat"
+                          : "Draw"}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          ) : (
+            <p className="text-center text-gray-500">Match non trouvé</p>
+          )}
 
           {/* Stats Grid */}
           <div className="lg:grid-cols-3 gap-8">
@@ -151,18 +156,16 @@ function MatchStats() {
                       Possession
                     </h3>
                   </div>
-                  <span className="text-2xl font-bold text-blue-600">
-                    {matchData.stats.possession.team}%
-                  </span>
+                  <span className="text-2xl font-bold text-blue-600">/%</span>
                 </div>
                 <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-blue-500 to-blue-400 stat-bar"
-                    style={{ width: `${matchData.stats.possession.team}%` }}
+                    style={{ width: `/%` }}
                   ></div>
                 </div>
                 <div className="mt-2 text-sm text-gray-500 text-right">
-                  Opponent: {matchData.stats.possession.opponent}%
+                  Opponent: /
                 </div>
               </motion.div>
 
@@ -182,20 +185,18 @@ function MatchStats() {
                       Passes
                     </h3>
                   </div>
-                  <span className="text-2xl font-bold text-green-600">
-                    {matchData.stats.passes.team}
-                  </span>
+                  <span className="text-2xl font-bold text-green-600">/</span>
                 </div>
                 <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-green-500 to-green-400 stat-bar"
                     style={{
-                      width: `${(matchData.stats.passes.team / (matchData.stats.passes.team + matchData.stats.passes.opponent)) * 100}%`,
+                      width: `/%`,
                     }}
                   ></div>
                 </div>
                 <div className="mt-2 text-sm text-gray-500 text-right">
-                  Opponent: {matchData.stats.passes.opponent}
+                  Opponent: /
                 </div>
               </motion.div>
             </div>
@@ -217,7 +218,7 @@ function MatchStats() {
                 {/* First Heatmap */}
                 <div className="relative aspect-square">
                   <img
-                    src="teama_heatmap.png"
+                    src="{match.heatmapTeamA}" // Assurez-vous que cette propriété existe
                     alt="Match heatmap"
                     className="w-full h-full object-contain"
                   />
@@ -235,7 +236,7 @@ function MatchStats() {
                 {/* Second Heatmap */}
                 <div className="relative aspect-square">
                   <img
-                    src="teamb_heatmap.png"
+                    src="" // Assurez-vous que cette propriété existe
                     alt="Match heatmap"
                     className="w-full h-full object-contain"
                   />
