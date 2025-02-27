@@ -1,31 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Trophy, Home, MapPin, ArrowLeft, Timer, Repeat } from "lucide-react";
 import { motion } from "framer-motion";
+
+import { getStats } from "@/lib/api/stats";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getGames } from "@/lib/api/games";
-import { useAuthStore } from "@/store/authStore";
+
 
 export const Route = createFileRoute("/_auth/statistics/$matchId")({
   component: MatchStats,
 });
 
 function MatchStats() {
-  const { matchId } = Route.useParams();
+  const { matchId } = Route.useParams()
 
-  const { user } = useAuthStore();
-  const { data: games } = useSuspenseQuery(getGames);
+  const { data: stats } = useSuspenseQuery(getStats(+matchId));
 
-  const matches = games.map((game) => ({
-    id: String(game.gameId),
-    date: game.gameDate,
-    ourTeam: user ? user.team.clubName : "Unknown Team",
-    ourScore: game.atHome ? game.homeTeamScore : game.awayTeamScore,
-    opponentScore: game.atHome ? game.awayTeamScore : game.homeTeamScore,
-    opponent: game.adversaryName,
-    isHome: game.atHome,
-  }));
 
-  const match = matches.find((m) => m.id === matchId);
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-sky-50 via-white to-indigo-50">
