@@ -1,6 +1,15 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
+
+export interface MinioConfig {
+  endPoint: string;
+  port: number;
+  useSSL: boolean;
+  accessKey: string;
+  secretKey: string;
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -10,4 +19,5 @@ export const getBaseUrl = (path: string): string => {
   const port = ':3333'
   return `${host}${port}${path}`;
 };
+
 

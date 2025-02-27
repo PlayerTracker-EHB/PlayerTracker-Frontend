@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Trophy, Home, MapPin, Repeat, Timer, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
+import { getStats } from "@/lib/api/stats";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 // Définition de la route
 export const Route = createFileRoute("/_auth/statistics/$matchId")({
@@ -28,6 +30,13 @@ function MatchStats() {
       },
     },
   };
+
+  const { matchId } = Route.useParams()
+
+  const { data: stats } = useSuspenseQuery(getStats(+matchId));
+  console.log(stats);
+  
+  
 
   const result =
     matchData.score.team > matchData.score.opponent
