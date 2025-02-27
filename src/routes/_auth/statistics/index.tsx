@@ -15,7 +15,6 @@ function Statistics() {
 
   const { data: games } = useSuspenseQuery(getGames);
 
-  console.log(games);
 
   const { user } = useAuthStore();
 
@@ -23,9 +22,8 @@ function Statistics() {
     id: game.gameId,
     date: game.gameDate,
     ourTeam: user ? user.team.clubName : "Unknown Team",
-    ourScore: 3, // Hardcoded
-    opponentScore: 1, // Hardcoded
-    opponent: game.adversaryName,
+    ourScore: game.atHome ? game.homeTeamScore : game.awayTeamScore,
+    opponentScore: game.atHome ? game.awayTeamScore : game.homeTeamScore, opponent: game.adversaryName,
     isHome: game.atHome,
   }));
 
@@ -39,6 +37,7 @@ function Statistics() {
     ),
   };
 
+  console.log("MATCHES:", matches)
   const winPercentage = (stats.wins / matches.length) * 100;
 
   const getMatchOutcome = (ourScore: number, opponentScore: number) => {
