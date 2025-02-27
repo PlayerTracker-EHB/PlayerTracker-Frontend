@@ -16,6 +16,7 @@ function UploadVideoPage() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [atHome, setAtHome] = useState<boolean>(true);
   const [adversaryName, setAdversaryName] = useState<string>("");
+  const [gameDate, setGameDate] = useState<Date>();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const { mutate: uploadVideo } = useUploadVideo();
@@ -35,11 +36,13 @@ function UploadVideoPage() {
 
     uploadVideo({
       file,
+      atHome,
+      adversaryName,
+      gameDate,
       onProgress: (progress: number) => {
         setUploadProgress(progress);
       },
-      atHome,
-      adversaryName,
+
     }, {
       onSuccess: () => {
         toast({
@@ -65,6 +68,7 @@ function UploadVideoPage() {
     setUploadProgress(0);
     setAtHome(true);
     setAdversaryName("");
+    setGameDate(undefined)
   }
 
   return (
@@ -90,6 +94,8 @@ function UploadVideoPage() {
           setAtHome={setAtHome}
           adversaryName={adversaryName}
           setAdversaryName={setAdversaryName}
+          gameDate={gameDate}
+          setGameDate={setGameDate}
           onUpload={handleUpload}
         />
 

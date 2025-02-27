@@ -40,7 +40,7 @@ export function AppSidebar() {
         {/*SiderBar Title*/}
         <SidebarGroup>
           <SidebarGroupLabel className="font-semibold text-xl text-black">
-            PlayerTracker
+            {user ? user.team.clubName : "PlayerTracker"}
           </SidebarGroupLabel>
         </SidebarGroup>
         {user?.isAdmin && (
