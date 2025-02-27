@@ -19,6 +19,7 @@ import { Route as GuestSubscriptionsImport } from './routes/_guest/Subscriptions
 import { Route as GuestRegisterImport } from './routes/_guest/Register'
 import { Route as GuestLoginImport } from './routes/_guest/Login'
 import { Route as AuthAdminImport } from './routes/_auth/_admin'
+import { Route as AuthStatisticsImport } from './routes/_auth/Statistics'
 import { Route as AuthStatisticsIndexImport } from './routes/_auth/statistics/index'
 import { Route as AuthStatisticsMatchIdImport } from './routes/_auth/statistics/$matchId'
 import { Route as AuthAdminAdminUploaderImport } from './routes/_auth/_admin/admin/Uploader'
@@ -72,6 +73,12 @@ const AuthAdminRoute = AuthAdminImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
+const AuthStatisticsRoute = AuthStatisticsImport.update({
+  id: '/Statistics',
+  path: '/Statistics',
+  getParentRoute: () => AuthRoute,
+} as any)
+
 const AuthStatisticsIndexRoute = AuthStatisticsIndexImport.update({
   id: '/statistics/',
   path: '/statistics/',
@@ -119,6 +126,13 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof GuestImport
       parentRoute: typeof rootRoute
+    }
+    '/_auth/Statistics': {
+      id: '/_auth/Statistics'
+      path: '/Statistics'
+      fullPath: '/Statistics'
+      preLoaderRoute: typeof AuthStatisticsImport
+      parentRoute: typeof AuthImport
     }
     '/_auth/_admin': {
       id: '/_auth/_admin'
@@ -219,12 +233,14 @@ const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
 )
 
 interface AuthRouteChildren {
+  AuthStatisticsRoute: typeof AuthStatisticsRoute
   AuthAdminRoute: typeof AuthAdminRouteWithChildren
   AuthStatisticsMatchIdRoute: typeof AuthStatisticsMatchIdRoute
   AuthStatisticsIndexRoute: typeof AuthStatisticsIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthStatisticsRoute: AuthStatisticsRoute,
   AuthAdminRoute: AuthAdminRouteWithChildren,
   AuthStatisticsMatchIdRoute: AuthStatisticsMatchIdRoute,
   AuthStatisticsIndexRoute: AuthStatisticsIndexRoute,
@@ -252,6 +268,7 @@ const GuestRouteWithChildren = GuestRoute._addFileChildren(GuestRouteChildren)
 
 export interface FileRoutesByFullPath {
   '': typeof AuthAdminRouteWithChildren
+  '/Statistics': typeof AuthStatisticsRoute
   '/Login': typeof GuestLoginRoute
   '/Register': typeof GuestRegisterRoute
   '/Subscriptions': typeof GuestSubscriptionsRoute
@@ -266,6 +283,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '': typeof AuthAdminRouteWithChildren
+  '/Statistics': typeof AuthStatisticsRoute
   '/Login': typeof GuestLoginRoute
   '/Register': typeof GuestRegisterRoute
   '/Subscriptions': typeof GuestSubscriptionsRoute
@@ -282,6 +300,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_guest': typeof GuestRouteWithChildren
+  '/_auth/Statistics': typeof AuthStatisticsRoute
   '/_auth/_admin': typeof AuthAdminRouteWithChildren
   '/_guest/Login': typeof GuestLoginRoute
   '/_guest/Register': typeof GuestRegisterRoute
@@ -299,6 +318,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
+    | '/Statistics'
     | '/Login'
     | '/Register'
     | '/Subscriptions'
@@ -312,6 +332,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
+    | '/Statistics'
     | '/Login'
     | '/Register'
     | '/Subscriptions'
@@ -326,6 +347,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_auth'
     | '/_guest'
+    | '/_auth/Statistics'
     | '/_auth/_admin'
     | '/_guest/Login'
     | '/_guest/Register'
@@ -367,6 +389,7 @@ export const routeTree = rootRoute
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
+        "/_auth/Statistics",
         "/_auth/_admin",
         "/_auth/statistics/$matchId",
         "/_auth/statistics/"
@@ -381,6 +404,10 @@ export const routeTree = rootRoute
         "/_guest/about",
         "/_guest/"
       ]
+    },
+    "/_auth/Statistics": {
+      "filePath": "_auth/Statistics.tsx",
+      "parent": "/_auth"
     },
     "/_auth/_admin": {
       "filePath": "_auth/_admin.tsx",
