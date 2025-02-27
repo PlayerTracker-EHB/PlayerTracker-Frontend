@@ -16,12 +16,12 @@ function Statistics() {
   const { data: games } = useSuspenseQuery(getGames);
 
 
-  const { user } = useAuthStore();
+  const user = useAuthStore().user
 
   const matches = games.map((game) => ({
     id: game.gameId,
     date: game.gameDate,
-    ourTeam: user ? user.team.clubName : "Unknown Team",
+    ourTeam: user && user.team ? user.team.clubName : "Unknown Team",
     ourScore: game.atHome ? game.homeTeamScore : game.awayTeamScore,
     opponentScore: game.atHome ? game.awayTeamScore : game.homeTeamScore, opponent: game.adversaryName,
     isHome: game.atHome,
