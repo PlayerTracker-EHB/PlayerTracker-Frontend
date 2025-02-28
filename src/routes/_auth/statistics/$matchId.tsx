@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-  Trophy,
   Home,
   MapPin,
   ArrowLeft,
@@ -12,10 +11,11 @@ import { motion } from "framer-motion";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getGames } from "@/lib/api/games";
 import { useAuthStore } from "@/store/authStore";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { getStats } from "@/lib/api/stats";
 
 export const Route = createFileRoute("/_auth/statistics/$matchId")({
   component: MatchStats,
@@ -27,6 +27,8 @@ function MatchStats() {
   const { data: games } = useSuspenseQuery(getGames);
   const navigate = useNavigate();
 
+  const { data: stats } = useSuspenseQuery(getStats(+matchId));
+
   const matches = games.map((game) => ({
     id: String(game.gameId),
     date: game.gameDate,
@@ -36,14 +38,18 @@ function MatchStats() {
     opponentScore: game.atHome ? game.awayTeamScore : game.homeTeamScore,
     opponent: game.adversaryName,
     isHome: game.atHome,
-    possession: game.possession || 50,
-    passAccuracy: game.passAccuracy || 80,
+    possession: stats.possessionTeamA,
+    passAccuracy: 80,
     heatmapOurTeam: "/teama_heatmap.png",
     heatmapOpponent: "/teamb_heatmap.png",
   }));
 
+
+
+
   const match = matches.find((m) => m.id === matchId);
   const [isPdfExporting, setIsPdfExporting] = useState(false);
+
 
   const handleExportPdf = () => {
     if (!match) return;
@@ -230,18 +236,18 @@ function MatchStats() {
             </h3>
             <div className="mb-4">
               <div className="flex justify-between text-sm font-medium mb-1">
-                <span>{match.possession}%</span>
+                <span>{stats.possessionTeamA}%</span>
                 <span className="text-gray-600">Possession</span>
-                <span>{100 - match.possession}%</span>
+                <span>{100 - stats.possessionTeamA}%</span>
               </div>
               <div className="h-2 flex rounded-full overflow-hidden">
                 <div
                   className="bg-blue-400"
-                  style={{ width: `${match.possession}%` }}
+                  style={{ width: `${stats.possessionTeamA}%` }}
                 ></div>
                 <div
                   className="bg-red-400"
-                  style={{ width: `${100 - match.possession}%` }}
+                  style={{ width: `${100 - stats.possessionTeamA}%` }}
                 ></div>
               </div>
             </div>
@@ -324,11 +330,10 @@ function MatchStats() {
               disabled={isPdfExporting}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-lg text-white font-medium ${
-                isPdfExporting
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-slate-700 hover:bg-slate-800 transition-colors"
-              }`}
+              className={`flex items-center space-x-2 px-6 py-3 rounded-lg text-white font-medium ${isPdfExporting
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-slate-700 hover:bg-slate-800 transition-colors"
+                }`}
             >
               {isPdfExporting ? (
                 <>
