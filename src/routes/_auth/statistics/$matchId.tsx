@@ -133,7 +133,7 @@ function MatchStats() {
 
   return (
     <motion.div
-      className="max-h-screen w-full bg-gray-50"
+      className="min-h-screen w-full bg-gray-50"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -295,6 +295,20 @@ function MatchStats() {
                 ) : (
                   <span className="text-gray-600">No Heatmap Available</span>
                 )}
+              </div>
+            </div>
+            <div className="flex items-center justify-center space-x-6 mt-4">
+              <div className="flex items-center space-x-2">
+                <span className="inline-block w-4 h-4 rounded-full bg-yellow-300"></span>
+                <span className="text-sm text-gray-700">Ball</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="inline-block w-4 h-4 rounded-full bg-blue-700"></span>
+                <span className="text-sm text-gray-700">Our Team</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="inline-block w-4 h-4 rounded-full bg-red-500"></span>
+                <span className="text-sm text-gray-700">Opponent</span>
               </div>
             </div>
           </motion.div>
