@@ -1,39 +1,43 @@
 import { getBaseUrl } from "../utils";
 
-export interface GameStats {
-    statId: number;
-    gameId: number;
-    videoName: string;
-    possessionTeamA: number;
-    possessionTeamB: number;
-    heatmapTeamA: string;
-    heatmapTeamB: string;
+interface Stats {
+  matchStats: GameStats;
 }
 
-const fetchGameStats = async (gameId: number): Promise<GameStats[]> => {
-    console.info(`Fetching stats for game ID: ${gameId}...`);
+export interface GameStats {
+  statId: number;
+  gameId: number;
+  videoName: string;
+  possessionTeamA: number;
+  possessionTeamB: number;
+  heatmapTeamA: string;
+  heatmapTeamB: string;
+}
 
-    const baseGameURL = getBaseUrl(`/stats/${gameId}`);
+const fetchGameStats = async (gameId: number): Promise<GameStats> => {
+  console.info(`Fetching stats for game ID: ${gameId}...`);
 
-    try {
-        const response = await fetch(baseGameURL, {
-            method: 'GET',
-            credentials: 'include',
-        });
+  const baseGameURL = getBaseUrl(`/stats/${gameId}`);
 
-        if (!response.ok) {
-            throw new Error(`Failed to fetch stats for game ID: ${gameId}`);
-        }
+  try {
+    const response = await fetch(baseGameURL, {
+      method: 'GET',
+      credentials: 'include',
+    });
 
-        const data: GameStats[] = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching game stats:', error);
-        throw error;
+    if (!response.ok) {
+      throw new Error(`Failed to fetch stats for game ID: ${gameId}`);
     }
+
+    const data: Stats = await response.json();
+    return data.matchStats;
+  } catch (error) {
+    console.error('Error fetching game stats:', error);
+    throw error;
+  }
 };
 
 export const getStats = (gameId: number) => ({
-    queryKey: ['GameStats', gameId],
-    queryFn: () => fetchGameStats(gameId),
+  queryKey: ['GameStats', gameId],
+  queryFn: () => fetchGameStats(gameId),
 });
