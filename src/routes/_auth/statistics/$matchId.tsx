@@ -17,7 +17,6 @@ import { useNavigate } from "@tanstack/react-router";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-// Définition de la route
 export const Route = createFileRoute("/_auth/statistics/$matchId")({
   component: MatchStats,
 });
@@ -48,11 +47,8 @@ function MatchStats() {
 
   const handleExportPdf = () => {
     if (!match) return;
-
-    // Déclencher l'état de chargement
     setIsPdfExporting(true);
 
-    // Laisser le temps à React de re‐rendre l’UI avant de lancer l’export
     setTimeout(() => {
       const pdf = new jsPDF();
       const pageWidth = pdf.internal.pageSize.getWidth();
@@ -109,7 +105,6 @@ function MatchStats() {
       // Heatmaps
       pdf.setFontSize(14);
       pdf.text("Heatmaps", 20, 110);
-
       // Première heatmap
       pdf.addImage(match.heatmapOurTeam, "PNG", 20, 115, 170, 70);
       pdf.text(`${match.ourTeam} Heatmap`, 20, 190);
@@ -118,170 +113,225 @@ function MatchStats() {
       pdf.addImage(match.heatmapOpponent, "PNG", 20, 200, 170, 70);
       pdf.text(`${match.opponent} Heatmap`, 20, 275);
 
-      // Sauvegarde
       pdf.save("match_statistics.pdf");
-
-      // Fin d'export
       setIsPdfExporting(false);
     }, 0);
   };
 
+  if (!match) {
+    return (
+      <motion.div
+        className="min-h-screen flex items-center justify-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <p className="text-center text-gray-500 text-xl">Match non trouvé</p>
+      </motion.div>
+    );
+  }
+
   return (
-    <div className="max-h-screen w-full bg-gray-50">
-      <header className="bg-white shadow-sm relative">
+    <motion.div
+      className="max-h-screen w-full bg-gray-50"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.header
+        className="bg-white shadow-sm relative"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="max-w-5xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex items-center">
-          <button
+          <motion.button
             onClick={() => navigate({ to: "/statistics" })}
             className="mr-4 p-2 rounded-full bg-gray-100 hover:bg-gray-200"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
           >
             <ArrowLeft className="h-5 w-5 text-gray-800" />
-          </button>
+          </motion.button>
           <h1 className="text-3xl font-bold text-gray-800">Match Statistics</h1>
         </div>
-      </header>
+      </motion.header>
 
-      <main className="max-w-5xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        {match ? (
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-            <div className="bg-gradient-to-r from-slate-700 to-slate-800 text-white p-6">
-              <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-                <div className="flex items-center space-x-2">
-                  <Calendar className="h-5 w-5 text-slate-300" />
-                  <span>{new Date(match.date).toLocaleDateString()}</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  {match.isHome ? (
-                    <>
-                      <Home className="h-5 w-5 text-slate-300" />
-                      <span>Home Match</span>
-                    </>
-                  ) : (
-                    <>
-                      <MapPin className="h-5 w-5 text-slate-300" />
-                      <span>Away Match</span>
-                    </>
-                  )}
-                </div>
-                <div className="flex items-center space-x-2">
-                  <User className="h-5 w-5 text-slate-300" />
-                  <span>Coach: {match.ourCoach}</span>
-                </div>
+      <motion.main
+        className="max-w-5xl mx-auto px-4 py-8 sm:px-6 lg:px-8"
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <motion.div
+          className="bg-white rounded-xl shadow-sm overflow-hidden"
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <motion.div
+            className="bg-gradient-to-r from-slate-700 to-slate-800 text-white p-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+              <div className="flex items-center space-x-2">
+                <Calendar className="h-5 w-5 text-slate-300" />
+                <span>{new Date(match.date).toLocaleDateString()}</span>
               </div>
-            </div>
-
-            <div className="p-6 border-b border-gray-100">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-gray-800">
-                  {match.ourTeam}
-                </h2>
-                <div className="text-5xl font-bold text-gray-800">
-                  {match.ourScore} - {match.opponentScore}
-                </div>
-                <h2 className="text-xl font-bold text-gray-800">
-                  {match.opponent}
-                </h2>
-              </div>
-            </div>
-
-            <div className="px-6 py-8 border-b border-gray-100">
-              <h3 className="text-xl font-semibold mb-6 text-gray-800">
-                Match Statistics
-              </h3>
-              <div className="mb-4">
-                <div className="flex justify-between text-sm font-medium mb-1">
-                  <span>{match.possession}%</span>
-                  <span className="text-gray-600">Possession</span>
-                  <span>{100 - match.possession}%</span>
-                </div>
-                <div className="h-2 flex rounded-full overflow-hidden">
-                  <div
-                    className="bg-blue-400"
-                    style={{ width: `${match.possession}%` }}
-                  ></div>
-                  <div
-                    className="bg-red-400"
-                    style={{ width: `${100 - match.possession}%` }}
-                  ></div>
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between text-sm font-medium mb-1">
-                  <span>{match.passAccuracy}%</span>
-                  <span className="text-gray-600">Pass Accuracy</span>
-                  <span>{100 - match.passAccuracy}%</span>
-                </div>
-                <div className="h-2 flex rounded-full overflow-hidden">
-                  <div
-                    className="bg-blue-400"
-                    style={{ width: `${match.passAccuracy}%` }}
-                  ></div>
-                  <div
-                    className="bg-red-400"
-                    style={{ width: `${100 - match.passAccuracy}%` }}
-                  ></div>
-                </div>
-              </div>
-            </div>
-
-            <div className="px-6 py-8">
-              <h3 className="text-xl font-semibold mb-6 text-gray-800">
-                Possession Heatmaps
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="h-48 bg-blue-200 rounded-lg flex items-center justify-center overflow-hidden">
-                  {match?.heatmapOurTeam ? (
-                    <img
-                      src={match.heatmapOurTeam}
-                      alt="Our Team Heatmap"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-gray-600">No Heatmap Available</span>
-                  )}
-                </div>
-                <div className="h-48 bg-red-200 rounded-lg flex items-center justify-center overflow-hidden">
-                  {match?.heatmapOpponent ? (
-                    <img
-                      src={match.heatmapOpponent}
-                      alt="Opponent Heatmap"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-gray-600">No Heatmap Available</span>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="px-6 py-8 flex justify-center border-t border-gray-100">
-              <button
-                onClick={handleExportPdf}
-                disabled={isPdfExporting}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-lg text-white font-medium ${
-                  isPdfExporting
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-slate-700 hover:bg-slate-800 transition-colors"
-                }`}
-              >
-                {isPdfExporting ? (
+              <div className="flex items-center space-x-2">
+                {match.isHome ? (
                   <>
-                    <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
-                    <span>Exporting...</span>
+                    <Home className="h-5 w-5 text-slate-300" />
+                    <span>Home Match</span>
                   </>
                 ) : (
                   <>
-                    <Download className="h-5 w-5" />
-                    <span>Export as PDF</span>
+                    <MapPin className="h-5 w-5 text-slate-300" />
+                    <span>Away Match</span>
                   </>
                 )}
-              </button>
+              </div>
+              <div className="flex items-center space-x-2">
+                <User className="h-5 w-5 text-slate-300" />
+                <span>Coach: {match.ourCoach}</span>
+              </div>
             </div>
-          </div>
-        ) : (
-          <p className="text-center text-gray-500">Match non trouvé</p>
-        )}
-      </main>
-    </div>
+          </motion.div>
+
+          <motion.div
+            className="p-6 border-b border-gray-100"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold text-gray-800">
+                {match.ourTeam}
+              </h2>
+              <div className="text-5xl font-bold text-gray-800">
+                {match.ourScore} - {match.opponentScore}
+              </div>
+              <h2 className="text-xl font-bold text-gray-800">
+                {match.opponent}
+              </h2>
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="px-6 py-8 border-b border-gray-100"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+          >
+            <h3 className="text-xl font-semibold mb-6 text-gray-800">
+              Match Statistics
+            </h3>
+            <div className="mb-4">
+              <div className="flex justify-between text-sm font-medium mb-1">
+                <span>{match.possession}%</span>
+                <span className="text-gray-600">Possession</span>
+                <span>{100 - match.possession}%</span>
+              </div>
+              <div className="h-2 flex rounded-full overflow-hidden">
+                <div
+                  className="bg-blue-400"
+                  style={{ width: `${match.possession}%` }}
+                ></div>
+                <div
+                  className="bg-red-400"
+                  style={{ width: `${100 - match.possession}%` }}
+                ></div>
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between text-sm font-medium mb-1">
+                <span>{match.passAccuracy}%</span>
+                <span className="text-gray-600">Pass Accuracy</span>
+                <span>{100 - match.passAccuracy}%</span>
+              </div>
+              <div className="h-2 flex rounded-full overflow-hidden">
+                <div
+                  className="bg-blue-400"
+                  style={{ width: `${match.passAccuracy}%` }}
+                ></div>
+                <div
+                  className="bg-red-400"
+                  style={{ width: `${100 - match.passAccuracy}%` }}
+                ></div>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="px-6 py-8"
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+          >
+            <h3 className="text-xl font-semibold mb-6 text-gray-800">
+              Possession Heatmaps
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="h-48 bg-blue-200 rounded-lg flex items-center justify-center overflow-hidden">
+                {match.heatmapOurTeam ? (
+                  <img
+                    src={match.heatmapOurTeam}
+                    alt="Our Team Heatmap"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-gray-600">No Heatmap Available</span>
+                )}
+              </div>
+              <div className="h-48 bg-red-200 rounded-lg flex items-center justify-center overflow-hidden">
+                {match.heatmapOpponent ? (
+                  <img
+                    src={match.heatmapOpponent}
+                    alt="Opponent Heatmap"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-gray-600">No Heatmap Available</span>
+                )}
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="px-6 py-8 flex justify-center border-t border-gray-100"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+          >
+            <motion.button
+              onClick={handleExportPdf}
+              disabled={isPdfExporting}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`flex items-center space-x-2 px-6 py-3 rounded-lg text-white font-medium ${
+                isPdfExporting
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-slate-700 hover:bg-slate-800 transition-colors"
+              }`}
+            >
+              {isPdfExporting ? (
+                <>
+                  <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
+                  <span>Exporting...</span>
+                </>
+              ) : (
+                <>
+                  <Download className="h-5 w-5" />
+                  <span>Export as PDF</span>
+                </>
+              )}
+            </motion.button>
+          </motion.div>
+        </motion.div>
+      </motion.main>
+    </motion.div>
   );
 }
 
