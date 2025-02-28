@@ -13,6 +13,8 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as GuestImport } from './routes/_guest'
 import { Route as AuthImport } from './routes/_auth'
+import { Route as TermsImport } from './routes/Terms'
+import { Route as PrivacyImport } from './routes/Privacy'
 import { Route as GuestIndexImport } from './routes/_guest/index'
 import { Route as GuestAboutImport } from './routes/_guest/about'
 import { Route as GuestSubscriptionsImport } from './routes/_guest/Subscriptions'
@@ -34,6 +36,18 @@ const GuestRoute = GuestImport.update({
 
 const AuthRoute = AuthImport.update({
   id: '/_auth',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TermsRoute = TermsImport.update({
+  id: '/Terms',
+  path: '/Terms',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PrivacyRoute = PrivacyImport.update({
+  id: '/Privacy',
+  path: '/Privacy',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -106,6 +120,20 @@ const AuthAdminAdminAccountsRoute = AuthAdminAdminAccountsImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/Privacy': {
+      id: '/Privacy'
+      path: '/Privacy'
+      fullPath: '/Privacy'
+      preLoaderRoute: typeof PrivacyImport
+      parentRoute: typeof rootRoute
+    }
+    '/Terms': {
+      id: '/Terms'
+      path: '/Terms'
+      fullPath: '/Terms'
+      preLoaderRoute: typeof TermsImport
+      parentRoute: typeof rootRoute
+    }
     '/_auth': {
       id: '/_auth'
       path: ''
@@ -251,6 +279,8 @@ const GuestRouteChildren: GuestRouteChildren = {
 const GuestRouteWithChildren = GuestRoute._addFileChildren(GuestRouteChildren)
 
 export interface FileRoutesByFullPath {
+  '/Privacy': typeof PrivacyRoute
+  '/Terms': typeof TermsRoute
   '': typeof AuthAdminRouteWithChildren
   '/Login': typeof GuestLoginRoute
   '/Register': typeof GuestRegisterRoute
@@ -265,6 +295,8 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
+  '/Privacy': typeof PrivacyRoute
+  '/Terms': typeof TermsRoute
   '': typeof AuthAdminRouteWithChildren
   '/Login': typeof GuestLoginRoute
   '/Register': typeof GuestRegisterRoute
@@ -280,6 +312,8 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/Privacy': typeof PrivacyRoute
+  '/Terms': typeof TermsRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_guest': typeof GuestRouteWithChildren
   '/_auth/_admin': typeof AuthAdminRouteWithChildren
@@ -298,6 +332,8 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/Privacy'
+    | '/Terms'
     | ''
     | '/Login'
     | '/Register'
@@ -311,6 +347,8 @@ export interface FileRouteTypes {
     | '/admin/Uploader'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/Privacy'
+    | '/Terms'
     | ''
     | '/Login'
     | '/Register'
@@ -324,6 +362,8 @@ export interface FileRouteTypes {
     | '/admin/Uploader'
   id:
     | '__root__'
+    | '/Privacy'
+    | '/Terms'
     | '/_auth'
     | '/_guest'
     | '/_auth/_admin'
@@ -341,11 +381,15 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
+  PrivacyRoute: typeof PrivacyRoute
+  TermsRoute: typeof TermsRoute
   AuthRoute: typeof AuthRouteWithChildren
   GuestRoute: typeof GuestRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  PrivacyRoute: PrivacyRoute,
+  TermsRoute: TermsRoute,
   AuthRoute: AuthRouteWithChildren,
   GuestRoute: GuestRouteWithChildren,
 }
@@ -360,9 +404,17 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/Privacy",
+        "/Terms",
         "/_auth",
         "/_guest"
       ]
+    },
+    "/Privacy": {
+      "filePath": "Privacy.tsx"
+    },
+    "/Terms": {
+      "filePath": "Terms.tsx"
     },
     "/_auth": {
       "filePath": "_auth.tsx",
