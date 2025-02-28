@@ -1,5 +1,5 @@
-import { getBaseUrl } from '@/lib/utils';
-import { create } from 'zustand';
+import { getBaseUrl } from "@/lib/utils";
+import { create } from "zustand";
 
 export interface Team {
   teamId: number;
@@ -24,17 +24,23 @@ export interface AuthState {
   user: User | null;
   isError: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, fullName: string) => Promise<void>;
+  register: (
+    email: string,
+    password: string,
+    fullName: string
+  ) => Promise<void>;
   logout: () => Promise<void>;
   fetchUser: () => Promise<void>;
 }
 
-
 // Base fetch function to handle requests
-const baseFetch = async (path: string, options: RequestInit = {}): Promise<Response> => {
+const baseFetch = async (
+  path: string,
+  options: RequestInit = {}
+): Promise<Response> => {
   return await fetch(getBaseUrl(path), {
     ...options,
-    credentials: 'include', // Ensure cookies are sent with the request
+    credentials: "include", // Ensure cookies are sent with the request
   });
 };
 
@@ -44,9 +50,9 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   login: async (email, password) => {
     try {
-      const response = await baseFetch('/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await baseFetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
@@ -54,20 +60,29 @@ export const useAuthStore = create<AuthState>((set) => ({
       if (response.ok) {
         set({ user: data.user, isError: false });
       } else {
-        alert(data.message);
         set({ isError: true });
+        throw new Error(data.message || "Invalid email or password.");
       }
     } catch (error) {
-      console.error(error);
       set({ isError: true });
+
+      // ✅ Vérifier et caster `error`
+      let errorMessage = "Something went wrong";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === "string") {
+        errorMessage = error;
+      }
+
+      throw new Error(errorMessage);
     }
   },
 
   register: async (email, password, fullName) => {
     try {
-      const response = await baseFetch('/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await baseFetch("/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, fullName }),
       });
 
@@ -85,15 +100,15 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   logout: async () => {
-    await baseFetch('/logout', {
-      method: 'POST',
+    await baseFetch("/logout", {
+      method: "POST",
     });
     set({ user: null, isError: false });
   },
 
   fetchUser: async () => {
     try {
-      const response = await baseFetch('/me');
+      const response = await baseFetch("/me");
 
       const data = await response.json();
       if (response.ok) {
@@ -109,4 +124,3 @@ export const useAuthStore = create<AuthState>((set) => ({
 }));
 
 export default useAuthStore;
-
