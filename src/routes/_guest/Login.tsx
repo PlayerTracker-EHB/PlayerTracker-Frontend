@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { createFileRoute } from "@tanstack/react-router";
 import { ImSpinner2 } from "react-icons/im";
 import { Eye, EyeOff } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 export const Route = createFileRoute("/_guest/Login")({
   component: Login,
@@ -24,6 +25,11 @@ function Login() {
 
     if (email === "" || password === "") {
       setErrorMessage("Please fill in all fields.");
+      toast({
+        title: "Error",
+        description: "Please fill in all fields.",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -32,6 +38,12 @@ function Login() {
 
     try {
       await login(email, password);
+
+      toast({
+        title: "Login Successful",
+        description: "You have been successfully logged in! 🚀",
+      });
+
       navigate({ to: "/statistics" });
     } catch (error) {
       let errorMessage = "Invalid email or password.";
@@ -42,6 +54,12 @@ function Login() {
       }
 
       setErrorMessage(errorMessage);
+
+      toast({
+        title: "Login Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
     }
 
     setLoading(false);

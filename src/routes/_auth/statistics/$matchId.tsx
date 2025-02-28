@@ -15,6 +15,7 @@ import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { toast } from "@/hooks/use-toast";
 import { getStats } from "@/lib/api/stats";
 
 export const Route = createFileRoute("/_auth/statistics/$matchId")({
@@ -44,12 +45,8 @@ function MatchStats() {
     heatmapOpponent: "/teamb_heatmap.png",
   }));
 
-
-
-
   const match = matches.find((m) => m.id === matchId);
   const [isPdfExporting, setIsPdfExporting] = useState(false);
-
 
   const handleExportPdf = () => {
     if (!match) return;
@@ -120,6 +117,11 @@ function MatchStats() {
       pdf.text(`${match.opponent} Heatmap`, 20, 275);
 
       pdf.save("match_statistics.pdf");
+      toast({
+        title: "PDF Exported",
+        description: "The match statistics PDF has been successfully saved!",
+      });
+
       setIsPdfExporting(false);
     }, 0);
   };
@@ -330,10 +332,11 @@ function MatchStats() {
               disabled={isPdfExporting}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-lg text-white font-medium ${isPdfExporting
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-slate-700 hover:bg-slate-800 transition-colors"
-                }`}
+              className={`flex items-center space-x-2 px-6 py-3 rounded-lg text-white font-medium ${
+                isPdfExporting
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-slate-700 hover:bg-slate-800 transition-colors"
+              }`}
             >
               {isPdfExporting ? (
                 <>

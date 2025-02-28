@@ -14,18 +14,19 @@ import {
 import { useAuthStore } from "@/store/authStore";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
+import { toast } from "@/hooks/use-toast";
 
 export function AppSidebar() {
   const authStore = useAuthStore();
 
   useEffect(() => {
     async function fetchUser() {
-      await authStore.fetchUser()
+      await authStore.fetchUser();
     }
-    fetchUser()
-  }, [])
+    fetchUser();
+  }, []);
 
-  const user = authStore.user
+  const user = authStore.user;
   const navigate = useNavigate();
 
   // Menu items for all users
@@ -40,9 +41,15 @@ export function AppSidebar() {
 
   // Handle Logout
   const handleLogout = async () => {
-
     await authStore.logout();
-    navigate({ to: '/' });
+    navigate({ to: "/" });
+
+    setTimeout(() => {
+      toast({
+        title: "Logged out",
+        description: "You have been successfully logged out.",
+      });
+    }, 3000);
   };
 
   return (
@@ -50,9 +57,10 @@ export function AppSidebar() {
       <SidebarContent className="flex flex-col h-full">
         {/*SiderBar Title*/}
         <SidebarGroup>
-
-          <SidebarGroupLabel className="font-semibold text-xl text-black">  {user && user.team ? user.team.clubName : "PlayerTracker"}</SidebarGroupLabel>
-
+          <SidebarGroupLabel className="font-semibold text-xl text-black">
+            {" "}
+            {user && user.team ? user.team.clubName : "PlayerTracker"}
+          </SidebarGroupLabel>
         </SidebarGroup>
         {user?.isAdmin && (
           // Admin Sidebar Group
