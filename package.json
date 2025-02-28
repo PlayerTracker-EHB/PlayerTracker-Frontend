@@ -34,6 +34,7 @@
     "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.454.0",
     "mini-svg-data-uri": "^1.4.4",
+    "minio": "^8.0.4",
     "motion": "^12.4.3",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",

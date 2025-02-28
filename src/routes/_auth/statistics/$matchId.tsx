@@ -17,6 +17,7 @@ import { useNavigate } from "@tanstack/react-router";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
+// Définition de la route
 export const Route = createFileRoute("/_auth/statistics/$matchId")({
   component: MatchStats,
 });
