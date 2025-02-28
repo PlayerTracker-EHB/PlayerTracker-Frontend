@@ -8,41 +8,58 @@ import { Link } from "@tanstack/react-router";
 export default function CoverSection() {
   const words = "Click on this button to start your journey with PlayerTracker";
   return (
-    <div className="py-44">
+    <motion.div
+      className="py-44"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+    >
       <HeroHighlight>
         <motion.h1
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          animate={{
-            opacity: 1,
-            y: [20, -5, 0],
-          }}
-          transition={{
-            duration: 0.5,
-            ease: [0.4, 0.0, 0.2, 1],
-          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: [20, -5, 0] }}
+          transition={{ duration: 0.5, ease: [0.4, 0.0, 0.2, 1] }}
           className="text-2xl px-4 md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto "
         >
-          With <Highlight className="text-black dark:text-white">PlayerTracker</Highlight>, enleash the power of AI within the futsal community.
+          With{" "}
+          <Highlight className="text-black dark:text-white">
+            PlayerTracker
+          </Highlight>
+          , unleash the power of AI within the futsal community.
         </motion.h1>
 
-        <div className="container mx-auto flex flex-col gap-4 text-center text-neutral-400">
+        <motion.div
+          className="container mx-auto flex flex-col gap-4 text-center text-neutral-400"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <TextGenerateEffect words={words} />
 
-          <Button variant={"default"} className="bg-green-600 w-max mx-auto hover:bg-green-700">
-            <Link to="/Subscriptions">
-              Let's get started
-            </Link>
-          </Button>
-        </div>
+          <motion.button
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <Button
+              variant={"default"}
+              className="bg-teal-500 w-max mx-auto hover:bg-teal-600"
+            >
+              <Link to="/Subscriptions">Let's get started</Link>
+            </Button>
+          </motion.button>
+        </motion.div>
       </HeroHighlight>
-      <div className="mx-auto w-max">
+      <motion.div
+        className="mx-auto w-max"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+      >
         <a href="#feature">
           <ArrowDownToDot size={64} strokeWidth={2} />
         </a>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

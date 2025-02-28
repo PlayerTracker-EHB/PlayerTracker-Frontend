@@ -7,7 +7,7 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setVisible(false);
-      onFinish(); // Notifie l'application principale que le splash est terminé
+      setTimeout(onFinish, 1000); // Attendre la fin du fondu
     }, 3000); // Durée de 3 secondes
 
     return () => clearTimeout(timer);
@@ -21,7 +21,7 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ opacity: { duration: 1 } }}
+          transition={{ duration: 1 }}
         >
           <motion.img
             src="/logo.png" // Remplace par le chemin de ton logo

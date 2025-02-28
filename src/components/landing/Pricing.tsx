@@ -1,11 +1,17 @@
 import { Link } from "@tanstack/react-router";
+import { motion } from "framer-motion";
 
 export default function Pricing() {
   return (
     <div className="mt-44 bg-white dark:bg-gray-900">
       <div className="container px-6 py-8 mx-auto">
         <div className="xl:items-center xl:-mx-8 xl:flex">
-          <div className="flex flex-col items-center xl:items-start xl:mx-8">
+          <motion.div
+            className="flex flex-col items-center xl:items-start xl:mx-8"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             <h1 className="text-2xl font-medium text-gray-800 capitalize lg:text-3xl dark:text-white">
               Our Pricing Plan
             </h1>
@@ -32,17 +38,22 @@ export default function Pricing() {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 ></path>
               </svg>
             </Link>
-          </div>
+          </motion.div>
 
           <div className="flex-1 xl:mx-8">
             <div className="mt-8 space-y-8 md:-mx-4 md:flex md:items-center md:justify-center md:space-y-0 xl:mt-0">
-              <div className="max-w-sm mx-auto border rounded-lg md:mx-4 dark:border-gray-700">
+              <motion.div
+                className="max-w-sm mx-auto border rounded-lg md:mx-4 dark:border-gray-700"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+              >
                 <div className="p-6">
                   <h1 className="text-xl font-medium text-gray-700 capitalize lg:text-2xl dark:text-white">
                     Free trial
@@ -75,7 +86,12 @@ export default function Pricing() {
                   </h1>
 
                   <div className="mt-8 space-y-4">
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -83,18 +99,23 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         Limited match uploader (1)
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -102,18 +123,23 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         Manage your own team
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -121,18 +147,23 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         View stats for a specific match
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-red-400"
@@ -140,18 +171,24 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
-                          d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z"
-                          clip-rule="evenodd"
+                          fillRule="evenodd"
+                          d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 
+                                                    8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         View team stats
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-red-400"
@@ -159,18 +196,23 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         Create an external user
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-red-400"
@@ -178,20 +220,26 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         Mobile friendly
                       </span>
-                    </div>
+                    </motion.div>
                   </div>
                 </div>
-              </div>
-              <div className="max-w-sm mx-auto border rounded-lg md:mx-4 dark:border-gray-700">
+              </motion.div>
+
+              <motion.div
+                className="max-w-sm mx-auto border rounded-lg md:mx-4 dark:border-gray-700"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+              >
                 <div className="p-6">
                   <h1 className="text-xl font-medium text-gray-700 capitalize lg:text-2xl dark:text-white">
                     Essential
@@ -224,7 +272,12 @@ export default function Pricing() {
                   </h1>
 
                   <div className="mt-8 space-y-4">
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -232,18 +285,23 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         Unlimited match uploader
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -251,18 +309,23 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         Manage your own team
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -270,18 +333,23 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         View team stats
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -289,18 +357,23 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         View stats for a specific match
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -308,18 +381,23 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         Create an external user
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -327,21 +405,26 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         Mobile friendly
                       </span>
-                    </div>
+                    </motion.div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="max-w-sm mx-auto border rounded-lg md:mx-4 dark:border-gray-700">
+              <motion.div
+                className="max-w-sm mx-auto border rounded-lg md:mx-4 dark:border-gray-700"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+              >
                 <div className="p-6">
                   <h1 className="text-xl font-medium text-gray-700 capitalize lg:text-2xl dark:text-white">
                     Premium
@@ -374,7 +457,12 @@ export default function Pricing() {
                   </h1>
 
                   <div className="mt-8 space-y-4">
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -382,18 +470,23 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         Two month free subscription
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -401,18 +494,23 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         Unlimited match uploader
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -420,18 +518,23 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         Manage your own team
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -439,18 +542,23 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         View team stats
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -458,18 +566,23 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         View stats for a specific match
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -477,18 +590,23 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         Create an external user
                       </span>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5 text-teal-500"
@@ -496,19 +614,19 @@ export default function Pricing() {
                         fill="currentColor"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <span className="mx-4 text-gray-700 dark:text-gray-300">
                         Mobile friendly
                       </span>
-                    </div>
+                    </motion.div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>

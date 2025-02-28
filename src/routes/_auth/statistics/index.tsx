@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import Graphic from "@/components/statistics/Graphic";
+import Graphic2 from "@/components/statistics/Graphic2";
 import { Trophy, Minus, X, BarChart3, Home, Plane } from "lucide-react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getGames } from "@/lib/api/games";
@@ -245,6 +246,7 @@ function Statistics() {
         transition={{ duration: 0.6, delay: 0.6 }}
       >
         <Graphic matches={matches} />
+        <Graphic2 matches={matches} />
       </motion.div>
     </motion.div>
   );

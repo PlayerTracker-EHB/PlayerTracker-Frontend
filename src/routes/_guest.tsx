@@ -1,16 +1,16 @@
-import NavBar from '@/components/navbar'
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import NavBar from "@/components/navbar";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/_guest')({
+export const Route = createFileRoute("/_guest")({
   beforeLoad: async ({ context }) => {
     if (context.auth.user) {
       throw redirect({
-        to: '/Statistics',
-      })
+        to: "/statistics",
+      });
     }
   },
-  component: GuestLayout
-})
+  component: GuestLayout,
+});
 
 function GuestLayout() {
   return (
@@ -18,5 +18,5 @@ function GuestLayout() {
       <NavBar />
       <Outlet />
     </>
-  )
+  );
 }
