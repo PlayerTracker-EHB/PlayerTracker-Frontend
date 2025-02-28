@@ -37,7 +37,7 @@ function Graphic2({ matches }: GraphicProps) {
   }));
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-4">
+    <div className="bg-white rounded-xl shadow-md p-4 mt-10">
       <h2 className="text-xl font-semibold text-gray-800 mb-4">
         Possession Trends
       </h2>
