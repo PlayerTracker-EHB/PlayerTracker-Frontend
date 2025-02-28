@@ -4,7 +4,7 @@ export const Route = createFileRoute('/_auth/_admin')({
   beforeLoad: async ({ context }) => {
     if (!context.auth.user?.isAdmin) {
       throw redirect({
-        to: '/Statistics',
+        to: "/statistics",
       })
     }
   },
