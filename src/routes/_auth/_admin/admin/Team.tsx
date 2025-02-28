@@ -12,14 +12,16 @@ import { PlayerTable } from "@/components/team/PlayerTable";
 import { Team as teamType, updateTeam } from "@/lib/api/team";
 import useAuthStore from "@/store/authStore";
 import { toast } from "@/hooks/use-toast";
+import { User } from "lucide-react";
+import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/_auth/_admin/admin/Team")({
   component: Team,
 });
 
 function Team() {
-  const auth = useAuthStore()
-  const team = auth.user?.team
+  const auth = useAuthStore();
+  const team = auth.user?.team;
   const [clubName, setClubName] = useState(team?.clubName || "");
   const [coachName, setCoachName] = useState(team?.coachName || "");
 
@@ -36,7 +38,7 @@ function Team() {
     onSuccess: () => {
       // Invalidate the cached list of players so the UI refreshes
       queryClient.invalidateQueries({ queryKey: [updateTeam.mutationKey] });
-      auth.fetchUser()
+      auth.fetchUser();
 
       // Show a success toast
       toast({
@@ -54,7 +56,6 @@ function Team() {
       queryClient.invalidateQueries({ queryKey: [deletePlayer.mutationKey] });
     },
   });
-
 
   // DELETE a player
   const handleDeletePlayer = (id: number) => {
@@ -75,74 +76,82 @@ function Team() {
     <div className="min-h-screen bg-gray-50 w-full p-8">
       <div className="max-w-7xl mx-auto space-y-8">
         <h1 className="text-3xl font-bold text-gray-900 text-center">
-          Team Manager
+          Account
         </h1>
 
-        {/* Team info block */}
-        <div className="bg-white rounded-lg shadow-md p-6 space-y-6 max-w-4xl mx-auto">
-          <div className="flex items-start gap-6">
-            {/* Info section */}
-            <div className="flex-grow space-y-6">
-              {/* Club Name */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Club Name
-                </label>
-                <div className="flex items-center space-x-4 mt-2">
-                  <input
-                    type="text"
-                    value={clubName}
-                    onChange={(e) => setClubName(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 sm:text-sm"
-                    placeholder="Enter club name"
-                  />
-                </div>
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-6xl"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          {/* Section d'infos de l'équipe */}
+          <motion.div
+            className="bg-white bg-opacity-90 backdrop-blur-lg shadow-lg rounded-lg p-8 mt-60"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <h2 className="text-2xl font-semibold flex items-center mb-6">
+              <User className="h-6 w-6 text-blue-500 mr-2" /> Team Information
+            </h2>
+            <div className="space-y-4">
+              <div className="relative">
+                <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Club Name"
+                  value={clubName}
+                  onChange={(e) => setClubName(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                />
               </div>
 
-              {/* Coach Name */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Coach Name
-                </label>
-                <div className="flex items-center space-x-4 mt-2">
-                  <input
-                    type="text"
-                    value={coachName}
-                    onChange={(e) => setCoachName(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 sm:text-sm"
-                    placeholder="Enter coach name"
-                  />
-                </div>
+              <div className="relative">
+                <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Coach Name"
+                  value={coachName}
+                  onChange={(e) => setCoachName(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                />
               </div>
+
+              <motion.button
+                onClick={handleSave}
+                className="w-full bg-black hover:bg-gray-900 text-white font-semibold py-2 rounded-lg transition"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Save Changes
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Save Button */}
-          <div className="flex justify-end">
-            <button
-              onClick={handleSave}
-              className="mt-4 p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition duration-300"
-            >
-              Save
-            </button>
-          </div>
-        </div>
+          {/* Liste des joueurs sous forme de cartes */}
+          <motion.div
+            className="bg-white bg-opacity-90 backdrop-blur-lg shadow-lg rounded-lg p-8 mt-60"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-semibold flex items-center">
+                <User className="h-6 w-6 text-green-500 mr-2" /> Players
+              </h2>
+              <AddPlayerDialog />
+            </div>
 
-        {/* Players block */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold text-gray-900">Players</h2>
-            <AddPlayerDialog />
-          </div>
-          <PlayerTable
-            players={players || []}
-            onDeletePlayer={handleDeletePlayer}
-          />
-        </div>
+            <PlayerTable
+              players={players || []}
+              onDeletePlayer={handleDeletePlayer}
+            />
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );
 }
 
 export default Team;
-
