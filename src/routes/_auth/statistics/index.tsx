@@ -102,14 +102,17 @@ function Statistics() {
           </h2>
         </div>
         <div className="divide-y divide-gray-200">
-          {games.map((game, idx) => (
-            <MatchCard
-              key={game.gameId}
-              game={game}
-              isMostRecent={game.gameId === mostRecentMatchId}
-              idx={idx}
-            />
-          ))}
+          {games
+            .slice()
+            .sort((a, b) => new Date(b.gameDate).getTime() - new Date(a.gameDate).getTime())
+            .map((game, idx) => (
+              <MatchCard
+                key={game.gameId}
+                game={game}
+                isMostRecent={game.gameId === mostRecentMatchId}
+                idx={idx}
+              />
+            ))}
         </div>
       </motion.div>
 
