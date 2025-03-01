@@ -15,6 +15,7 @@ export const Route = createFileRoute("/_auth/_admin/admin/Uploader")({
 function UploadVideoPage() {
   const [file, setFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
   const [atHome, setAtHome] = useState<boolean>(true);
   const [adversaryName, setAdversaryName] = useState<string>("");
   const [gameDate, setGameDate] = useState<Date>();
@@ -52,6 +53,7 @@ function UploadVideoPage() {
     if (!file) return;
     setUploadProgress(0);
     setDialogOpen(false);
+    setIsUploading(true);
 
     uploadVideo(
       {
@@ -83,6 +85,9 @@ function UploadVideoPage() {
           });
           console.error(error);
           resetUploadState();
+        },
+        onSettled: () => {
+          setIsUploading(false);
         },
       }
     );
@@ -198,7 +203,7 @@ function UploadVideoPage() {
         >
           <Button
             onClick={() => setDialogOpen(true)}
-            disabled={!file}
+            disabled={!file || isUploading}
             className="w-full max-w-md mx-auto"
           >
             Upload

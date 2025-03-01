@@ -41,7 +41,6 @@ const fetchGamesQuery = async (): Promise<Game[]> => {
 
 
 const pollGameStatusQuery = async (gameId: number): Promise<String> => {
-  console.info(`Polling game status for gameId: ${gameId}`);
   try {
     const response = await fetch(`${baseGameURL}status/${gameId}`, {
       method: "GET",
