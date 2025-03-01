@@ -61,7 +61,9 @@ export const useAuthStore = create<AuthState>((set) => ({
         set({ user: data.user, isError: false });
       } else {
         set({ isError: true });
-        throw new Error(data.message || "Invalid email or password.");
+        throw new Error(
+          data.message || "Invalid email or password. Please try again."
+        );
       }
     } catch (error) {
       set({ isError: true });

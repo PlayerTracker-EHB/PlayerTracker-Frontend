@@ -75,9 +75,7 @@ function Team() {
   return (
     <div className="min-h-screen bg-gray-50 w-full p-8">
       <div className="max-w-7xl mx-auto space-y-8">
-        <h1 className="text-3xl font-bold text-gray-900 text-center">
-          Account
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-900 text-center">Team</h1>
 
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-6xl"
@@ -93,7 +91,7 @@ function Team() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <h2 className="text-2xl font-semibold flex items-center mb-6">
-              <User className="h-6 w-6 text-blue-500 mr-2" /> Team Information
+              <User className="h-6 w-6 text-teal-500 mr-2" /> Team Information
             </h2>
             <div className="space-y-4">
               <div className="relative">
@@ -138,7 +136,7 @@ function Team() {
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-semibold flex items-center">
-                <User className="h-6 w-6 text-green-500 mr-2" /> Players
+                <User className="h-6 w-6 text-teal-500 mr-2" /> Players
               </h2>
               <AddPlayerDialog />
             </div>

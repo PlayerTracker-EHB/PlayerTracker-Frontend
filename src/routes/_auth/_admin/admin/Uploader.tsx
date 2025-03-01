@@ -123,7 +123,7 @@ function UploadVideoPage() {
               style={{
                 position: "absolute",
                 top: containerRect.bottom + 12,
-                left: containerRect.left + containerRect.width / 2 - 240,
+                left: containerRect.left + containerRect.width / 2 - 800,
                 width: "500px",
               }}
             >
