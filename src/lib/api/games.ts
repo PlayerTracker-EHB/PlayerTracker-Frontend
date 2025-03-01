@@ -53,7 +53,6 @@ const pollGameStatusQuery = async (gameId: number): Promise<String> => {
     }
 
     const data: String = await response.text()
-    console.info("response: ", data);
     return data;
   } catch (error) {
     console.error("Error fetching games:", error);

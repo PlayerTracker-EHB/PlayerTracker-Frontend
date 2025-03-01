@@ -14,7 +14,6 @@ interface MatchCardProps {
 function MatchCard({ game, isMostRecent, idx }: MatchCardProps) {
   const user = useAuthStore().user;
   const { data: status } = useSuspenseQuery(getGameStatus(game.gameId));
-  console.log(`Game with id ${game.gameId} status: `, status);
 
   const match = {
     id: game.gameId,
@@ -146,8 +145,8 @@ function MatchCard({ game, isMostRecent, idx }: MatchCardProps) {
         {/* Status badge */}
         {status && (
           <div className={`text-xs font-bold px-3 py-1 rounded ${status === "COMPLETED" ? "bg-green-100 text-green-800" :
-              status === "PROCESSING" ? "bg-yellow-100 text-yellow-800" :
-                "bg-red-100 text-red-800"
+            status === "PROCESSING" ? "bg-yellow-100 text-yellow-800" :
+              "bg-red-100 text-red-800"
             }`}>
             {status}
           </div>
