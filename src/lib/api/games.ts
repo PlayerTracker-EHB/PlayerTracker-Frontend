@@ -16,13 +16,13 @@ export interface Game {
 }
 
 // Use the utility function to define the game URL
-const baseGameURL = getBaseUrl("");
+const baseGameURL = getBaseUrl("/games/");
 
 const fetchGamesQuery = async (): Promise<Game[]> => {
   console.info("Fetching games...");
 
   try {
-    const response = await fetch(baseGameURL + "/games/", {
+    const response = await fetch(baseGameURL, {
       method: "GET",
       credentials: "include",
     });
@@ -43,7 +43,7 @@ const fetchGamesQuery = async (): Promise<Game[]> => {
 const pollGameStatusQuery = async (gameId: number): Promise<String> => {
   console.info(`Polling game status for gameId: ${gameId}`);
   try {
-    const response = await fetch(`${baseGameURL}/stats/${gameId}/status`, {
+    const response = await fetch(`${baseGameURL}status/${gameId}`, {
       method: "GET",
       credentials: "include",
     });
@@ -52,8 +52,8 @@ const pollGameStatusQuery = async (gameId: number): Promise<String> => {
       throw new Error("Failed to fetch games");
     }
 
-    const data: String = await response.json();
-    console.info(`Game status for gameId: ${gameId} is: ${data}`);
+    const data: String = await response.text()
+    console.info("response: ", data);
     return data;
   } catch (error) {
     console.error("Error fetching games:", error);
@@ -70,5 +70,5 @@ export const getGames = {
 export const getGameStatus = (gameId: number) => ({
   queryKey: ["gameStatus", gameId],
   queryFn: () => pollGameStatusQuery(gameId),
+  refetchInterval: 5000,
 });
-

@@ -1,8 +1,9 @@
-import { Game } from "@/lib/api/games";
+import { Game, getGameStatus } from "@/lib/api/games";
 import useAuthStore from "@/store/authStore";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { BarChart3, Home, Minus, Plane, Trophy, X } from "lucide-react";
+import { BarChart3, Home, Minus, Plane, Trophy, X, Clock, AlertCircle } from "lucide-react";
 
 interface MatchCardProps {
   game: Game;
@@ -10,11 +11,10 @@ interface MatchCardProps {
   idx: number;
 }
 
-
 function MatchCard({ game, isMostRecent, idx }: MatchCardProps) {
   const user = useAuthStore().user;
-
-
+  const { data: status } = useSuspenseQuery(getGameStatus(game.gameId));
+  console.log(`Game with id ${game.gameId} status: `, status);
 
   const match = {
     id: game.gameId,
@@ -40,6 +40,47 @@ function MatchCard({ game, isMostRecent, idx }: MatchCardProps) {
     match.opponentScore
   );
   const OutcomeIcon = outcome.icon;
+
+  // Button configuration based on status
+  const getButtonConfig = (status: string) => {
+    switch (status) {
+      case "PROCESSING":
+        return {
+          text: "Processing...",
+          icon: Clock,
+          color: "bg-yellow-500 text-white hover:bg-yellow-600",
+          disabled: true,
+          tooltip: "Match data is being processed"
+        };
+      case "COMPLETED":
+        return {
+          text: "Match Stats",
+          icon: BarChart3,
+          color: "bg-white text-gray-700 hover:bg-gray-50 border border-gray-300",
+          disabled: false,
+          tooltip: "View match statistics"
+        };
+      case "SUSPENDED":
+        return {
+          text: "Unavailable",
+          icon: AlertCircle,
+          color: "bg-gray-300 text-gray-600 cursor-not-allowed",
+          disabled: true,
+          tooltip: "Match data is unavailable"
+        };
+      default:
+        return {
+          text: "Match Stats",
+          icon: BarChart3,
+          color: "bg-white text-gray-700 hover:bg-gray-50 border border-gray-300",
+          disabled: false,
+          tooltip: "View match statistics"
+        };
+    }
+  };
+
+  const buttonConfig = getButtonConfig(status as string);
+  const ButtonIcon = buttonConfig.icon;
 
   return (
     <motion.div
@@ -95,25 +136,46 @@ function MatchCard({ game, isMostRecent, idx }: MatchCardProps) {
           </span>
         </div>
 
-        {/* ✅ Badge "RECENT" ajouté uniquement sur le match le plus récent */}
+        {/* Badge "RECENT" added only for the most recent match */}
         {isMostRecent && (
           <div className="bg-teal-500 text-white text-xs font-bold px-3 py-1 rounded">
             RECENT
           </div>
         )}
+
+        {/* Status badge */}
+        {status && (
+          <div className={`text-xs font-bold px-3 py-1 rounded ${status === "COMPLETED" ? "bg-green-100 text-green-800" :
+              status === "PROCESSING" ? "bg-yellow-100 text-yellow-800" :
+                "bg-red-100 text-red-800"
+            }`}>
+            {status}
+          </div>
+        )}
       </div>
 
-      <Link
-        to="/statistics/$matchId"
-        params={{ matchId: match.id.toString() }}
-      >
-        <button className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50">
-          <BarChart3 className="h-4 w-4 mr-2" />
-          Match Stats
-        </button>
-      </Link>
+      {buttonConfig.disabled ? (
+        <div title={buttonConfig.tooltip} className={`inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-lg ${buttonConfig.color}`}>
+          <ButtonIcon className="h-4 w-4 mr-2" />
+          {buttonConfig.text}
+        </div>
+      ) : (
+        <Link
+          to="/statistics/$matchId"
+          params={{ matchId: match.id.toString() }}
+        >
+          <button
+            title={buttonConfig.tooltip}
+            className={`inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-lg ${buttonConfig.color}`}
+          >
+            <ButtonIcon className="h-4 w-4 mr-2" />
+            {buttonConfig.text}
+          </button>
+        </Link>
+      )}
     </motion.div>
   );
 }
 
 export default MatchCard;
+
