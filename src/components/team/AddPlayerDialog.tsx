@@ -1,5 +1,5 @@
-import { useState, FormEvent } from "react"
-import { Button } from "@/components/ui/button"
+import { useState, FormEvent } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,73 +8,77 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 // React Query imports
-import { useQueryClient, useMutation } from "@tanstack/react-query"
-import { createPlayer, PlayerType } from "@/lib/api/player"
-import { UserPlus } from "lucide-react"
-import { useAuthStore } from "@/store/authStore"
-import { useToast } from "@/hooks/use-toast"
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { createPlayer, PlayerType } from "@/lib/api/player";
+import { UserPlus } from "lucide-react";
+import { useAuthStore } from "@/store/authStore";
+import { useToast } from "@/hooks/use-toast";
 
 export function AddPlayerDialog() {
   // Local states for form inputs
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   // Track dialog open/close state
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
-  const queryClient = useQueryClient()
-  const { user } = useAuthStore()
-  const { toast } = useToast()
+  const queryClient = useQueryClient();
+  const { user } = useAuthStore();
+  const { toast } = useToast();
 
-  const teamId = user?.team?.teamId
+  const teamId = user?.team?.teamId;
 
   // Create player mutation
   const createPlayerMutation = useMutation({
     mutationFn: createPlayer.mutationFn,
     onSuccess: () => {
       // Invalidate cached list of players so the UI refreshes
-      queryClient.invalidateQueries({ queryKey: ['players'] })
+      queryClient.invalidateQueries({ queryKey: ["players"] });
       // Optionally reset form
-      setFirstName("")
-      setLastName("")
+      setFirstName("");
+      setLastName("");
       // Close the dialog
-      setOpen(false)
+      setOpen(false);
+      window.location.reload(); // 🚀 Recharge la page
       toast({
         title: "Player Successfully Created",
-        description: "You have just created the player: " + firstName + " " + lastName,
-      })
+        description:
+          "You have just created the player: " + firstName + " " + lastName,
+      });
     },
     onError: (error) => {
-      console.error("Failed to create player:", error)
+      console.error("Failed to create player:", error);
       toast({
         variant: "destructive",
         title: "Error While Creating Player",
-        description: "There was an error while creating the player, Please try again later",
-      })
+        description:
+          "There was an error while creating the player, Please try again later",
+      });
     },
-  })
-
+  });
 
   // Handle form submit
   const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     createPlayerMutation.mutate({
       firstName,
       lastName,
       teamId,
-    } as Partial<PlayerType>) // The createPlayer mutation expects Partial<PlayerType>
-  }
+    } as Partial<PlayerType>); // The createPlayer mutation expects Partial<PlayerType>
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {/* Button that opens the dialog */}
       <DialogTrigger asChild>
-        <Button variant="outline"><UserPlus /> Add New Player</Button>
+        <Button variant="outline">
+          <UserPlus /> Add New Player
+        </Button>
       </DialogTrigger>
 
       {/* The Dialog itself */}
@@ -117,8 +121,6 @@ export function AddPlayerDialog() {
                 required
               />
             </div>
-
-
           </div>
 
           <DialogFooter>
@@ -129,7 +131,6 @@ export function AddPlayerDialog() {
           </DialogFooter>
         </form>
       </DialogContent>
-    </Dialog >
-  )
+    </Dialog>
+  );
 }
-

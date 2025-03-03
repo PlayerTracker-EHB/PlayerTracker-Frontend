@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"; // If using shadcn's Button
 import { PlayerType } from "@/lib/api/player"; // Adjust the import path to your player interface
 import { Trash2 } from "lucide-react";
 import { UpdatePlayerDialog } from "./UpdatePlayerDialog";
+import { ConfirmDeleteDialog } from "./ConfirmDeleteDialog";
 
 export interface PlayerTableProps {
   players: PlayerType[];
@@ -49,13 +50,9 @@ export function PlayerTable({ players, onDeletePlayer }: PlayerTableProps) {
               <TableCell className="text-center">
                 <div className="flex justify-center gap-4">
                   <UpdatePlayerDialog player={player} />
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => onDeletePlayer(player.playerId)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  <ConfirmDeleteDialog
+                    onConfirm={() => onDeletePlayer(player.playerId)}
+                  />
                 </div>
               </TableCell>
             </TableRow>
