@@ -42,7 +42,7 @@ function MatchStats() {
     possession: game.startsLeft ? stats.possessionTeamA : 0,
     passAccuracy: 80,
     heatmapOurTeam: game.startsLeft ? stats.heatmapTeamA : stats.heatmapTeamB,
-    heatmapOpponent: game.startsLeft ? stats.heatmapTeamB : stats.heatmapTeamA
+    heatmapOpponent: game.startsLeft ? stats.heatmapTeamB : stats.heatmapTeamA,
   }));
 
   const match = matches.find((m) => m.id === matchId);
@@ -250,23 +250,6 @@ function MatchStats() {
                 <div
                   className="bg-red-400"
                   style={{ width: `${100 - stats.possessionTeamA}%` }}
-                ></div>
-              </div>
-            </div>
-            <div>
-              <div className="flex justify-between text-sm font-medium mb-1">
-                <span>{match.passAccuracy}%</span>
-                <span className="text-gray-600">Pass Accuracy</span>
-                <span>{100 - match.passAccuracy}%</span>
-              </div>
-              <div className="h-2 flex rounded-full overflow-hidden">
-                <div
-                  className="bg-blue-400"
-                  style={{ width: `${match.passAccuracy}%` }}
-                ></div>
-                <div
-                  className="bg-red-400"
-                  style={{ width: `${100 - match.passAccuracy}%` }}
                 ></div>
               </div>
             </div>
