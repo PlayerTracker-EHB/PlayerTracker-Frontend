@@ -39,10 +39,10 @@ function MatchStats() {
     opponentScore: game.atHome ? game.awayTeamScore : game.homeTeamScore,
     opponent: game.adversaryName,
     isHome: game.atHome,
-    possession: stats.possessionTeamA,
+    possession: game.startsLeft ? stats.possessionTeamA : 0,
     passAccuracy: 80,
-    heatmapOurTeam: "/teama_heatmap.png",
-    heatmapOpponent: "/teamb_heatmap.png",
+    heatmapOurTeam: game.startsLeft ? stats.heatmapTeamA : stats.heatmapTeamB,
+    heatmapOpponent: game.startsLeft ? stats.heatmapTeamB : stats.heatmapTeamA
   }));
 
   const match = matches.find((m) => m.id === matchId);
@@ -285,7 +285,7 @@ function MatchStats() {
               <div className="h-48 bg-blue-200 rounded-lg flex items-center justify-center overflow-hidden">
                 {match.heatmapOurTeam ? (
                   <img
-                    src={match.heatmapOurTeam}
+                    src={`http://10.2.160.40:9000/heatmaps/${match.heatmapOurTeam}`}
                     alt="Our Team Heatmap"
                     className="w-full h-full object-cover"
                   />
@@ -296,7 +296,7 @@ function MatchStats() {
               <div className="h-48 bg-red-200 rounded-lg flex items-center justify-center overflow-hidden">
                 {match.heatmapOpponent ? (
                   <img
-                    src={match.heatmapOpponent}
+                    src={`http://10.2.160.40:9000/heatmaps/${match.heatmapOpponent}`}
                     alt="Opponent Heatmap"
                     className="w-full h-full object-cover"
                   />
