@@ -5,7 +5,7 @@ import UploadDialog from "@/components/upload/UploadDialog";
 import { useToast } from "@/hooks/use-toast";
 import { useUploadVideo } from "@/hooks/useUploadVideo";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, useRef, useLayoutEffect } from "react";
+import { useState, useRef, useLayoutEffect, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const Route = createFileRoute("/_auth/_admin/admin/Uploader")({
@@ -24,8 +24,8 @@ function UploadVideoPage() {
   const [startsLeft, setStartsLeft] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  // État pour contrôler si on affiche la « fleche + popup »
-  const [showGuide, setShowGuide] = useState(true);
+  // État pour contrôler si on affiche la notification
+  const [showGuide, setShowGuide] = useState(false);
 
   const { mutate: uploadVideo } = useUploadVideo();
   const { toast } = useToast();
@@ -44,6 +44,14 @@ function UploadVideoPage() {
       setContainerRect(rect);
     }
   }, [showGuide]); // recalcul si on rouvre le guide, etc.
+
+  // Vérifiez si le guide a déjà été affiché
+  useEffect(() => {
+    const hasSeenGuide = localStorage.getItem("hasSeenGuide");
+    if (!hasSeenGuide) {
+      setShowGuide(true);
+    }
+  }, []);
 
   const handleFileChange = (files: File[]) => {
     setFile(files[0]);
@@ -104,6 +112,11 @@ function UploadVideoPage() {
     setStartsLeft(false);
   };
 
+  const closeGuide = () => {
+    setShowGuide(false);
+    localStorage.setItem("hasSeenGuide", "true"); // Enregistrez que l'utilisateur a vu le guide
+  };
+
   return (
     <motion.div
       className="flex flex-col w-screen h-screen p-8 relative"
@@ -162,7 +175,7 @@ function UploadVideoPage() {
                 </ul>
 
                 <div className="text-right">
-                  <Button variant="outline" onClick={() => setShowGuide(false)}>
+                  <Button variant="outline" onClick={closeGuide}>
                     OK
                   </Button>
                 </div>

@@ -55,10 +55,13 @@ function Team() {
       queryClient.invalidateQueries({ queryKey: ["players"] });
     },
   });
-
-  // DELETE a player
   const handleDeletePlayer = (id: number) => {
-    deletePlayerMutation.mutate(id);
+    deletePlayerMutation.mutate(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["players"] });
+        window.location.reload();
+      },
+    });
   };
 
   // Handle save button click

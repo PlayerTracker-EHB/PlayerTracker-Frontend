@@ -33,8 +33,8 @@ function Statistics() {
   const mostRecentMatchId =
     matches.length > 0
       ? matches.reduce((latest, match) =>
-        new Date(match.date) > new Date(latest.date) ? match : latest
-      ).id
+          new Date(match.date) > new Date(latest.date) ? match : latest
+        ).id
       : null;
 
   const stats = {
@@ -48,7 +48,6 @@ function Statistics() {
   };
 
   const winPercentage = (stats.wins / matches.length) * 100;
-
 
   const sortedMatches = matches.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -65,10 +64,6 @@ function Statistics() {
   const handlePreviousPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
-
-
-
-
 
   return (
     <motion.div
@@ -104,7 +99,10 @@ function Statistics() {
         <div className="divide-y divide-gray-200">
           {games
             .slice()
-            .sort((a, b) => new Date(b.gameDate).getTime() - new Date(a.gameDate).getTime())
+            .sort(
+              (a, b) =>
+                new Date(b.gameDate).getTime() - new Date(a.gameDate).getTime()
+            )
             .map((game, idx) => (
               <MatchCard
                 key={game.gameId}
@@ -125,10 +123,11 @@ function Statistics() {
         <button
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
-          className={`px-4 py-2 font-semibold rounded ${currentPage === 1
-            ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-            : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
+          className={`px-4 py-2 font-semibold rounded ${
+            currentPage === 1
+              ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+              : "bg-blue-500 text-white hover:bg-blue-600"
+          }`}
         >
           Previous
         </button>
@@ -138,10 +137,11 @@ function Statistics() {
         <button
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
-          className={`px-4 py-2 font-semibold rounded ${currentPage === totalPages
-            ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-            : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
+          className={`px-4 py-2 font-semibold rounded ${
+            currentPage === totalPages
+              ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+              : "bg-blue-500 text-white hover:bg-blue-600"
+          }`}
         >
           Next
         </button>
@@ -187,7 +187,6 @@ function Statistics() {
         transition={{ duration: 0.6, delay: 0.6 }}
       >
         <Graphic matches={matches} />
-        <Graphic2 matches={matches} />
       </motion.div>
     </motion.div>
   );

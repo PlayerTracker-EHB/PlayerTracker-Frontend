@@ -50,6 +50,7 @@ export function UpdatePlayerDialog({ player }: UpdatePlayerDialogProps) {
       // Close the dialog
       setOpen(false);
       // Show a success toast
+      window.location.reload();
       toast({
         title: "Player Updated",
         description: `Player ${firstName} ${lastName} was successfully updated.`,

@@ -39,10 +39,10 @@ function MatchStats() {
     opponentScore: game.atHome ? game.awayTeamScore : game.homeTeamScore,
     opponent: game.adversaryName,
     isHome: game.atHome,
-    possession: stats.possessionTeamA,
+    possession: game.startsLeft ? stats.possessionTeamA : 0,
     passAccuracy: 80,
-    heatmapOurTeam: "/teama_heatmap.png",
-    heatmapOpponent: "/teamb_heatmap.png",
+    heatmapOurTeam: game.startsLeft ? stats.heatmapTeamA : stats.heatmapTeamB,
+    heatmapOpponent: game.startsLeft ? stats.heatmapTeamB : stats.heatmapTeamA,
   }));
 
   const match = matches.find((m) => m.id === matchId);
@@ -253,23 +253,6 @@ function MatchStats() {
                 ></div>
               </div>
             </div>
-            <div>
-              <div className="flex justify-between text-sm font-medium mb-1">
-                <span>{match.passAccuracy}%</span>
-                <span className="text-gray-600">Pass Accuracy</span>
-                <span>{100 - match.passAccuracy}%</span>
-              </div>
-              <div className="h-2 flex rounded-full overflow-hidden">
-                <div
-                  className="bg-blue-400"
-                  style={{ width: `${match.passAccuracy}%` }}
-                ></div>
-                <div
-                  className="bg-red-400"
-                  style={{ width: `${100 - match.passAccuracy}%` }}
-                ></div>
-              </div>
-            </div>
           </motion.div>
 
           <motion.div
@@ -285,7 +268,7 @@ function MatchStats() {
               <div className="h-48 bg-blue-200 rounded-lg flex items-center justify-center overflow-hidden">
                 {match.heatmapOurTeam ? (
                   <img
-                    src={match.heatmapOurTeam}
+                    src={`http://10.2.160.40:9000/heatmaps/${match.heatmapOurTeam}`}
                     alt="Our Team Heatmap"
                     className="w-full h-full object-cover"
                   />
@@ -296,7 +279,7 @@ function MatchStats() {
               <div className="h-48 bg-red-200 rounded-lg flex items-center justify-center overflow-hidden">
                 {match.heatmapOpponent ? (
                   <img
-                    src={match.heatmapOpponent}
+                    src={`http://10.2.160.40:9000/heatmaps/${match.heatmapOpponent}`}
                     alt="Opponent Heatmap"
                     className="w-full h-full object-cover"
                   />
