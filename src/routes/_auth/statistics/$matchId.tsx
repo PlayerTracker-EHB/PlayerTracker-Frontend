@@ -17,6 +17,8 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { toast } from "@/hooks/use-toast";
 import { getStats } from "@/lib/api/stats";
+import { Button } from "@/components/ui/button";
+import { getBaseUrl } from "@/lib/utils";
 
 export const Route = createFileRoute("/_auth/statistics/$matchId")({
   component: MatchStats,
@@ -139,6 +141,37 @@ function MatchStats() {
       </motion.div>
     );
   }
+
+
+  const downloadVideo = () => {
+    const matchId = match.id;
+
+    const url = getBaseUrl(`/download/processed_video/$matchId`);
+
+    console.log(url);
+
+    fetch(url)
+      .then(response => {
+        if (response.ok) {
+          return response.blob(); // Assuming the response is a video file
+        }
+        throw new Error('Network response was not ok.');
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `processed_video_${matchId}.mp4`; // Change the extension as needed
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+      });
+  };
+
 
   return (
     <motion.div
@@ -333,6 +366,12 @@ function MatchStats() {
                 </>
               )}
             </motion.button>
+
+            <Button
+              onClick={downloadVideo}
+            >
+              Download Processed video
+            </Button>
           </motion.div>
         </motion.div>
       </motion.main>
