@@ -39,7 +39,8 @@ function MatchStats() {
     opponentScore: game.atHome ? game.awayTeamScore : game.homeTeamScore,
     opponent: game.adversaryName,
     isHome: game.atHome,
-    possession: game.startsLeft ? stats.possessionTeamA : 0,
+    Ourpossession: game.startsLeft ? stats.possessionTeamA : stats.possessionTeamB,
+    Opponentpossession: game.startsLeft ? stats.possessionTeamB : stats.possessionTeamA,
     passAccuracy: 80,
     heatmapOurTeam: game.startsLeft ? stats.heatmapTeamA : stats.heatmapTeamB,
     heatmapOpponent: game.startsLeft ? stats.heatmapTeamB : stats.heatmapTeamA,
@@ -90,13 +91,13 @@ function MatchStats() {
           [
             match.ourTeam,
             String(match.ourScore),
-            `${match.possession}%`,
+            `${match.Ourpossession}%`,
             `${match.passAccuracy}%`,
           ],
           [
             match.opponent,
             String(match.opponentScore),
-            `${100 - match.possession}%`,
+            `${match.Opponentpossession}%`,
             `${100 - match.passAccuracy}%`,
           ],
         ],
@@ -238,9 +239,9 @@ function MatchStats() {
             </h3>
             <div className="mb-4">
               <div className="flex justify-between text-sm font-medium mb-1">
-                <span>{stats.possessionTeamA}%</span>
+                <span>{match.Ourpossession}%</span>
                 <span className="text-gray-600">Possession</span>
-                <span>{100 - stats.possessionTeamA}%</span>
+                <span>{match.Opponentpossession}%</span>
               </div>
               <div className="h-2 flex rounded-full overflow-hidden">
                 <div
@@ -315,11 +316,10 @@ function MatchStats() {
               disabled={isPdfExporting}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-lg text-white font-medium ${
-                isPdfExporting
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-slate-700 hover:bg-slate-800 transition-colors"
-              }`}
+              className={`flex items-center space-x-2 px-6 py-3 rounded-lg text-white font-medium ${isPdfExporting
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-slate-700 hover:bg-slate-800 transition-colors"
+                }`}
             >
               {isPdfExporting ? (
                 <>
