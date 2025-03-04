@@ -6,6 +6,7 @@ import {
   Download,
   Calendar,
   User,
+  Video,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -41,8 +42,12 @@ function MatchStats() {
     opponentScore: game.atHome ? game.awayTeamScore : game.homeTeamScore,
     opponent: game.adversaryName,
     isHome: game.atHome,
-    Ourpossession: game.startsLeft ? stats.possessionTeamA : stats.possessionTeamB,
-    Opponentpossession: game.startsLeft ? stats.possessionTeamB : stats.possessionTeamA,
+    Ourpossession: game.startsLeft
+      ? stats.possessionTeamA
+      : stats.possessionTeamB,
+    Opponentpossession: game.startsLeft
+      ? stats.possessionTeamB
+      : stats.possessionTeamA,
     passAccuracy: 80,
     heatmapOurTeam: game.startsLeft ? stats.heatmapTeamA : stats.heatmapTeamB,
     heatmapOpponent: game.startsLeft ? stats.heatmapTeamB : stats.heatmapTeamA,
@@ -142,7 +147,6 @@ function MatchStats() {
     );
   }
 
-
   const downloadVideo = () => {
     const matchId = match.id;
 
@@ -151,29 +155,32 @@ function MatchStats() {
     console.log(url);
 
     fetch(url, {
-      method: 'GET',
-      credentials: 'include'
-    }).then(response => {
-      if (response.ok) {
-        return response.blob(); // Assuming the response is a video file
-      }
-      throw new Error('Network response was not ok.');
+      method: "GET",
+      credentials: "include",
     })
-      .then(blob => {
+      .then((response) => {
+        if (response.ok) {
+          return response.blob(); // Assuming the response is a video file
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then((blob) => {
         const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
+        const a = document.createElement("a");
+        a.style.display = "none";
         a.href = url;
         a.download = `processed_video_${matchId}.mp4`; // Change the extension as needed
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
       })
-      .catch(error => {
-        console.error('There has been a problem with your fetch operation:', error);
+      .catch((error) => {
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        );
       });
   };
-
 
   return (
     <motion.div
@@ -341,7 +348,7 @@ function MatchStats() {
           </motion.div>
 
           <motion.div
-            className="px-6 py-8 flex justify-center border-t border-gray-100"
+            className="px-6 py-8 flex justify-center space-x-4 border-t border-gray-100"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.8 }}
@@ -351,10 +358,11 @@ function MatchStats() {
               disabled={isPdfExporting}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-lg text-white font-medium ${isPdfExporting
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-slate-700 hover:bg-slate-800 transition-colors"
-                }`}
+              className={`flex items-center space-x-2 px-6 py-3 rounded-lg text-white font-medium ${
+                isPdfExporting
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-slate-700 hover:bg-slate-800 transition-colors"
+              }`}
             >
               {isPdfExporting ? (
                 <>
@@ -369,11 +377,15 @@ function MatchStats() {
               )}
             </motion.button>
 
-            <Button
+            <motion.button
               onClick={downloadVideo}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center space-x-2 px-6 py-3 rounded-lg text-white font-medium bg-slate-700 hover:bg-slate-800 transition-colors"
             >
-              Download Processed video
-            </Button>
+              <Video className="h-5 w-5" />
+              <span>Download Processed Video</span>
+            </motion.button>
           </motion.div>
         </motion.div>
       </motion.main>
