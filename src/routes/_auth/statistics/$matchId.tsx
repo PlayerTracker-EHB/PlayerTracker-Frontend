@@ -150,13 +150,15 @@ function MatchStats() {
 
     console.log(url);
 
-    fetch(url)
-      .then(response => {
-        if (response.ok) {
-          return response.blob(); // Assuming the response is a video file
-        }
-        throw new Error('Network response was not ok.');
-      })
+    fetch(url, {
+      method: 'GET',
+      credentials: 'include'
+    }).then(response => {
+      if (response.ok) {
+        return response.blob(); // Assuming the response is a video file
+      }
+      throw new Error('Network response was not ok.');
+    })
       .then(blob => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
