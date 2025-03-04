@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Mail, Lock, Trash } from 'lucide-react';
-import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import useAuthStore from '@/store/authStore';
-import { createUser, getUsersByTeamId } from '@/lib/api/team';
+import { createUser, deleteUser, getUsersByTeamId } from '@/lib/api/team';
 import { toast } from '@/hooks/use-toast';
 
 export const Route = createFileRoute('/_auth/_admin/admin/Accounts')({
@@ -16,7 +16,7 @@ function Accounts() {
   const teamId = user?.teamId as number;
   const queryClient = useQueryClient();
 
-  const { data: users } = useSuspenseQuery(getUsersByTeamId(teamId));
+  const { data: users } = useQuery(getUsersByTeamId(teamId));
 
   const [newUser, setNewUser] = useState({
     fullName: '',
@@ -28,7 +28,7 @@ function Accounts() {
   const createUserMutation = useMutation({
     mutationFn: createUser.mutationFn,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['teamId', { teamId }] })
+      queryClient.invalidateQueries({ queryKey: ['users'] })
 
       toast({
         title: "User Successfully Created",
@@ -47,14 +47,36 @@ function Accounts() {
     },
   })
 
+  const deleteUserMutation = useMutation({
+    mutationFn: deleteUser.mutationFn,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] })
+
+      toast({
+        title: "User Deleted Successfully",
+        description: "You have just deleted a user",
+      })
+
+    },
+    onError: (error) => {
+      console.error("Failed to delete user:", error)
+      toast({
+        title: "Error While Deleting User",
+        description: "There was an error while deleting the user, Please try again later",
+      })
+
+    },
+  })
+
 
 
   function handleAddUser() {
     createUserMutation.mutate(newUser);
+
   }
 
   const handleDeleteUser = (userId: number) => {
-    // Implement delete logic here
+    deleteUserMutation.mutate(userId);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -142,7 +164,7 @@ function Accounts() {
           >
             <h2 className="text-2xl font-semibold mb-4">User List</h2>
             <div className="space-y-4">
-              {users.map((user, index) => (
+              {users && users.map((user, index) => (
                 <motion.div
                   key={user.id}
                   className="flex justify-between items-center bg-gray-50 rounded-lg p-4 border border-gray-300 shadow-sm"

@@ -75,6 +75,17 @@ const createUserQuery = async (fullName: string, email: string, password: string
 
 const deleteUserQuery = async (userId: number) => {
 
+  const response = await baseFetch("user/" + userId, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+
+  if (!response.ok) {
+    console.error("Error deleting user:", await response.text());
+  }
+
 }
 
 
@@ -84,7 +95,7 @@ export const updateTeam = {
 };
 
 export const getUsersByTeamId = (teamId: number) => ({
-  queryKey: ['teamId', { teamId }],
+  queryKey: ['users', { teamId }],
   queryFn: () => getUsersByTeamIdQuery(teamId),
 });
 
@@ -92,3 +103,8 @@ export const createUser = {
   mutationKey: 'createUser',
   mutationFn: (newUser: { fullName: string, email: string, password: string, teamId: number }) => createUserQuery(newUser.fullName, newUser.email, newUser.password, newUser.teamId),
 };
+
+export const deleteUser = {
+  mutationKey: 'deleteUser',
+  mutationFn: (userId: number) => deleteUserQuery(userId),
+}
