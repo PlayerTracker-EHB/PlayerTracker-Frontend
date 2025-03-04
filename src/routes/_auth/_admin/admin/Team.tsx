@@ -36,7 +36,6 @@ function Team() {
       updateTeam.mutationFn(vars.updatedData),
 
     onSuccess: () => {
-      // Invalidate the cached list of players so the UI refreshes
       queryClient.invalidateQueries({ queryKey: [updateTeam.mutationKey] });
       auth.fetchUser();
 
@@ -53,7 +52,7 @@ function Team() {
     mutationFn: deletePlayer.mutationFn,
     onSuccess: () => {
       // Re-fetch after deleting
-      queryClient.invalidateQueries({ queryKey: [deletePlayer.mutationKey] });
+      queryClient.invalidateQueries({ queryKey: ["players"] });
     },
   });
 

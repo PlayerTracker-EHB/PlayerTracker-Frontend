@@ -1,3 +1,4 @@
+import { User } from "@/store/authStore";
 import { getBaseUrl } from "../utils";
 
 export class NotFoundError extends Error { }
@@ -39,9 +40,55 @@ const updateTeamQuery = async (updatedTeamData: Partial<Team>): Promise<Team> =>
   return await response.json();
 };
 
+const getUsersByTeamIdQuery = async (teamId: number): Promise<User[]> => {
+  console.info(`Fetching users by team id ...`, teamId);
+  const response = await baseFetch(`${teamId}`, {
+    method: 'GET',
+  });
+
+  if (!response.ok) {
+    console.error("Error fetching users by team id:", await response.text());
+  }
+
+  return await response.json();
+}
+
+const createUserQuery = async (fullName: string, email: string, password: string, teamId: number) => {
+  console.log("New user:", fullName);
+  const response = await baseFetch("user", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      fullName: fullName,
+      email: email,
+      password: password,
+      teamId: teamId,
+    }),
+  })
+
+  if (!response.ok) {
+    console.error("Error creating user:", await response.text());
+  }
+}
+
+const deleteUserQuery = async (userId: number) => {
+
+}
+
 
 export const updateTeam = {
   mutationKey: 'updateTeam',
   mutationFn: (updatedTeamData: Partial<Team>) => updateTeamQuery(updatedTeamData),
 };
 
+export const getUsersByTeamId = (teamId: number) => ({
+  queryKey: ['teamId', { teamId }],
+  queryFn: () => getUsersByTeamIdQuery(teamId),
+});
+
+export const createUser = {
+  mutationKey: 'createUser',
+  mutationFn: (newUser: { fullName: string, email: string, password: string, teamId: number }) => createUserQuery(newUser.fullName, newUser.email, newUser.password, newUser.teamId),
+};

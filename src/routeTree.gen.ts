@@ -18,7 +18,6 @@ import { Route as PrivacyImport } from './routes/Privacy'
 import { Route as GuestIndexImport } from './routes/_guest/index'
 import { Route as GuestAboutImport } from './routes/_guest/about'
 import { Route as GuestSubscriptionsImport } from './routes/_guest/Subscriptions'
-import { Route as GuestRegisterImport } from './routes/_guest/Register'
 import { Route as GuestLoginImport } from './routes/_guest/Login'
 import { Route as AuthAdminImport } from './routes/_auth/_admin'
 import { Route as AuthStatisticsIndexImport } from './routes/_auth/statistics/index'
@@ -66,12 +65,6 @@ const GuestAboutRoute = GuestAboutImport.update({
 const GuestSubscriptionsRoute = GuestSubscriptionsImport.update({
   id: '/Subscriptions',
   path: '/Subscriptions',
-  getParentRoute: () => GuestRoute,
-} as any)
-
-const GuestRegisterRoute = GuestRegisterImport.update({
-  id: '/Register',
-  path: '/Register',
   getParentRoute: () => GuestRoute,
 } as any)
 
@@ -160,13 +153,6 @@ declare module '@tanstack/react-router' {
       path: '/Login'
       fullPath: '/Login'
       preLoaderRoute: typeof GuestLoginImport
-      parentRoute: typeof GuestImport
-    }
-    '/_guest/Register': {
-      id: '/_guest/Register'
-      path: '/Register'
-      fullPath: '/Register'
-      preLoaderRoute: typeof GuestRegisterImport
       parentRoute: typeof GuestImport
     }
     '/_guest/Subscriptions': {
@@ -262,7 +248,6 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface GuestRouteChildren {
   GuestLoginRoute: typeof GuestLoginRoute
-  GuestRegisterRoute: typeof GuestRegisterRoute
   GuestSubscriptionsRoute: typeof GuestSubscriptionsRoute
   GuestAboutRoute: typeof GuestAboutRoute
   GuestIndexRoute: typeof GuestIndexRoute
@@ -270,7 +255,6 @@ interface GuestRouteChildren {
 
 const GuestRouteChildren: GuestRouteChildren = {
   GuestLoginRoute: GuestLoginRoute,
-  GuestRegisterRoute: GuestRegisterRoute,
   GuestSubscriptionsRoute: GuestSubscriptionsRoute,
   GuestAboutRoute: GuestAboutRoute,
   GuestIndexRoute: GuestIndexRoute,
@@ -283,7 +267,6 @@ export interface FileRoutesByFullPath {
   '/Terms': typeof TermsRoute
   '': typeof AuthAdminRouteWithChildren
   '/Login': typeof GuestLoginRoute
-  '/Register': typeof GuestRegisterRoute
   '/Subscriptions': typeof GuestSubscriptionsRoute
   '/about': typeof GuestAboutRoute
   '/': typeof GuestIndexRoute
@@ -299,7 +282,6 @@ export interface FileRoutesByTo {
   '/Terms': typeof TermsRoute
   '': typeof AuthAdminRouteWithChildren
   '/Login': typeof GuestLoginRoute
-  '/Register': typeof GuestRegisterRoute
   '/Subscriptions': typeof GuestSubscriptionsRoute
   '/about': typeof GuestAboutRoute
   '/': typeof GuestIndexRoute
@@ -318,7 +300,6 @@ export interface FileRoutesById {
   '/_guest': typeof GuestRouteWithChildren
   '/_auth/_admin': typeof AuthAdminRouteWithChildren
   '/_guest/Login': typeof GuestLoginRoute
-  '/_guest/Register': typeof GuestRegisterRoute
   '/_guest/Subscriptions': typeof GuestSubscriptionsRoute
   '/_guest/about': typeof GuestAboutRoute
   '/_guest/': typeof GuestIndexRoute
@@ -336,7 +317,6 @@ export interface FileRouteTypes {
     | '/Terms'
     | ''
     | '/Login'
-    | '/Register'
     | '/Subscriptions'
     | '/about'
     | '/'
@@ -351,7 +331,6 @@ export interface FileRouteTypes {
     | '/Terms'
     | ''
     | '/Login'
-    | '/Register'
     | '/Subscriptions'
     | '/about'
     | '/'
@@ -368,7 +347,6 @@ export interface FileRouteTypes {
     | '/_guest'
     | '/_auth/_admin'
     | '/_guest/Login'
-    | '/_guest/Register'
     | '/_guest/Subscriptions'
     | '/_guest/about'
     | '/_guest/'
@@ -428,7 +406,6 @@ export const routeTree = rootRoute
       "filePath": "_guest.tsx",
       "children": [
         "/_guest/Login",
-        "/_guest/Register",
         "/_guest/Subscriptions",
         "/_guest/about",
         "/_guest/"
@@ -445,10 +422,6 @@ export const routeTree = rootRoute
     },
     "/_guest/Login": {
       "filePath": "_guest/Login.tsx",
-      "parent": "/_guest"
-    },
-    "/_guest/Register": {
-      "filePath": "_guest/Register.tsx",
       "parent": "/_guest"
     },
     "/_guest/Subscriptions": {

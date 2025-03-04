@@ -1,60 +1,74 @@
-import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { motion } from "framer-motion";
-import { User, Mail, Lock, Trash } from "lucide-react";
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { User, Mail, Lock, Trash } from 'lucide-react';
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router';
+import useAuthStore from '@/store/authStore';
+import { createUser, getUsersByTeamId } from '@/lib/api/team';
+import { toast } from '@/hooks/use-toast';
 
-export const Route = createFileRoute("/_auth/_admin/admin/Accounts")({
+export const Route = createFileRoute('/_auth/_admin/admin/Accounts')({
   component: Accounts,
 });
 
 function Accounts() {
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com",
-      role: "Viewer",
-      password: "******",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      role: "Viewer",
-      password: "******",
-    },
-  ]);
+  const { user } = useAuthStore();
+  const teamId = user?.teamId as number;
+  const queryClient = useQueryClient();
+
+  const { data: users } = useSuspenseQuery(getUsersByTeamId(teamId));
 
   const [newUser, setNewUser] = useState({
-    name: "",
-    email: "",
-    role: "Viewer", // Role fixed to "Viewer"
-    password: "",
+    fullName: '',
+    email: '',
+    password: '',
+    teamId: teamId,
   });
 
-  const handleAddUser = () => {
-    if (newUser.name && newUser.email && newUser.password) {
-      setUsers([
-        ...users,
-        { id: Date.now(), ...newUser, password: "******" }, // Cache le mot de passe
-      ]);
-      console.log("New User Added:", newUser); // Affiche le mot de passe dans la console pour tests
-      setNewUser({ name: "", email: "", role: "Viewer", password: "" });
-    } else {
-      alert("Please fill in all fields, including password.");
-    }
+  const createUserMutation = useMutation({
+    mutationFn: createUser.mutationFn,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['teamId', { teamId }] })
+
+      toast({
+        title: "User Successfully Created",
+        description: "You have just created the User: " + newUser.fullName,
+      })
+      setNewUser({ fullName: "", email: "", password: "", teamId: teamId });
+
+    },
+    onError: (error) => {
+      console.error("Failed to create player:", error)
+      toast({
+        variant: "destructive",
+        title: "Error While Creating Player",
+        description: "There was an error while creating the player, Please try again later",
+      })
+    },
+  })
+
+
+
+  function handleAddUser() {
+    createUserMutation.mutate(newUser);
+  }
+
+  const handleDeleteUser = (userId: number) => {
+    // Implement delete logic here
   };
 
-  const handleDeleteUser = (id: number) => {
-    setUsers(users.filter((user) => user.id !== id));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNewUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
   };
 
   return (
     <div className="min-h-screen bg-gray-50 w-full p-8">
       <div className="max-w-7xl mx-auto space-y-8">
-        <h1 className="text-3xl font-bold text-gray-900 text-center">
-          Account
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-900 text-center">Account</h1>
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-6xl"
           initial={{ opacity: 0, scale: 0.9 }}
@@ -77,10 +91,9 @@ function Accounts() {
                 <input
                   type="text"
                   placeholder="Full Name"
-                  value={newUser.name}
-                  onChange={(e) =>
-                    setNewUser({ ...newUser, name: e.target.value })
-                  }
+                  name="fullName"
+                  value={newUser.fullName}
+                  onChange={handleChange}
                   className="w-full pl-10 pr-4 py-2 bg-gray-50 text-gray-900 rounded-lg border border-gray-300 focus:border-gray-600 focus:ring-gray-600"
                 />
               </div>
@@ -90,10 +103,9 @@ function Accounts() {
                 <input
                   type="email"
                   placeholder="Email Address"
+                  name="email"
                   value={newUser.email}
-                  onChange={(e) =>
-                    setNewUser({ ...newUser, email: e.target.value })
-                  }
+                  onChange={handleChange}
                   className="w-full pl-10 pr-4 py-2 bg-gray-50 text-gray-900 rounded-lg border border-gray-300 focus:border-gray-600 focus:ring-gray-600"
                 />
               </div>
@@ -103,10 +115,9 @@ function Accounts() {
                 <input
                   type="password"
                   placeholder="Password"
+                  name="password"
                   value={newUser.password}
-                  onChange={(e) =>
-                    setNewUser({ ...newUser, password: e.target.value })
-                  }
+                  onChange={handleChange}
                   className="w-full pl-10 pr-4 py-2 bg-gray-50 text-gray-900 rounded-lg border border-gray-300 focus:border-gray-600 focus:ring-gray-600"
                 />
               </div>
@@ -140,14 +151,12 @@ function Accounts() {
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      {user.name}
-                    </h3>
+                    <h3 className="text-lg font-semibold text-gray-900">{user.fullName}</h3>
                     <p className="text-sm text-gray-500">{user.email}</p>
                   </div>
                   <motion.button
                     onClick={() => handleDeleteUser(user.id)}
-                    className="p-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-600 transition"
+                    className="p-2 rounded-lg bg-gray-200 hover:bg-red-500 text-gray-600 hover:text-white transition"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -162,3 +171,6 @@ function Accounts() {
     </div>
   );
 }
+
+export default Accounts;
+

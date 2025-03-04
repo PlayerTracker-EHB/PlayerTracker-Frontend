@@ -27,7 +27,8 @@ export interface AuthState {
   register: (
     email: string,
     password: string,
-    fullName: string
+    fullName: string,
+    teamId: number
   ) => Promise<void>;
   logout: () => Promise<void>;
   fetchUser: () => Promise<void>;
@@ -80,21 +81,14 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
-  register: async (email, password, fullName) => {
+  register: async (email, password, fullName, teamId) => {
     try {
-      const response = await baseFetch("/register", {
+      await baseFetch("/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, fullName }),
+        body: JSON.stringify({ email, password, fullName, teamId }),
       });
 
-      const data = await response.json();
-      if (response.ok) {
-        set({ user: data.user, isError: false });
-      } else {
-        alert(data.message);
-        set({ isError: true });
-      }
     } catch (error) {
       console.error(error);
       set({ isError: true });
