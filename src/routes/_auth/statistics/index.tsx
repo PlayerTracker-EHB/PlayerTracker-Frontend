@@ -187,7 +187,7 @@ function Statistics() {
         transition={{ duration: 0.6, delay: 0.6 }}
       >
         <Graphic matches={matches} />
-        <Graphic2 matches={matches} />
+        <Graphic2/>
       </motion.div>
     </motion.div>
   );

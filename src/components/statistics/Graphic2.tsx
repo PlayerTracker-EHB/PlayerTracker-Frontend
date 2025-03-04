@@ -1,4 +1,3 @@
-import React from "react";
 import {
   LineChart,
   Line,
@@ -9,32 +8,28 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { useQuery } from "@tanstack/react-query"; // Ensure this function is correctly imported
+import { getPossessionTrend } from "@/lib/api/stats";
+import useAuthStore from "@/store/authStore";
 
-interface MatchData {
-  id: number | string;
-  date: Date | string;
-  ourScore: number;
-  opponentScore: number;
-  opponent: string;
-  isHome: boolean;
-  possession?: number;
-}
 
-interface GraphicProps {
-  matches: MatchData[];
-}
+function Graphic2() {
+  const user = useAuthStore().user;
+  const teamId = user?.teamId as number;
+  const { data: matches, isLoading, isError } = useQuery(getPossessionTrend(teamId));
 
-function Graphic2({ matches }: GraphicProps) {
-  // On génère les données pour le graphique
-  const chartData = matches.map((m) => ({
+  if (isLoading) return <p>Loading possession trends...</p>;
+  if (isError) return <p>Error fetching possession trends.</p>;
+
+  // Transform data for chart
+  const chartData = matches?.map((m) => ({
     date: new Date(m.date).toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
     }),
     opponent: m.opponent,
-    // la possession
     possession: m.possession ?? 0,
-  }));
+  })) || [];
 
   return (
     <div className="bg-white rounded-xl shadow-md p-4 mt-10">
@@ -53,10 +48,7 @@ function Graphic2({ matches }: GraphicProps) {
             <Tooltip
               labelFormatter={(label, payload) => {
                 if (!payload || !payload.length) return label;
-                // On récupère le nom de l’adversaire
-                const opp = payload[0].payload.opponent;
-                // On concatène date + adversaire
-                return `${label} - Against ${opp}`;
+                return `${label} - Against ${payload[0].payload.opponent}`;
               }}
             />
             <Legend />

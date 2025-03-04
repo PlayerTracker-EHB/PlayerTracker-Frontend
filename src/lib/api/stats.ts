@@ -14,6 +14,16 @@ export interface GameStats {
   heatmapTeamB: string;
 }
 
+export interface GamePosessionTrend{
+  gameId: number | string;
+  date: string;
+  ourScore: number;
+  opponentScore: number;
+  opponent: string;
+  isHome: boolean;
+  possession: number;
+}
+
 const fetchGameStats = async (gameId: number): Promise<GameStats> => {
   console.info(`Fetching stats for game ID: ${gameId}...`);
 
@@ -36,6 +46,44 @@ const fetchGameStats = async (gameId: number): Promise<GameStats> => {
     throw error;
   }
 };
+
+
+const fetchPossessionTrend = async (teamId: number): Promise<GamePosessionTrend[]> => {
+  if (!teamId) {
+    throw new Error("fetchPossessionTrend: teamId is required but was not provided.");
+  }
+
+  console.info(`Fetching possession trend for team ID: ${teamId}...`);
+
+  const baseURL = getBaseUrl(`/teams/${teamId}/possession-trend`);
+
+  try {
+    const response = await fetch(baseURL, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch possession trend for team ID: ${teamId}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching possession trend:", error);
+    throw error;
+  }
+};
+
+export const getPossessionTrend = (teamId?: number) => ({
+  queryKey: ["PossessionTrend", teamId],
+  queryFn: async () => {
+    if (!teamId) {
+      throw new Error("getPossessionTrend: teamId is required but was not provided.");
+    }
+    return fetchPossessionTrend(teamId);
+  },
+});
+
 
 export const getStats = (gameId: number) => ({
   queryKey: ['GameStats', gameId],
