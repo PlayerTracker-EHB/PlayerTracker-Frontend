@@ -146,7 +146,7 @@ function MatchStats() {
   const downloadVideo = () => {
     const matchId = match.id;
 
-    const url = getBaseUrl(`/download/processed_video/$matchId`);
+    const url = getBaseUrl(`/download/processed_video/` + matchId);
 
     console.log(url);
 
