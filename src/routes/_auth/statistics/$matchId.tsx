@@ -119,7 +119,7 @@ function MatchStats() {
 
       // Seconde heatmap
       const imgOpp = new Image();
-      imgOpp.src = `http://10.2.160.40:9000/heatmaps/${match.heatmapOurTeam}`;
+      imgOpp.src = `http://10.2.160.40:9000/heatmaps/${match.heatmapOpponent}`
       pdf.addImage(imgOpp, "PNG", 20, 200, 170, 70);
       pdf.text(`${match.opponent} Heatmap`, 20, 275);
 
