@@ -112,11 +112,15 @@ function MatchStats() {
       pdf.setFontSize(14);
       pdf.text("Heatmaps", 20, 110);
       // Première heatmap
-      pdf.addImage(match.heatmapOurTeam, "PNG", 20, 115, 170, 70);
+      const ourImg = new Image();
+      ourImg.src = `http://10.2.160.40:9000/heatmaps/${match.heatmapOurTeam}`;
+      pdf.addImage(ourImg, "PNG", 20, 115, 170, 70);
       pdf.text(`${match.ourTeam} Heatmap`, 20, 190);
 
       // Seconde heatmap
-      pdf.addImage(match.heatmapOpponent, "PNG", 20, 200, 170, 70);
+      const imgOpp = new Image();
+      imgOpp.src = `http://10.2.160.40:9000/heatmaps/${match.heatmapOurTeam}`;
+      pdf.addImage(imgOpp, "PNG", 20, 200, 170, 70);
       pdf.text(`${match.opponent} Heatmap`, 20, 275);
 
       pdf.save("match_statistics.pdf");
