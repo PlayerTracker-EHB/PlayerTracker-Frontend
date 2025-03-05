@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { LogIn, UserPlus } from "lucide-react";
+import { LogIn } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState, useRef } from "react";
 
@@ -72,12 +72,6 @@ export default function NavBar() {
             className="p-2 rounded-full hover:bg-teal-500 transition-colors"
           >
             <LogIn className="w-6 h-6 text-white" />
-          </Link>
-          <Link
-            to="/Register"
-            className="p-2 rounded-full hover:bg-teal-500 transition-colors"
-          >
-            <UserPlus className="w-6 h-6 text-white" />
           </Link>
         </div>
       </div>
