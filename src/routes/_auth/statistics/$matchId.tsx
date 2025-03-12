@@ -48,7 +48,6 @@ function MatchStats() {
     Opponentpossession: game.startsLeft
       ? stats.possessionTeamB
       : stats.possessionTeamA,
-    passAccuracy: 80,
     heatmapOurTeam: game.startsLeft ? stats.heatmapTeamA : stats.heatmapTeamB,
     heatmapOpponent: game.startsLeft ? stats.heatmapTeamB : stats.heatmapTeamA,
   }));
@@ -93,19 +92,17 @@ function MatchStats() {
       autoTable(pdf, {
         startY: 74,
         margin: { left: 20 },
-        head: [["Team", "Score", "Possession", "Pass Accuracy"]],
+        head: [["Team", "Score", "Possession"]],
         body: [
           [
             match.ourTeam,
             String(match.ourScore),
-            `${match.Ourpossession}%`,
-            `${match.passAccuracy}%`,
+            `${match.Ourpossession}%`
           ],
           [
             match.opponent,
             String(match.opponentScore),
-            `${match.Opponentpossession}%`,
-            `${100 - match.passAccuracy}%`,
+            `${match.Opponentpossession}%`
           ],
         ],
         theme: "grid",
@@ -292,11 +289,11 @@ function MatchStats() {
               <div className="h-2 flex rounded-full overflow-hidden">
                 <div
                   className="bg-blue-400"
-                  style={{ width: `${stats.possessionTeamA}%` }}
+                  style={{ width: `${match.Ourpossession}%` }}
                 ></div>
                 <div
                   className="bg-red-400"
-                  style={{ width: `${100 - stats.possessionTeamA}%` }}
+                  style={{ width: `${100 - match.Opponentpossession}%` }}
                 ></div>
               </div>
             </div>
