@@ -293,7 +293,7 @@ function MatchStats() {
                 ></div>
                 <div
                   className="bg-red-400"
-                  style={{ width: `${100 - match.Opponentpossession}%` }}
+                  style={{ width: `${100 - match.Ourpossession}%` }}
                 ></div>
               </div>
             </div>
